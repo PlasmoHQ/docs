@@ -1,0 +1,48 @@
+# Development cycle
+
+Once your project is setup, you can start developing your extension by first `cd` inside your project, then:
+
+```sh
+pnpm dev # OR plasmo dev
+```
+
+This will create a dev bundle for your extension, as well as a hot-reloading development server, which will automatically update your extension bundle on file changes. It will also reload your browser on content-script changes. _(Coming soon)_
+
+To create a production bundle for distribution, run:
+
+```sh
+pnpm build  # OR plasmo dev
+```
+
+> **NOTE:** Since plasmo's default typescript configuration treats all source file as a module, if your source is not importing anything, please add a `export {}` at the start of your source. (You will see this warning when you created your first content script!)
+
+## Adding a Popup Page
+
+Create a `popup.tsx` file or a `popup/index.tsx` file, then start coding away! See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
+
+## Adding Content Scripts
+
+Create a `content.ts` file, and start coding away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
+
+For multiple content scripts, create a `contents` directory, and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts).
+
+To provide custom content script configuration (such as matching custom domain per script, all_frames, etc...), exports a config object from your content script like so:
+
+```ts
+import type { PlasmoContentScript } from "plasmo"
+
+export const config: PlasmoContentScript = {
+  matches: ["<all_urls>"],
+  all_frames: true
+}
+```
+
+Working with this configuration object is a breeze thanks to the exported `PlasmoContentScript` type 🥳.
+
+## Adding a Background script
+
+In the root directory, create a `background.ts` file, and start coding away 💪. See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background).
+
+## Adding Options UI
+
+Plasmo automatically detects the `options.tsx` or `options/index.tsx` file to render the options_ui. See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
