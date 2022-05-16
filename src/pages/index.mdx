@@ -1,11 +1,11 @@
 ---
 title: Framework
-description: Basic documentation and quick start for the Plasmo browser extension framework.
+description: Basic documentation and a quick start for the Plasmo browser extension framework.
 ---
 
 # Plasmo Framework
 
-The Plasmo Framework is a declarative browser extension development SDK. Our goal is to abstract away most of the configuration of building browser extensions, so you can focus on the functionality of your product and ship faster!
+The Plasmo Framework is a declarative browser extension development SDK. We abstract away most of the configuration of building browser extensions so that you can focus on the functionality of your product and ship faster!
 
 ## Quick Start
 
@@ -15,11 +15,11 @@ pnpm dlx plasmo init
 
 ![](/screenshots/file_structure.png)
 
-This command will set up a browser extension project with a popup, utilizing the Plasmo Framework. As you can see in the screenshot, the structure of this project is very simple:
+This command will set up a browser extension project with a popup, utilizing the Plasmo Framework. As you can see in the screenshot, the structure of this project is straightforward:
 
-- `popup.tsx`: This file exports default a react component, which get rendered into your popup page. _This is all you need to work on your extension popup!_
-- `assets`: Plasmo automatically generate the smaller icons and apply them in the manifest for you from the "icon512.png" file.
-- `package.json`: Your usual nodejs project descriptor, with an optional "manifest" property to overide any manifest values you desired.
+- `popup.tsx`: This file exports default a React component, which gets rendered into your popup page. _This is all you need to work on your extension popup!_
+- `assets`: Plasmo automatically generates the smaller icons and applies them in the manifest for you from the "icon512.png" file.
+- `package.json`: Your usual Node.js project descriptor, with an optional "manifest" property to override any desired manifest values.
 - `.prettierrc.cjs`: For code styling consistency
 - `.gitignore`: Your friendly neighborhood gitignore file.
 - `readme.md`: Basic documentation
@@ -29,9 +29,12 @@ This command will set up a browser extension project with a popup, utilizing the
 
 ## Where is the manifest.json file?
 
-It will be generated on-the-fly for you. We call this feature "auto-pilot manifest.json". The bundle is based on the file system and configuration you exported from your source files - similar to how [NextJS](https://nextjs.org/) abstracted page routing and SSG with the file system and the page components. We abstract even further with auto-permission and need-based permission scheme, which removes the need to manually specify permission altogether! _(Coming soon)_
+It will be generated on-the-fly for you. We call this feature "auto-pilot manifest.json". Plasmo bundles it based on the file system, and configuration you export from your source files - similar to how [NextJS](https://nextjs.org/) abstracts page routing and SSG with the file system and page components. We will abstract even further with auto-permission and a needs-based permission scheme, which removes the need to specify permissions manually! _(Coming soon)_
+
+## Examples
+We have a repository full of different ways you can use Plasmo. [Check it out here.](https://github.com/PlasmoHQ/examples)
+
 
 ## Projects using Plasmo Framework
 
 - [MICE](https://github.com/PlasmoHQ/mice)
-- [Examples](https://github.com/PlasmoHQ/examples)
