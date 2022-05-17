@@ -18,11 +18,11 @@ pnpm build  # OR plasmo dev
 
 ## Adding a Popup Page
 
-Create a `popup.tsx` file or a `popup/index.tsx` file, then start coding away! See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
+Create a `popup.tsx` file or a `popup/index.tsx` file that export default a React component -> your popup is ready 🚀! See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
 
 ## Adding Content Scripts
 
-Create a `content.ts` file, and start coding away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
+Create a `content.ts` file that export an empty object (or import some library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
 
 For multiple content scripts, create a `contents` directory, and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts).
 
@@ -41,8 +41,42 @@ Working with this configuration object is a breeze thanks to the exported `Plasm
 
 ## Adding a Background script
 
-In the root directory, create a `background.ts` file, and start coding away 💪. See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background).
+In the root directory, create a `background.ts` file, and you are set to start hacking 💪. See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background).
 
 ## Adding Options UI
 
-Plasmo automatically detects the `options.tsx` or `options/index.tsx` file to render the options_ui. See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
+Simply create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌. See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
+
+## Adding Environment Variables
+
+The Plasmo framework utilize a similar env file cascading/overiding strategy to NextJS, using [`dotenv` package](https://www.npmjs.com/package/dotenv). To add environment variables, create an `.env.local` file like so:
+
+```
+SHIP_NAME=ncc-1701
+SHIELD_FREQUENCY=42
+```
+
+You can then use it in any of your source file as follow:
+
+```tsx
+// For TSX (popups, options):
+const FrontHull = () => <h1>{process.env.SHIP_NAME}</h1>
+
+// For TS (content scripts or background-scripts):
+const shield = new Shield(process.env.SHIELD_FREQUENCY)
+```
+
+To overide variable on production build with `plasmo build`, supply a `.env.production` file, re-declaring just the variable you need to overide.
+
+You might also enjoy Typescript intelisense with your environment variables 🤓. To do so, create an `index.d.ts` file with a declaration like below and you are good to go:
+
+```ts
+declare namespace NodeJS {
+  interface ProcessEnv {
+    SHIP_NAME?: string
+    SHIELD_FREQUENCY?: number
+  }
+}
+```
+
+See [with-env-files](https://github.com/PlasmoHQ/examples/tree/main/with-env-files) for more details.
