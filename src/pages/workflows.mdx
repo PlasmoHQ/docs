@@ -3,7 +3,13 @@
 Once your project is setup, you can start developing your extension by first `cd` inside your project, then:
 
 ```sh
-pnpm dev # OR plasmo dev
+pnpm dev
+# OR
+npm run dev
+# OR
+yarn dev
+# OR
+plasmo dev
 ```
 
 This will create a dev bundle for your extension, as well as a hot-reloading development server, which will automatically update your extension bundle on file changes. It will also reload your browser on content-script changes.
@@ -11,7 +17,25 @@ This will create a dev bundle for your extension, as well as a hot-reloading dev
 To create a production bundle for distribution, run:
 
 ```sh
-pnpm build  # OR plasmo dev
+pnpm build
+# OR
+npm run build
+# OR
+yarn build
+# OR
+plasmo build
+```
+
+You can optionally supplies a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+
+```sh
+pnpm build --zip
+# OR
+npm run build --zip
+# OR
+yarn build --zip
+# OR
+plasmo build --zip
 ```
 
 > **NOTE:** Since plasmo's default typescript configuration treats all source file as a module, if your source is not importing anything, please add a `export {}` at the start of your source. (You will see this warning when you created your first content script!)
