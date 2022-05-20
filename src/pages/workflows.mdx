@@ -73,21 +73,23 @@ Simply create either an `options.tsx` or `options/index.tsx` file to render the 
 
 ## Adding Environment Variables
 
-The Plasmo framework utilize a similar env file cascading/overiding strategy to NextJS, using [`dotenv` package](https://www.npmjs.com/package/dotenv). To add environment variables, create an `.env.local` file like so:
+The Plasmo framework utilize a similar env file cascading/overiding strategy to NextJS, using [`dotenv` package](https://www.npmjs.com/package/dotenv). To add public environment variables accessible to the extension, create an `.env.local` file like so:
 
 ```
-SHIP_NAME=ncc-1701
-SHIELD_FREQUENCY=42
+PLASMO_PUBLIC_SHIP_NAME=ncc-1701
+PLASMO_PUBLIC_SHIELD_FREQUENCY=42
+
+PRIVATE_KEY=xxx
 ```
 
-You can then use it in any of your source file as follow:
+Only environment prefixed with `PLASMO_PUBLIC_` will be exposed. You can then use it in any of your extension source file as follow:
 
 ```tsx
 // For TSX (popups, options):
-const FrontHull = () => <h1>{process.env.SHIP_NAME}</h1>
+const FrontHull = () => <h1>{process.env.PLASMO_PUBLIC_SHIP_NAME}</h1>
 
 // For TS (content scripts or background-scripts):
-const shield = new Shield(process.env.SHIELD_FREQUENCY)
+const shield = new Shield(process.env.PLASMO_PUBLIC_SHIELD_FREQUENCY)
 ```
 
 To overide variable on production build with `plasmo build`, supply a `.env.production` file, re-declaring just the variable you need to overide.
@@ -97,8 +99,8 @@ You might also enjoy Typescript intelisense with your environment variables 🤓
 ```ts
 declare namespace NodeJS {
   interface ProcessEnv {
-    SHIP_NAME?: string
-    SHIELD_FREQUENCY?: number
+    PLASMO_PUBLIC_SHIP_NAME?: string
+    PLASMO_PUBLIC_SHIELD_FREQUENCY?: number
   }
 }
 ```
