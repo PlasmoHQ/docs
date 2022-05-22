@@ -98,6 +98,10 @@ const theme = {
             Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
             Helvetica Neue, sans-serif;
         }
+
+        #__next > div > div > div {
+          width: 100%;
+        }
       `}</style>
     </>
   )
