@@ -1,5 +1,5 @@
 const theme = {
-  projectLink: "https://github.com/PlasmoHQ/plasmo", // GitHub link in the navbar
+  projectLink: "https://github.com/PlasmoHQ/docs", // GitHub link in the navbar
   projectChatLink: "https://www.plasmo.com/s/d", // Next.js discord server
 
   docsRepositoryBase: "https://github.com/PlasmoHQ/docs/blob/main/src/pages", // base URL for the docs repository
