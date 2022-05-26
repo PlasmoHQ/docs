@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@trivago/prettier-plugin-sort-imports': 3.2.0
@@ -6,6 +6,7 @@ specifiers:
   '@types/react': 18.0.9
   next: 12.1.6
   next-plausible: ^3.1.9
+  next-seo: ^5.4.0
   nextra: 2.0.0-alpha.54
   nextra-theme-docs: 2.0.0-alpha.54
   prettier: 2.6.2
@@ -17,10 +18,11 @@ specifiers:
   webpack: 5.72.1
 
 dependencies:
-  next: 12.1.6_react-dom@18.1.0+react@18.1.0
-  next-plausible: 3.1.9_d30c2367b03c877b70a67c330200ac54
+  next: 12.1.6_ef5jwxihqo6n7gxfmzogljlgcm
+  next-plausible: 3.1.9_2mgcgz5qhsdxw4fgpqzqeafmkq
+  next-seo: 5.4.0_2mgcgz5qhsdxw4fgpqzqeafmkq
   nextra: 2.0.0-alpha.54_react@18.1.0
-  nextra-theme-docs: 2.0.0-alpha.54_d30c2367b03c877b70a67c330200ac54
+  nextra-theme-docs: 2.0.0-alpha.54_2mgcgz5qhsdxw4fgpqzqeafmkq
   prism-react-renderer: 1.3.1_react@18.1.0
   prismjs: 1.28.0
   react: 18.1.0
@@ -195,12 +197,16 @@ packages:
     resolution: {integrity: sha512-oG0ej7efjEXxb4UgE+klVx+3j4MVo+A2vCzm7OUN4CLo6WhQ+vSOD2yJ8m7B+DghObxtLxt3EfgMWpq+AsWehQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.17.10
     dev: true
 
   /@babel/parser/7.17.10:
     resolution: {integrity: sha512-n2Q6i+fnJqzOaq2VkdXxy2TCPCWQZHiCo0XqmrCvDWcZQKRyZzYi4Z0yxlBuN0w+r2ZHmre+Q087DSrw3pbJDQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.17.10
     dev: true
 
   /@babel/runtime/7.17.9:
@@ -269,7 +275,7 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@headlessui/react/1.6.1_react-dom@18.1.0+react@18.1.0:
+  /@headlessui/react/1.6.1_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-gMd6uIs1U4Oz718Z5gFoV0o/vD43/4zvbyiJN9Dt7PK9Ubxn+TmJwTmYwyNJc5KxxU1t0CmgTNgwZX9+4NjCnQ==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -559,19 +565,19 @@ packages:
     dev: false
     optional: true
 
-  /@reach/skip-nav/0.16.0_react-dom@18.1.0+react@18.1.0:
+  /@reach/skip-nav/0.16.0_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-SY4PdNx+hQHbeOr/+qLc+QXdRt9NTVlt0r737bOqY1WURGBIEN9sGgsmIsHluP1/bQuAe0JKdOJ/tXiwQ3Z3ug==}
     peerDependencies:
       react: ^16.8.0 || 17.x
       react-dom: ^16.8.0 || 17.x
     dependencies:
-      '@reach/utils': 0.16.0_react-dom@18.1.0+react@18.1.0
+      '@reach/utils': 0.16.0_ef5jwxihqo6n7gxfmzogljlgcm
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       tslib: 2.4.0
     dev: false
 
-  /@reach/utils/0.16.0_react-dom@18.1.0+react@18.1.0:
+  /@reach/utils/0.16.0_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-PCggBet3qaQmwFNcmQ/GqHSefadAFyNCUekq9RrWoaU9hh/S4iaFgf2MBMdM47eQj5i/Bk0Mm07cP/XPFlkN+Q==}
     peerDependencies:
       react: ^16.8.0 || 17.x
@@ -1904,31 +1910,43 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next-plausible/3.1.9_d30c2367b03c877b70a67c330200ac54:
+  /next-plausible/3.1.9_2mgcgz5qhsdxw4fgpqzqeafmkq:
     resolution: {integrity: sha512-6Ro6lVnuXAtqbbBQfuKuu0cpZHWWvJWbOE1G+Rx6i42T6lLYtbQzbu09Cutv3vc/wD/4ySHzJkuTnxsqnlArGA==}
     peerDependencies:
       next: ^11.1.0 || ^12.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      next: 12.1.6_react-dom@18.1.0+react@18.1.0
+      next: 12.1.6_ef5jwxihqo6n7gxfmzogljlgcm
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     dev: false
 
-  /next-themes/0.2.0_d30c2367b03c877b70a67c330200ac54:
+  /next-seo/5.4.0_2mgcgz5qhsdxw4fgpqzqeafmkq:
+    resolution: {integrity: sha512-R9DhajPwJnR/lsF2hZ8cN8uqr5CVITsRrCG1AF5+ufcaybKYOvnH8sH9MaH4/hpkps3PQ9H71S7J7SPYixAYzQ==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 12.1.6_ef5jwxihqo6n7gxfmzogljlgcm
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+    dev: false
+
+  /next-themes/0.2.0_2mgcgz5qhsdxw4fgpqzqeafmkq:
     resolution: {integrity: sha512-myhpDL4vadBD9YDSHiewqvzorGzB03N84e+3LxCwHRlM/hiBOaW+UsKsQojQAzC7fdcJA0l2ppveXcYaVV+hxQ==}
     peerDependencies:
       next: '*'
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 12.1.6_react-dom@18.1.0+react@18.1.0
+      next: 12.1.6_ef5jwxihqo6n7gxfmzogljlgcm
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     dev: false
 
-  /next/12.1.6_react-dom@18.1.0+react@18.1.0:
+  /next/12.1.6_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
     engines: {node: '>=12.22.0'}
     hasBin: true
@@ -1970,24 +1988,24 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /nextra-theme-docs/2.0.0-alpha.54_d30c2367b03c877b70a67c330200ac54:
+  /nextra-theme-docs/2.0.0-alpha.54_2mgcgz5qhsdxw4fgpqzqeafmkq:
     resolution: {integrity: sha512-CPpEL9WNXBI+gOZze2582h4y5+/NyVVycRb31CCjBYNcCNhSULCIJ5P6lS79lU2E2w9xgSAigY8sa5+EydMe0g==}
     peerDependencies:
       next: '>=9.5.3'
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
     dependencies:
-      '@headlessui/react': 1.6.1_react-dom@18.1.0+react@18.1.0
+      '@headlessui/react': 1.6.1_ef5jwxihqo6n7gxfmzogljlgcm
       '@mdx-js/react': 2.1.1_react@18.1.0
-      '@reach/skip-nav': 0.16.0_react-dom@18.1.0+react@18.1.0
+      '@reach/skip-nav': 0.16.0_ef5jwxihqo6n7gxfmzogljlgcm
       classnames: 2.3.1
       flexsearch: 0.7.21
       focus-visible: 5.2.0
       github-slugger: 1.4.0
       intersection-observer: 0.12.0
       match-sorter: 4.2.1
-      next: 12.1.6_react-dom@18.1.0+react@18.1.0
-      next-themes: 0.2.0_d30c2367b03c877b70a67c330200ac54
+      next: 12.1.6_ef5jwxihqo6n7gxfmzogljlgcm
+      next-themes: 0.2.0_2mgcgz5qhsdxw4fgpqzqeafmkq
       parse-git-url: 1.0.1
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
