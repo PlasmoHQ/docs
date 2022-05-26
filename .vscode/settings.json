@@ -19,5 +19,15 @@
   "editor.formatOnSave": true,
   "pasteImage.basePath": "${projectRoot}/public/",
   "pasteImage.path": "${projectRoot}/public/screenshots",
-  "pasteImage.prefix": "/"
+  "pasteImage.prefix": "/",
+  "grammarly.selectors": [
+    {
+      "language": "markdown",
+      "scheme": "file"
+    },
+    {
+      "language": "plaintext",
+      "scheme": "file"
+    }
+  ]
 }

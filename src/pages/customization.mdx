@@ -1,10 +1,25 @@
 ## Overriding the Manifest
 
-The following fields from the `package.json` will be passed over to the extension manifest:
+The following fields from the `package.json` will be passed over to the generated extension manifest:
 
 - `packageJson.version` -> `manifest.version`
 - `packageJson.displayName` -> `manifest.name`
 - `packageJson.description` -> `manifest.description`
 - `packageJson.author` -> `manifest.author`
 
-The Plasmo framework extends the `package.json` with a `manifest` field for you to overide the generated extension manifest. Use this to specify permissions and any additional hosts you might need, as well as extra `option_uis` configs.
+The Plasmo Framework extends the `package.json` with a `manifest` field that overrides the generated extension manifest. Use this to make specific changes to the generated manifest, which the Plasmo framework doesn't natively support yet.
+
+For instance, the Plasmo Framework might not understand that you need to have an `activeTab` permission.
+
+You'll need to modify your project's `package.json` like so:
+
+```json
+...
+"manifest": {
+    "permissions": [
+        "activeTab"
+    ]
+}
+```
+
+Eventually, the framework will get smarter about adding these kinds of things into the generated `manifest.json`, but for the time being, some manual work is still required.
