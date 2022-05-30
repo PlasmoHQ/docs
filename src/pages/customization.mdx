@@ -1,15 +1,34 @@
+# Customization
+
+Plasmo is an _opinionated_ framework. However, there are cases when it needs to be flexible:
+
+1. When it has yet to formulate a proper abstraction/opinion
+2. When the opinion greatly tampers with the developer's experience
+3. When the topic does not matter
+
 ## Overriding the Manifest
 
-The following fields from the `package.json` will be passed over to the extension manifest:
+The following fields from the `package.json` will be passed over to the generated extension manifest:
 
 - `packageJson.version` -> `manifest.version`
 - `packageJson.displayName` -> `manifest.name`
 - `packageJson.description` -> `manifest.description`
 - `packageJson.author` -> `manifest.author`
 
-The Plasmo framework extends the `package.json` with a `manifest` field for you to overide the generated extension manifest. Use this to specify permissions and any additional hosts you might need, as well as extra `option_uis` configs.
+The Plasmo Framework extends the `package.json` with a `manifest` field that overrides the generated extension manifest. This feature is intended for advanced configuration. The primary usecase is to enable features that the Plasmo framework does not _yet_ natively support.
 
-## Using an alternative root directory for source code (e.g, `src`)
+For instance, the Plasmo Framework might not understand that you need to have an `activeTab` permission. You'll need to modify your project's `package.json` like so:
+
+```json
+...
+"manifest": {
+    "permissions": [
+        "activeTab"
+    ]
+}
+```
+
+## Using an alternative directory for source code (e.g, `src`)
 
 Instead of having your source code in the root directory, you can put them in a child directory instead. Simply add the directory name as the resolved `paths` for the `~*` prefix in the `tsconfig.json` file, and the Typescript compiler will know how to resolves your code. The example configuration below reads source code from the `src` sub-directory:
 
@@ -27,4 +46,4 @@ Instead of having your source code in the root directory, you can put them in a 
 }
 ```
 
-This allows Plasmo to seamlessly integrate with most NodeJS project. See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src).
+See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src).

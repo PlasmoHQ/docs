@@ -20,7 +20,7 @@ npm x plasmo init "My Awesome Extension"
 
 ## Run the development server
 
-Once your project is setup, you can start developing your extension by first `cd` inside your project, then:
+Once you've set up your project, you can start developing your extension by navigating to your project directory and running:
 
 ```sh
 pnpm dev
@@ -30,7 +30,7 @@ npm run dev
 plasmo dev
 ```
 
-This will create a dev bundle for your extension, as well as a hot-reloading development server, which will automatically update your extension bundle on file changes. It will also reload your browser on content-script changes.
+This will create a dev bundle for your extension and a hot-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on content-script changes.
 
 ## Create a production bundle
 
@@ -44,7 +44,7 @@ npm run build
 plasmo build
 ```
 
-You can optionally supplies a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+You can optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
 
 ```sh
 pnpm build -- --zip
@@ -54,19 +54,19 @@ npm run build -- --zip
 plasmo build --zip
 ```
 
-> **NOTE:** Since plasmo's default typescript configuration treats all source file as a module, if your source is not importing anything, please add a `export {}` at the start of your source. (You will see this warning when you created your first content script!)
+> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when you create your first content script!)
 
 ## Adding a Popup Page
 
-Create a `popup.tsx` file or a `popup/index.tsx` file that export default a React component -> your popup is ready 🚀! See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
+Create a `popup.tsx` file or a `popup/index.tsx` file that exports a default React component. With that, your popup is ready to be used 🚀! See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-popup) for an example.
 
 ## Adding Content Scripts
 
-Create a `content.ts` file that export an empty object (or import some library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script).
+Create a `content.ts` file that exports an empty object (or import some library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
 
-For multiple content scripts, create a `contents` directory, and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts).
+Create a `contents` directory for multiple content scripts and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
 
-To provide custom content script configuration (such as matching custom domain per script, all_frames, etc...), exports a config object from your content script like so:
+To provide a custom content script configuration (such as matching a custom domain per script, all_frames, etc.), export a config object from your content script like so:
 
 ```ts
 import type { PlasmoContentScript } from "plasmo"
@@ -81,15 +81,15 @@ Working with this configuration object is a breeze thanks to the exported `Plasm
 
 ## Adding a Background script
 
-In the root directory, create a `background.ts` file, and you are set to start hacking 💪. See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background).
+Create a `background.ts` file in the root directory, and start hacking 💪. See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background) for an example.
 
 ## Adding Options UI
 
-Simply create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌. See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
+Create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌. See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui) for an example.
 
 ## Adding Environment Variables
 
-The Plasmo framework utilize a similar env file cascading/overiding strategy to NextJS, using [`dotenv` package](https://www.npmjs.com/package/dotenv). To add public environment variables accessible to the extension, create an `.env.local` file like so:
+The Plasmo framework utilizes a similar .env file cascading/overriding strategy as Next.js, using the [`dotenv` package](https://www.npmjs.com/package/dotenv). To add public environment variables accessible to the extension, create an `.env.local` file like so:
 
 ```
 PLASMO_PUBLIC_SHIP_NAME=ncc-1701
@@ -98,7 +98,7 @@ PLASMO_PUBLIC_SHIELD_FREQUENCY=42
 PRIVATE_KEY=xxx
 ```
 
-Only environment prefixed with `PLASMO_PUBLIC_` will be exposed. You can then use it in any of your extension source file as follow:
+Only environment variables prefixed with `PLASMO_PUBLIC_` will be exposed in the built version of your extension. You can then use them in any of your extension source files like so:
 
 ```tsx
 // For TSX (popups, options):
@@ -108,9 +108,9 @@ const FrontHull = () => <h1>{process.env.PLASMO_PUBLIC_SHIP_NAME}</h1>
 const shield = new Shield(process.env.PLASMO_PUBLIC_SHIELD_FREQUENCY)
 ```
 
-To overide variable on production build with `plasmo build`, supply a `.env.production` file, re-declaring just the variable you need to overide.
+To override a variable in the production build with `plasmo build`, supply a `.env.production` file, re-declaring just the variable you need to override.
 
-You might also enjoy Typescript intelisense with your environment variables 🤓. To do so, create an `index.d.ts` file with a declaration like below and you are good to go:
+You might also enjoy Typescript IntelliSense with your environment variables 🤓. To do so, create an `index.d.ts` file with a declaration like so:
 
 ```ts
 declare namespace NodeJS {
@@ -121,13 +121,13 @@ declare namespace NodeJS {
 }
 ```
 
-See [with-env-files](https://github.com/PlasmoHQ/examples/tree/main/with-env-files) for more details.
+See [with-env-files](https://github.com/PlasmoHQ/examples/tree/main/with-env-files) for more details about using .env variables.
 
 ## Submit Your Extension
 
-The Plasmo framework ships with a convenient github action called [Browser Platform Publish](http://bpp.browser.market/) or BPP for short. This action will automatically publish your extension to all supported browser extension market. It is configured to be run upon manual trigger, but can be altered to run automatically if needed.
+The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. It is configured to run on a manual trigger but can be altered to run on every push if needed.
 
-To start publishing your Plasmo extension, setup a `keys.json` file with the schema:
+To start publishing your Plasmo extension, set up a `keys.json` file with the schema:
 
 ```json
 {
@@ -135,11 +135,11 @@ To start publishing your Plasmo extension, setup a `keys.json` file with the sch
 }
 ```
 
-This schema is most useful if your editor supports `json schema`. Make sure you only declare valid submissinon credential, otherwise the action will report failure.
+This schema is most helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure only to declare valid submission credentials. Otherwise, the action will fail.
 
 > NOTE: this file is ignored thanks to our friendly neighborhood `.gitignore`
 
-To learn more about the tokens required to submit, please see this [token guide](https://github.com/PlasmoHQ/bms/blob/main/tokens.md). The final key might look like this:
+Please see this [token guide](https://github.com/PlasmoHQ/bms/blob/main/tokens.md) to learn more about the tokens required to submit. The final key might look like this:
 
 ```json
 {
@@ -158,5 +158,6 @@ To learn more about the tokens required to submit, please see this [token guide]
 }
 ```
 
-Copy this key, and create a [repository secret on github](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) with the name `SUBMIT_KEYS`, and the value be the content of the key you just copied.
-Then, go on github and trigger the action manually when you need to submit a new extension version!
+Copy this key, and add it as a [repository secret on GitHub](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) called `SUBMIT_KEYS`
+
+Then, go on GitHub and trigger the action manually when you need to submit a new extension version!

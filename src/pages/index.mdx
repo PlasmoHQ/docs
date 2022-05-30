@@ -2,15 +2,15 @@
 
 The Plasmo Framework is the React Framework for Browser Extensions development. We abstract away most of the configuration of building browser extensions so that you can focus on the functionality of your product and ship faster!
 
-> It's like [nextjs](https://nextjs.org/) but for browser extension 😉
+> It's like [Next.js](https://nextjs.org/) for browser extensions 😉
 
 ### System Requirements
 
 - Node.js 16.x or later
-- MacOS, Windows (including WSL), and Linux are supported
+- macOS, Windows, or Linux
 - (Strongly Recommended) (pnpm)[https://pnpm.io/]
 
-### Pre-requiste Knowledge
+### Pre-requisite Knowledge
 
 - [React](https://reactjs.org/)
 - [Typescript](https://www.typescriptlang.org/)
@@ -26,7 +26,7 @@ npm x plasmo init
 
 ![](/screenshots/file_structure.png)
 
-This command will set up a browser extension project with a basic popup page, utilizing the Plasmo Framework. As you can see in the screenshot, the structure of this project is straightforward:
+This command will set up the scaffolding for a browser extension project with a popup, utilizing the Plasmo Framework. The structure is straightforward:
 
 - `popup.tsx`: This file exports default a React component, which gets rendered into your popup page. _This is all you need to work on your extension popup!_
 - `assets`: Plasmo automatically generates the smaller icons and applies them in the manifest for you from the "icon512.png" file.
@@ -40,7 +40,9 @@ This command will set up a browser extension project with a basic popup page, ut
 
 ## Where is the manifest.json file?
 
-It will be generated on-the-fly for you. We call this feature "auto-pilot manifest.json". Plasmo bundles it based on the file system, and configuration you export from your source files - similar to how [NextJS](https://nextjs.org/) abstracts page routing and SSG with the file system and page components. We will abstract even further with auto-permission and a needs-based permission scheme, which removes the need to specify permissions manually! _(Coming soon)_
+It will be generated on-the-fly for you. We call this feature "auto-pilot manifest.json". You no longer need to think about the manifest for the most part. Plasmo generates the manifest based on the file system and configurations you export from your source files - similar to how [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
+
+We will abstract even further with auto-permissions and a needs-based permission scheme, which will remove the need to specify permissions manually! _(Coming soon)_
 
 ## Next Steps
 
