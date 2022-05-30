@@ -1,5 +1,7 @@
 {
   "index": "Introduction",
   "workflows": "Workflows",
-  "customization": "Customization"
+  "customization": "Customization",
+  "advanced": "Advanced",
+  "framework": "API"
 }
