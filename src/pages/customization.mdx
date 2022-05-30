@@ -8,3 +8,23 @@ The following fields from the `package.json` will be passed over to the extensio
 - `packageJson.author` -> `manifest.author`
 
 The Plasmo framework extends the `package.json` with a `manifest` field for you to overide the generated extension manifest. Use this to specify permissions and any additional hosts you might need, as well as extra `option_uis` configs.
+
+## Using an alternative root directory for source code (e.g, `src`)
+
+Instead of having your source code in the root directory, you can put them in a child directory instead. Simply add the directory name as the resolved `paths` for the `~*` prefix in the `tsconfig.json` file, and the Typescript compiler will know how to resolves your code. The example configuration below reads source code from the `src` sub-directory:
+
+```json
+{
+  "extends": "plasmo/templates/tsconfig.base",
+  "exclude": ["node_modules"],
+  "include": [".plasmo/**/*", "./**/*.ts", "./**/*.tsx"],
+  "compilerOptions": {
+    "paths": {
+      "~*": ["./src/*"]
+    },
+    "baseUrl": "."
+  }
+}
+```
+
+This allows Plasmo to seamlessly integrate with most NodeJS project. See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src).

@@ -1,5 +1,25 @@
 # Development cycle
 
+## Create a new extension
+
+To run the interactive initialization wizard, use the following command:
+
+```sh
+pnpm dlx plasmo init
+# OR npm v7
+npm x plasmo init
+```
+
+To skip the naming prompt, simply supply a name as a positional argument:
+
+```sh
+pnpm dlx plasmo init "My Awesome Extension"
+# OR npm v7
+npm x plasmo init "My Awesome Extension"
+```
+
+## Run the development server
+
 Once your project is setup, you can start developing your extension by first `cd` inside your project, then:
 
 ```sh
@@ -7,12 +27,12 @@ pnpm dev
 # OR
 npm run dev
 # OR
-yarn dev
-# OR
 plasmo dev
 ```
 
 This will create a dev bundle for your extension, as well as a hot-reloading development server, which will automatically update your extension bundle on file changes. It will also reload your browser on content-script changes.
+
+## Create a production bundle
 
 To create a production bundle for distribution, run:
 
@@ -20,8 +40,6 @@ To create a production bundle for distribution, run:
 pnpm build
 # OR
 npm run build
-# OR
-yarn build
 # OR
 plasmo build
 ```
@@ -32,8 +50,6 @@ You can optionally supplies a `--zip` flag to the build command to create a zip 
 pnpm build -- --zip
 # OR
 npm run build -- --zip
-# OR
-yarn build -- --zip
 # OR
 plasmo build --zip
 ```
