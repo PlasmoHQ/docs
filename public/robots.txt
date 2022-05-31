@@ -1,3 +1,9 @@
-# Allow all crawlers
+# *
 User-agent: *
 Allow: /
+
+# Host
+Host: https://docs.plasmo.com
+
+# Sitemaps
+Sitemap: https://docs.plasmo.com/sitemap.xml
