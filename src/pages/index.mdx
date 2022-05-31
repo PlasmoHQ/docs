@@ -1,20 +1,36 @@
 # Plasmo Framework
 
-The Plasmo Framework is the React Framework for Browser Extensions development. We abstract away most of the configuration of building browser extensions so that you can focus on the functionality of your product and ship faster!
+The [Plasmo](https://www.plasmo.com/) Framework is a low-config declarative browser extension development SDK. Build your product and stop worrying about manifest.json files and the odd peculiarities of building browser extensions.
 
-> It's like [Next.js](https://nextjs.org/) for browser extensions 😉
+> It's like [Next.js](https://nextjs.org/) for browser extensions!
 
-### System Requirements
+![](https://github.com/PlasmoHQ/plasmo/blob/main/cli/plasmo/demo.gif)
 
-- Node.js 16.x or later
-- macOS, Windows, or Linux
-- (Strongly Recommended) (pnpm)[https://pnpm.io/]
+Features include:
 
-### Pre-requisite Knowledge
+- First-class React + Typescript Support
+- Declarative development
+- Live-reloading
+- `manifest.json` auto-generation
+- MV3-by-default
+- .env file support
 
-- [React](https://reactjs.org/)
-- [Typescript](https://www.typescriptlang.org/)
-- [NodeJS](https://nodejs.org/)
+And a large backlog of features that haven't been built yet!
+
+## Requirements
+
+Plasmo is an opinionated framework. As such, we support the following technologies out-of-the-box:
+
+- View Library
+  - React
+- Language
+  - Typescript
+- Testing Library
+  - Jest
+- Browser Extension Version
+  - Manifest Version 3
+
+We have many examples showcasing how one can use Plasmo with [Firebase Authentication](https://github.com/PlasmoHQ/examples/tree/main/with-firebase-auth), [Redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux), [Supabase authentication](https://github.com/PlasmoHQ/examples/tree/main/with-supabase), [Tailwind](https://github.com/PlasmoHQ/examples/tree/main/with-tailwindcss), and a bunch more you can see if you visit our [examples repository](https://github.com/PlasmoHQ/examples).
 
 ## Quick Start
 
@@ -36,19 +52,19 @@ This command will set up the scaffolding for a browser extension project with a 
 - `readme.md`: Basic documentation
 - `tsconfig.json`: TypeScript configuration
 
-> **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch pnpm with your appropriate package manager).
+> **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
 
 ## Where is the manifest.json file?
 
-It will be generated on-the-fly for you. We call this feature "auto-pilot manifest.json". You no longer need to think about the manifest for the most part. Plasmo generates the manifest based on the file system and configurations you export from your source files - similar to how [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
+It will be generated on-the-fly for you. Plasmo generates the manifest based on the source files you create and configurations you export from your source files - similar to how [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
 
 We will abstract even further with auto-permissions and a needs-based permission scheme, which will remove the need to specify permissions manually! _(Coming soon)_
 
 ## Next Steps
 
-Checkout the [Workflows section](./workflows) for a deep-dive on how to work with Plasmo. Each workflow is accompanied with a basic, modular example showcasing the simplicity of the framework. Those examples are published on GitHub: [Check them out here.](https://github.com/PlasmoHQ/examples).
+Check out the [Workflows section](./workflows) for a deep dive on how to work with Plasmo. A modular example accompanies each workflow, showcasing the framework's simplicity. View examples on [our GitHub repo](https://github.com/PlasmoHQ/examples).
 
-Checkout the [Customization section](./customization) for documentation on how to make Plasmo adapts to your needs.
+Check out the [customization section](./customization) for documentation on making Plasmo adapt to your needs.
 
 ## Projects using Plasmo Framework
 

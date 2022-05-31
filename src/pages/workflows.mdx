@@ -10,7 +10,7 @@ pnpm dlx plasmo init
 npm x plasmo init
 ```
 
-To skip the naming prompt, simply supply a name as a positional argument:
+To skip the naming prompt, supply a name as a positional argument:
 
 ```sh
 pnpm dlx plasmo init "My Awesome Extension"
@@ -54,7 +54,7 @@ npm run build -- --zip
 plasmo build --zip
 ```
 
-> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when you create your first content script!)
+> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when creating your first content script!)
 
 ## Adding a Popup Page
 
@@ -89,7 +89,7 @@ Create either an `options.tsx` or `options/index.tsx` file to render the options
 
 ## Adding Environment Variables
 
-The Plasmo framework utilizes a similar .env file cascading/overriding strategy as Next.js, using the [`dotenv` package](https://www.npmjs.com/package/dotenv). To add public environment variables accessible to the extension, create an `.env.local` file like so:
+The Plasmo framework utilizes a similar .env file cascading/overriding strategy as Next.js, using the [`dotenv` package](https://www.npmjs.com/package/dotenv). To add public environment variables accessible to the extension, create a `.env.local` file like so:
 
 ```
 PLASMO_PUBLIC_SHIP_NAME=ncc-1701
@@ -125,7 +125,7 @@ See [with-env-files](https://github.com/PlasmoHQ/examples/tree/main/with-env-fil
 
 ## Submit Your Extension
 
-The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. It is configured to run on a manual trigger but can be altered to run on every push if needed.
+The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. By default, it runs on a manual trigger, but changing its config can make it run on every push.
 
 To start publishing your Plasmo extension, set up a `keys.json` file with the schema:
 
@@ -137,7 +137,7 @@ To start publishing your Plasmo extension, set up a `keys.json` file with the sc
 
 This schema is most helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure only to declare valid submission credentials. Otherwise, the action will fail.
 
-> NOTE: this file is ignored thanks to our friendly neighborhood `.gitignore`
+> NOTE: Git ignores this file ignored thanks to our friendly neighborhood `.gitignore`
 
 Please see this [token guide](https://github.com/PlasmoHQ/bms/blob/main/tokens.md) to learn more about the tokens required to submit. The final key might look like this:
 
