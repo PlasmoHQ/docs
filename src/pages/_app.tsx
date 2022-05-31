@@ -18,10 +18,10 @@ export default function MyApp({ Component, pageProps }) {
           site_name: "Plasmo Docs",
           images: [
             {
-              url: "https://docs.plasmo.com/screenshots/file_structure.png",
-              width: 800,
-              height: 600,
-              alt: "Plasmo File Structure"
+              url: "https://docs.plasmo.com/images/seo-1200-700.png",
+              width: 1200,
+              height: 700,
+              alt: "Plasmo Docs"
             }
           ]
         }}
