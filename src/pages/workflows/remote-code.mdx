@@ -1,0 +1,23 @@
+# Importing Remote Code
+
+Plasmo bundles any import statement that points to a remote resource using the `https` protocol. This is essential to work with [the remote code restriction in Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview/#remotely-hosted-code).
+
+Adding the [Google Analytics 4](https://developers.google.com/analytics/devguides/collection/ga4) tracking code for popup is as simple as:
+
+```tsx
+import "https://www.googletagmanager.com/gtag/js?id=XXXXXX"
+```
+
+The code above is not clean due to the present of the tracking ID. However, since Plasmo parses the import statement, it enables the use of [environment variable](./env) inside the import. To leverage this feature, define the tracking ID in an `.env.local` file:
+
+```
+PLASMO_PUBLIC_GTAG_ID=XXXXXX
+```
+
+Then, you can use it in your import by prefixing a `$` before its name:
+
+```tsx
+import "https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID"
+```
+
+See [with-google-analytics](https://github.com/PlasmoHQ/examples/tree/main/with-google-analytics)
