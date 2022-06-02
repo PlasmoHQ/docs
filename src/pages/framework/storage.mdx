@@ -1,3 +1,122 @@
 # @plasmohq/storage
 
-The storage API, a higher level API to streamline the workflow with the browser extension storage APIs.
+<span className="flex flex-1 gap-1">
+  <a aria-label="License" href="./LICENSE">
+    <img alt="See License" src="https://img.shields.io/npm/l/plasmo" />
+  </a>
+  <a aria-label="NPM" href="https://www.npmjs.com/package/@plasmohq/storage">
+    <img
+      alt="NPM Install"
+      src="https://img.shields.io/npm/v/@plasmohq/storage?logo=npm"
+    />
+  </a>
+  <a aria-label="Twitter" href="https://www.twitter.com/plasmohq">
+    <img
+      alt="Follow PlasmoHQ on Twitter"
+      src="https://img.shields.io/twitter/follow/plasmohq?logo=twitter"
+    />
+  </a>
+  <a aria-label="Twitch Stream" href="https://www.twitch.tv/plasmohq">
+    <img
+      alt="Watch our Live DEMO every Friday"
+      src="https://img.shields.io/twitch/status/plasmohq?logo=twitch&logoColor=white"
+    />
+  </a>
+  <a aria-label="Discord" href="https://www.plasmo.com/s/d">
+    <img
+      alt="Join our Discord for support and chat about our projects"
+      src="https://img.shields.io/discord/946290204443025438?logo=discord&logoColor=white"
+    />
+  </a>
+</span>
+
+`@plasmohq/storage` is an utility library from [plasmo](https://www.plasmo.com/) that abstract away the persistent storage API available to browser extension. It fallbacks to localstorage in context where the extension storage API is not available, allowing for state sync between popup - options - contents - background.
+
+> This library will enable the `storage` permission automatically if used with the [Plasmo framework](https://docs.plasmo.com)
+
+## Installation
+
+```
+pnpm install @plasmohq/storage
+```
+
+## Usage Examples
+
+- See [with-storage](https://github.com/PlasmoHQ/examples/tree/main/with-storage) for an example of how to use this library to sync state between options and popups.
+- See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for an example of how to use this library as your redux persistent layer (crucial for MV3).
+- See [MICE](https://github.com/PlasmoHQ/mice) for an experimental usecase of this library integrated with WebRTC to pipe message between browser via an extensions.
+
+### Storage API (for content scripts or background workers)
+
+```ts
+import { Storage } from "@plasmohq/storage"
+
+const storage = new Storage()
+
+await storage.set("key", "value")
+
+const data = await storage.get("key") // value
+```
+
+### Hook API (for react components - i.e popup and option pages)
+
+```tsx
+import { useStorage } from '@plasmohq/storage';
+
+// ...
+
+const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")
+
+return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.target.value)}/>
+
+```
+
+### Watch API (for state sync)
+
+The Hook API automatically watches for new change. This is mainly for those who are using the Storage API:
+
+```ts
+import { Storage } from "@plasmohq/storage"
+
+const storage = new Storage()
+
+await storage.set("serial-number", 47)
+await storage.set("make", "plasmo-corp")
+
+storageRef.current.watch({
+  "serial-number": (c) => {
+    console.log(c.newValue)
+  },
+  make: (c) => {
+    console.log(c.newValue)
+  }
+})
+
+await storage.set("serial-number", 96)
+await storage.set("make", "PlasmoHQ")
+```
+
+This can be used as a layer to communicate message across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
+
+### Advanced Hook API usage
+
+When dealing with form input or real-time input, you might need the following:
+
+```tsx
+const [hailingFrequency, , {
+  setRenderValue,
+  setStoreValue,
+  remove
+}] = useStorage("hailing")
+
+return <>
+  <input value={hailingFrequency} onChange={(e) => setRenderValue(e.target.value)}/>
+  <button onClick={() => setStoreValue()}>
+    Save
+  </button>
+  <button onClick={() => remove()}>
+    Remove
+  </button>
+</>
+
+```

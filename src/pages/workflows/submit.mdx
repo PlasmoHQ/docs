@@ -1,0 +1,38 @@
+# Submit Your Extension
+
+The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. By default, it runs on a manual trigger, but changing its config can make it run on every push.
+
+To start publishing your Plasmo extension, set up a `keys.json` file with the schema:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/PlasmoHQ/bpp/v2/keys.schema.json"
+}
+```
+
+This schema is most helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure only to declare valid submission credentials. Otherwise, the action will fail.
+
+> NOTE: Git ignores this file ignored thanks to our friendly neighborhood `.gitignore`
+
+Please see this [token guide](https://github.com/PlasmoHQ/bms/blob/main/tokens.md) to learn more about the tokens required to submit. The final key might look like this:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/plasmo-corp/bpp/v2/keys.schema.json",
+  "chrome": {
+    "clientId": "123",
+    "refreshToken": "789",
+    "extId": "abcd"
+  },
+  "edge": {
+    "clientId": "aaaaaaa-aaaa-bbbb-cccc-dddddddddddd",
+    "clientSecret": "abcdefg",
+    "productId": "aaaaaaa-aaaa-bbbb-cccc-dddddddddddd",
+    "accessTokenUrl": "https://login.microsoftonline.com/aaaaaaa-aaaa-bbbb-cccc-dddddddddddd/oauth2/v2.0/token"
+  }
+}
+```
+
+Copy this key, and add it as a [repository secret on GitHub](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) called `SUBMIT_KEYS`
+
+Then, go on GitHub and trigger the action manually when you need to submit a new extension version!

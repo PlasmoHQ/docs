@@ -1,0 +1,94 @@
+# Development Cycle
+
+## Create a new extension
+
+To run the interactive initialization wizard, use the following command:
+
+```sh
+pnpm dlx plasmo init
+# OR npm v7
+npm x plasmo init
+```
+
+To skip the naming prompt, supply a name as a positional argument:
+
+```sh
+pnpm dlx plasmo init "My Awesome Extension"
+# OR npm v7
+npm x plasmo init "My Awesome Extension"
+```
+
+## Run the development server
+
+Once you've set up your project, you can start developing your extension by navigating to your project directory and running:
+
+```sh
+pnpm dev
+# OR
+npm run dev
+# OR
+plasmo dev
+```
+
+This will create a dev bundle for your extension and a hot-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes.
+
+## Create a production bundle
+
+To create a production bundle for distribution, run:
+
+```sh
+pnpm build
+# OR
+npm run build
+# OR
+plasmo build
+```
+
+You can optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+
+```sh
+pnpm build -- --zip
+# OR
+npm run build -- --zip
+# OR
+plasmo build --zip
+```
+
+> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when creating your first content script!)
+
+## Adding a Popup Page
+
+Create a `popup.tsx` file or a `popup/index.tsx` file that exports a default React component. With that, your popup is ready to be used 🚀!
+
+See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-popup)
+
+## Adding a Background script
+
+Create a `background.ts` file in the root directory, and start hacking 💪
+
+See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background)
+
+## Adding the Options UI
+
+Create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌
+
+See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
+
+## Adding Content Scripts
+
+Create a `content.ts` file that exports an empty object (or import some library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
+
+For multiple content scripts, create a `contents` directory and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
+
+To provide a custom content script configuration (such as matching a custom domain per script, all_frames, etc.), export a config object from your content script like so:
+
+```ts
+import type { PlasmoContentScript } from "plasmo"
+
+export const config: PlasmoContentScript = {
+  matches: ["<all_urls>"],
+  all_frames: true
+}
+```
+
+Working with this configuration object is a breeze thanks to the exported `PlasmoContentScript` type 🥳.
