@@ -1,0 +1,90 @@
+# Quickstart with Tailwind CSS
+
+Using Tailwind or any other PostCSS plugin is super easy with Plasmo.
+
+## Defining Your PostCSS Config
+
+`postcss.config.js`
+
+```js
+/**
+ * @type {import('postcss').ProcessOptions}
+ */
+module.exports = {
+  plugins: {
+    tailwindcss: {}
+  }
+}
+```
+
+## Adding Root Styles
+
+`style.css`
+
+```css
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## Setting up Tailwind config
+
+`tailwind.config.js`
+
+```js
+/** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
+module.exports = {
+  mode: "jit",
+  darkMode: "class",
+  content: ["./**/*.{ts,tsx}"],
+  theme: {
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
+      serif: ["Georgia", "serif"]
+    }
+  },
+  variants: { extend: { typography: ["dark"] } },
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")]
+}
+```
+
+## Using Within React
+
+Once you have all the config in place, you can start using Tailwind within your React components!
+
+```tsx
+import { useReducer } from "react"
+
+import "./style.css"
+
+function IndexPopup() {
+  const [count, increase] = useReducer((c) => c + 1, 0)
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: 16
+      }}>
+      <button
+        onClick={() => increase()}
+        type="button"
+        className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Count:
+        <span className="inline-flex items-center justify-center w-8 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+          {count}
+        </span>
+      </button>
+    </div>
+  )
+}
+
+export default IndexPopup
+```
+
+## Full Example
+
+To see a complete example of this quickstart, go to the [with-tailwind example](https://github.com/PlasmoHQ/examples/tree/main/with-tailwindcss).
