@@ -30,7 +30,11 @@ For instance, the Plasmo Framework might not understand that you need to have an
 
 ## Using `src` directory for source code
 
-Instead of having your source code in the root directory, you can put it in a child `src` directory instead. However, for TypeScript to work correctly, you will need to point the resolved `paths` for the `~*` prefix in the `tsconfig.json` file to `"./src/*"`. The new configuration looks like this:
+Instead of having your source code in the root directory, you can put it in a child `src` directory.
+
+For TypeScript to work correctly, you will need to point the resolved `paths` for the `~*` prefix in the `tsconfig.json` file to `"./src/*"`.
+
+The new configuration looks like this:
 
 ```json
 {
