@@ -2,5 +2,6 @@
   "index": "Get Started",
   "next-js": "Quickstart: Next.js",
   "redux": "Quickstart: Redux",
-  "tailwind": "Quickstart: Tailwind CSS"
+  "tailwind": "Quickstart: Tailwind CSS",
+  "google-analytics": "Quickstart: Google Analytics"
 }
