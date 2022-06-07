@@ -34,3 +34,10 @@ yarn-error.log*
 .turbo
 
 .tsbuildinfo
+
+/public/robots.txt
+/public/sitemap*.xml
+
+/public/**/atom.xml
+/public/**/rss.xml
+/public/**/feed.json

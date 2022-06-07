@@ -1,7 +1,7 @@
 {
-  "index": "Get Started",
-  "next-js": "Quickstart: Next.js",
-  "redux": "Quickstart: Redux",
-  "tailwind": "Quickstart: Tailwind CSS",
-  "google-analytics": "Quickstart: Google Analytics"
+  "index": "Table of Contents",
+  "with-nextjs": "Quickstart: Next.js",
+  "with-redux": "Quickstart: Redux",
+  "with-tailwindcss": "Quickstart: TailwindCSS",
+  "with-google-analytics": "Quickstart: Google Analytics"
 }
