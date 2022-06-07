@@ -2,6 +2,10 @@
 
 Plasmo is designed to seamlessly interopt with [NextJS](https://nextjs.org/). The key idea is that Plasmo is your extension's entry point, meanwhile NextJS is your web application's entry point. This allows you to reuse your component across your codebase with minor adjustment.
 
-The TypeScript configuration exposed by plasmo is compatible with NextJS's,including the ability to use the `src` directory. Furthermore, Plamo uses [parcel 2](https://parceljs.org/) which uses [swc](https://swc.rs/) underneath - the same bundler that NextJS uses. Thus, plugins such as postcss and tailwindcss can be shared with no modification.
+Following are the list of compatibilities:
+
+- The TypeScript configuration exposed by Plasmo is compatible with NextJS's,including the ability to use the `src` directory.
+- The [.env file](/workflows/env) is the same, but using a different namespace (`PLASMO_PUBLIC` vs `NEXT_PUBLIC`)
+- Plamo uses [parcel 2](https://parceljs.org/) which uses [swc](https://swc.rs/) underneath - the same bundler that NextJS uses. Thus, plugin configs such as postcss and tailwindcss can be shared with no modification.
 
 See [with-nextjs](https://github.com/PlasmoHQ/examples/tree/main/with-nextjs)
