@@ -39,7 +39,7 @@ The [Plasmo](https://www.plasmo.com/) Framework is a battery-packed browser exte
 - [Declarative development with `manifest.json` auto-generation (MV3)](/#where-is-the-manifestjson-file)
 - Live-reloading
 - [`.env*` files](/workflows/env)
-- [Remote code bundling](/workflows/remote-code) (e.g for gtag4)
+- [Remote code [bundling](/workflows/remote-code) (e.g. for gtag4)
 - Automated deployment (via [BPP](/workflows/submit))
 - And many, many more! 🚀
 
@@ -72,6 +72,40 @@ This command will set up the simplest Plasmo browser extension project for you. 
 | `tsconfig.json`   | TypeScript configuration                                                                                                                               |
 
 > **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
+
+### Building
+
+For live-reloading support, you can build a development version with
+
+```sh
+pnpm dev
+```
+
+This will create a built version of the extension in `build/chrome-mv3-dev`
+
+For a production build,
+
+```sh
+pnpm build
+```
+
+This will create a built version of the extension in `build/chrome-mv3-prod`
+
+### Loading the Extension in Chrome
+
+We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
+
+Head over to `chrome://extensions` and enable Developer Mode.
+
+![](/screenshots/developer_mode.png)
+
+Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
+
+To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
+
+**Pro tip:** you can pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+
+![](/screenshots/popup_example.png)
 
 ## Where is the manifest.json file?
 
