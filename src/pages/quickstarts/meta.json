@@ -3,5 +3,6 @@
   "with-nextjs": "Quickstart: Next.js",
   "with-redux": "Quickstart: Redux",
   "with-tailwindcss": "Quickstart: TailwindCSS",
-  "with-google-analytics": "Quickstart: Google Analytics"
+  "with-google-analytics": "Quickstart: Google Analytics",
+  "with-supabase": "Quickstart: Supabase"
 }
