@@ -4,5 +4,6 @@
   "with-redux": "Quickstart: Redux",
   "with-tailwindcss": "Quickstart: TailwindCSS",
   "with-google-analytics": "Quickstart: Google Analytics",
-  "with-supabase": "Quickstart: Supabase"
+  "with-supabase": "Quickstart: Supabase",
+  "with-chrome-storage": "Quickstart: Chrome Storage"
 }

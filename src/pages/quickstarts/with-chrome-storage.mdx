@@ -1,0 +1,77 @@
+# Quickstart with Chrome Storage
+
+## Intro
+
+Chrome storage is a powerful mechanism for persisting data in your extension. It's essential in MV3 where persistent background pages, which used to be the place developers stored persistent data, no longer exist.
+
+## Plasmo Storage
+
+We built a library on top of the `chrome.storage` API that makes it much easier to use, especially if you're writing a React app.
+
+## Storage Hooks
+
+Our library provides React hooks for reading and writing to storage.
+
+Here's some example usage:
+
+`popup.tsx`
+
+```tsx
+import { useStorage } from "@plasmohq/storage"
+
+function IndexPopup() {
+  const [openCount] = useStorage<number>("open-count", (storedCount) =>
+    typeof storedCount === "undefined" ? 0 : storedCount + 1
+  )
+
+  const [checked, setChecked] = useStorage("checked", true)
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: 16
+      }}>
+      <p>Times opened: {openCount}</p>
+      <input
+        type={"checkbox"}
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+      />
+    </div>
+  )
+}
+
+export default IndexPopup
+```
+
+`options.tsx`
+
+```tsx
+import { useStorage } from "@plasmohq/storage"
+
+function IndexOptions() {
+  const [openCount] = useStorage<number>("open-count")
+
+  const [checked] = useStorage("checked")
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: 16
+      }}>
+      <p>Times opened: {openCount}</p>
+      <input type={"checkbox"} readOnly checked={checked} />
+    </div>
+  )
+}
+
+export default IndexOptions
+```
+
+## Full Example
+
+For the complete example, check out [with-storage](https://github.com/PlasmoHQ/examples/tree/main/with-storage) in the examples GitHub repository.
