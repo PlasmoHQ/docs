@@ -1,4 +1,5 @@
 {
   "index": "Get Started",
-  "next-js": "Quickstart: Next.js"
+  "next-js": "Quickstart: Next.js",
+  "redux": "Quickstart: Redux"
 }

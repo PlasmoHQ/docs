@@ -1,0 +1,142 @@
+# Quickstart with Redux
+
+You can easily integrate Redux to provide a simple way to manage state across your browser extension.
+
+We maintain a custom fork of [redux-persist](https://github.com/plasmo-foss/redux-persist) which you can utilize along with [redux-persist-webextension-storage](https://www.npmjs.com/package/redux-persist-webextension-storage) to persist your Redux state using `chrome.storage`.
+
+Just a heads up, the current version does not support content scripts. If you'd like content script support, [please file an issue](https://github.com/PlasmoHQ/examples/issues), and we will prioritize adding that functionality.
+
+## Increment Example
+
+Let's make a basic extension that increments and decrements a counter.
+
+### Create Your Slice
+
+`counter-slice.ts`
+
+```ts
+import { createSlice } from "@reduxjs/toolkit"
+
+export interface CounterState {
+  count: number
+}
+
+const counterSlice = createSlice({
+  name: "counter",
+  initialState: { count: 0 },
+  reducers: {
+    increment: (state) => {
+      state.count += 1
+    },
+    decrement: (state) => {
+      state.count -= 1
+    }
+  }
+})
+
+export const { increment, decrement } = counterSlice.actions
+
+export default counterSlice.reducer
+```
+
+### Create Your Store
+
+`store.ts`
+
+```ts
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  RESYNC,
+  persistReducer,
+  persistStore
+} from "@plasmohq/redux-persist"
+import { Storage } from "@plasmohq/storage"
+import { configureStore } from "@reduxjs/toolkit"
+import { localStorage } from "redux-persist-webextension-storage"
+
+import counterSlice from "~counter-slice"
+
+const rootReducer = counterSlice
+
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage: localStorage
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          RESYNC
+        ]
+      }
+    })
+})
+export const persistor = persistStore(store)
+
+// This is what makes Redux sync properly with multiple pages
+// Open your extension's options page and popup to see it in action
+new Storage().watch({
+  [`persist:${persistConfig.key}`]: () => {
+    persistor.resync()
+  }
+})
+```
+
+The thing to note is the `new Storage().watch()` call. This will automatically resync the store whenever the Redux store changes in `chrome.storage`.
+
+### Using in React
+
+`options.tsx`
+
+```tsx
+import { PersistGate } from "@plasmohq/redux-persist/integration/react"
+import { Provider } from "react-redux"
+
+import { CounterView } from "~counter"
+import { persistor, store } from "~store"
+
+function Options() {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <CounterView />
+      </PersistGate>
+    </Provider>
+  )
+}
+
+export default Options
+```
+
+Using the `PersistGate` will ensure the child components don't render until the store is ready.
+
+### Using in a Background Service Worker
+
+```ts
+import { persistor, store } from "~store"
+
+persistor.subscribe(() => {
+  console.log("State changed with: ", store?.getState())
+})
+```
+
+## Full Example
+
+See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for a complete example.
