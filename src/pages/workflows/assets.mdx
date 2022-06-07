@@ -1,0 +1,19 @@
+# Assets
+
+Plasmo processes some file within the `assets` directory. We recommend using it to also store any asset you might want to load inline into your source-code (instead of copying into the built bundle).
+
+## icon512.png
+
+The framework processes the `assets/icon512.png` file to generate smaller versions of the icon in the final build bundle.
+
+## Import image assets inline
+
+The easiest way to load image inside your extension is to use the `data-url` protocol. This will inline the image as a base64 encoded data in the built bundle of your extension:
+
+```tsx
+import someCoolImage from "data-url:~assets/some-cool-image.png"
+
+...
+
+<img src={someCoolImage} alt="Some pretty cool image" />
+```

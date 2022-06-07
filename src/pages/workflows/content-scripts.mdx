@@ -1,0 +1,58 @@
+# Content Scripts
+
+Content scripts run in the context of web pages. Some of the most common use cases are:
+
+- Scraping data from the current web page
+- Selecting, finding and styling elements from the current web page
+- [Injecting UI elements into the current web page](#injecting-ui-elements)
+
+## Adding a single content script
+
+Create a `content.ts` file that exports an empty object (or import some library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
+
+## Adding multiple content scripts
+
+For multiple content scripts, create a `contents` directory and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
+
+## Customizing content script config
+
+To provide a custom content script configuration (such as matching a custom domain per script, all_frames, etc.), export a config object from your content script like so:
+
+```ts
+import type { PlasmoContentScript } from "plasmo"
+
+export const config: PlasmoContentScript = {
+  matches: ["<all_urls>"],
+  all_frames: true
+}
+```
+
+Working with this configuration object is a breeze thanks to the exported `PlasmoContentScript` type 🥳.
+
+## Injecting UI elements
+
+Plasmo has first-class support for mounting React component into the current webpage via a content-script. Follow the steps below:
+
+1. Rename an existing content script or create a new one with the `tsx` extension
+2. Export default a React component
+3. Profit 🎉
+
+See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/with-content-scripts-ui)
+
+### How does Plasmo mount the React component?
+
+Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) to mount the component. This isolation technique prevents the style of the webpage to affect your component styling.
+
+## getMountPoint
+
+There are cases where you might want to mount/anchor your react component on top of a specific element on the current webpage. To do so, export a function called `getMountPoint` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
+
+```ts
+export const getMountPoint = async () => document.querySelector("#element")
+```
+
+This function can be asyncronous, which allows you to wait until the element exists. It is also very agnostic in term of how you get this element - for example, you can send the current webpage to a remote API via fetch to calculate the element selector, then query and return that element. The possibilities are endless!
+
+### How does getMountPoint anchor my component?
+
+It first listens to the scroll event of the current window. On each scroll event, it uses the `getBoundingClientRect` method to calculate the absolute position of the target element. Then, it applies the position to the container that was used to mount your component.

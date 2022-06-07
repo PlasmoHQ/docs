@@ -1,5 +1,7 @@
 {
   "index": "Development Cycle",
+  "content-scripts": "Content Scripts",
+  "assets": "Assets",
   "env": "Environment Variables",
   "remote-code": "Remote Code",
   "submit": "Automated Submission"
