@@ -1,8 +1,9 @@
 {
   "index": "Table of Contents",
   "with-nextjs": "Quickstart: Next.js",
+  "with-stripe": "Quickstart: Stripe",
   "with-redux": "Quickstart: Redux",
-  "with-tailwindcss": "Quickstart: TailwindCSS",
+  "with-tailwindcss": "Quickstart: Tailwind CSS",
   "with-google-analytics": "Quickstart: Google Analytics",
   "with-supabase": "Quickstart: Supabase",
   "with-chrome-storage": "Quickstart: Chrome Storage"

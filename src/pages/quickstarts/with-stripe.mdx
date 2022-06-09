@@ -1,0 +1,75 @@
+# Quickstart with Stripe
+
+## Intro
+
+Stripe is a payment processing platform. Use cases include:
+
+- Monetizing access to expensive API calls
+- Monetizing premium extension feature
+- Selling themes, merchs, physical and digital goods, etc...
+
+## Scenario
+
+You are a SaaS company looking to offer a premium API service to your customer via an extension. You would like your users to pay $5/month before the extension can access this premium feature.
+
+## Setting Up a Stripe Product Link
+
+Due to [Manifest v3's restriction with remote code execution](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview/#remotely-hosted-code), there are limited options to have a PCI-compliant payment system integrated into an extension. The easiest way is to setup a Stripe Product Link.
+
+To setup a Stripe Product Link, you will first need to create a Stripe product. Head to [Stripe Product Dashboard](https://dashboard.stripe.com/test/products?active=true) page, and press Add Product, then fill out the information:
+
+![Stripe add Product](/screenshots/stripe-add-product.png)
+
+Then, go to the product page and click the `Create payment link` button:
+
+![Stripe create payment](/screenshots/stripe-create-payment.png)
+
+Above should get you the the Stripe Payment Link. For backend authorization, head to the [Stripe Dashboard Home Page](https://dashboard.stripe.com/test/dashboard) for the Secret Key:
+
+![Stripe dev keys](/screenshots/stripe-dev-keys.png)
+
+## Using env variable
+
+Assuming you have setup a basic Plasmo project, the first thing to do is to setup our [environment variables](/workflows/env):
+
+`.env.local`
+
+```ini
+PLASMO_PUBLIC_STRIPE_LINK=https://buy.stripe.com/test_XXXXXXXX
+
+STRIPE_PRIVATE_API_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxx
+```
+
+To enable typescript intellisense, create an `index.d.ts` file:
+
+`.index.d.ts`
+
+```ts
+declare namespace NodeJS {
+  interface ProcessEnv {
+    PLASMO_PUBLIC_STRIPE_LINK?: string
+
+    STRIPE_PRIVATE_API_KEY?: string
+  }
+}
+```
+
+## Accessing Chrome identity API
+
+In order to associate a subscription with an user, we can use their email address. One quick way of doing so is to leverage the Chrome extension's [identity API](https://developer.chrome.com/docs/extensions/reference/identity/#method-getProfileUserInfo). In production environment, you might want to setup proper authorization with a simple JWT to ensure the user doesn'
+
+To enable the permission required for this feature, add the following to the `manifest` field of your `package.json` file:
+
+```json
+{
+  "manifest": {
+    "permissions": ["identity", "identity.email"]
+  }
+}
+```
+
+## Integrating the Stripe Link into the popup page
+
+## Full Example
+
+For the complete example, check out [with-stripe](https://github.com/PlasmoHQ/examples/tree/main/with-stripe) in the examples GitHub repository.
