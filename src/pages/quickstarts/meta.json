@@ -1,5 +1,6 @@
 {
   "index": "Table of Contents",
+  "with-firebase-authentication": "Quickstart: Firebase Auth",
   "with-nextjs": "Quickstart: Next.js",
   "with-stripe": "Quickstart: Stripe",
   "with-redux": "Quickstart: Redux",
