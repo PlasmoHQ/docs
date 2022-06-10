@@ -2,13 +2,13 @@
 
 Plasmo processes some files within the `assets` directory. We recommend using this feature to store any assets you might want to load inline into your source code (instead of copying them into the built bundle).
 
-## icon512.png
+## Extension icon with `assets/icon512.png`
 
-The framework processes the `assets/icon512.png` file to generate smaller versions of the icon in the final build bundle.
+The framework uses the `assets/icon512.png` file for the extension icon. It automatically generates smaller resolution version of the icon for the final build bundle. Thus all you need to work on is the 512x512 version!
 
-## Import image assets inline
+## Importing image assets inline
 
-The easiest way to load images inside your extension is to use the `data-url` protocol. This will inline the image as base64 encoded data in the built bundle of your extension:
+The easiest way to load images inside your extension is to use the `data-url` scheme. This will inline the image as base64 encoded data in the built bundle of your extension:
 
 ```tsx
 import someCoolImage from "data-url:~assets/some-cool-image.png"
@@ -17,3 +17,10 @@ import someCoolImage from "data-url:~assets/some-cool-image.png"
 
 <img src={someCoolImage} alt="Some pretty cool image" />
 ```
+
+## `data-url` and `bundle-text` schemes
+
+`data-url` and `bundle-text` schemes' tilde (`~`) **always** resolves to the root directory. This is especially important if you are using [the `src` directory setup](/customization#using-src-directory-for-source-code). With the `src` setup, the `~` has two meanings:
+
+- If it is by itself, e.g `~core/code-module`, Plasmo resolves it to `/src/core/core-module.ts` (or tsx).
+- If using with the two schemes mentioned above, the `~` is resolves to project root. Thus, `data-url:~assets/image.png` resolves to `/assets/image.png`.
