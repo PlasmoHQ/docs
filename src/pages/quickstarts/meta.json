@@ -1,11 +1,11 @@
 {
   "index": "Table of Contents",
-  "with-firebase-authentication": "Quickstart: Firebase Auth",
   "with-nextjs": "Quickstart: Next.js",
   "with-stripe": "Quickstart: Stripe",
   "with-redux": "Quickstart: Redux",
   "with-tailwindcss": "Quickstart: Tailwind CSS",
-  "with-google-analytics": "Quickstart: Google Analytics",
   "with-supabase": "Quickstart: Supabase",
+  "with-firebase-authentication": "Quickstart: Firebase Auth",
+  "with-google-analytics": "Quickstart: Google Analytics",
   "with-chrome-storage": "Quickstart: Chrome Storage"
 }
