@@ -85,7 +85,7 @@ This will be your Extension ID - the next section is about how to obtain it.
 
 You will want to ensure your extension ID is fixed for development. The reason being if you accidentally remove your development extension from your browser, the extension ID will be lost and your OAuth2 client will be invalidated.
 
-Since Chromium derives the extension ID from a public key it generated, you can fixtate the extension ID by generating your own `key` instead. This key can be specified in the [`manifest` override of your `package.json`](customization#overriding-the-manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
+Since Chromium derives the extension ID from a public key it generated, you can fixtate the extension ID by generating your own `key` instead. This key can be specified in the [`manifest` override of your `package.json`](/customization#overriding-the-manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
 
 1. Generate the private key:
 
