@@ -2,7 +2,7 @@ import PlausibleProvider from "next-plausible"
 import { DefaultSeo } from "next-seo"
 import "nextra-theme-docs/style.css"
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps, router }) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page)
 
@@ -16,6 +16,7 @@ export default function MyApp({ Component, pageProps }) {
           type: "website",
           locale: "en_US",
           site_name: "Plasmo Docs",
+          url: `https://docs.plasmo.com${router.asPath}`,
           images: [
             {
               url: "https://docs.plasmo.com/images/seo-1200-700.png",

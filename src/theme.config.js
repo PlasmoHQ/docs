@@ -47,20 +47,6 @@ const theme = {
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:url" content="https://docs.plasmo.com/" />
-      <meta property="og:title" content="Plasmo Framework Documentation" />
-      <meta
-        property="og:description"
-        content="Plasmo is a platform for making browser extensions at lightning speed. We make it easy to build, test, and deploy browser extensions in a matter of seconds."
-      />
-      <meta
-        name="keywords"
-        content="browser extension, chrome extension, developer tools, developer tooling, continuous integration, security, cybersecurity, enterprise"
-      />
-
-      <meta name="twitter:site" content="@plasmohq" />
-      <meta name="twitter:creator" content="@plasmohq" />
-      <meta name="twitter:card" content="summary_large_image" />
 
       <link
         rel="apple-touch-icon"

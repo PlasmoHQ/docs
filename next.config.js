@@ -8,6 +8,10 @@ const { withPlausibleProxy } = require("next-plausible")
 
 module.exports = withPlausibleProxy()(
   withNextra({
+    i18n: {
+      locales: ["en"],
+      defaultLocale: "en"
+    },
     reactStrictMode: true
   })
 )
