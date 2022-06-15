@@ -1,5 +1,7 @@
 # Development Cycle
 
+> 📢 **NOTE:** If you would like to use the `src` directory for your source code (`tsx` and `ts`), please make sure to follow this [guide](customization#using-src-directory-for-source-code).
+
 ## Create a new extension
 
 To run the interactive initialization wizard, use the following command:
@@ -18,6 +20,8 @@ pnpm dlx plasmo init "My Awesome Extension"
 npm x plasmo init "My Awesome Extension"
 ```
 
+> **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
+
 ## Run the development server
 
 Once you've set up your project, you can start developing your extension by navigating to your project directory and running:
@@ -31,6 +35,22 @@ plasmo dev
 ```
 
 This will create a dev bundle for your extension and a hot-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes.
+
+## Loading the extension
+
+We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
+
+Head over to `chrome://extensions` and enable Developer Mode.
+
+![Enable developer mode](/screenshots/developer_mode.png)
+
+Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
+
+To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
+
+**Pro tip:** you can pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+
+![Pinning popup](/screenshots/popup_example.png)
 
 ## Create a production bundle
 

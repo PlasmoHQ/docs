@@ -53,6 +53,44 @@ export const getMountPoint = async () => document.querySelector("#element")
 
 This function can be asynchronous, which allows you to wait until the element exists. It is also very agnostic. For example, you can send the current webpage to a remote API via fetch to calculate the element selector, then query and return that element. The possibilities are endless!
 
+Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-mount.tsx) for an example.
+
 ### How does getMountPoint anchor my component?
 
 It first listens to the scroll event of the current window. On each scroll event, it uses the `getBoundingClientRect` method to calculate the absolute position of the target element. Then, it applies the position to the container that was used to mount your component.
+
+## getStyle
+
+To inject stylesheets into your content script UI's Shadow DOM (or anywhere in the current webpage), you may export a `getStyle` function that returns a valid [`HTMLElement.style`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) element:
+
+```ts
+import cssText from "data-text:~/contents/plasmo-overlay.css"
+
+export const getStyle = () => {
+  const style = document.createElement("style")
+  style.textContent = cssText
+  return style
+}
+```
+
+The style element will be appended into the Shadow DOM before the container of the exported component.
+
+Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-overlay.tsx) for an example.
+
+### Note about `data-text` schemes
+
+In the example above, we uses the `data-text` scheme to load our stylesheet as plain-text into the cssText variable, which we then assign to our style element's textContent. Be caution with the import path when using this scheme if you are using the `src` directory, as noted [here](workflows/assets#data-base64-and-data-text-schemes).
+
+## getRootContainer
+
+To replace the provided Shadow DOM, you can export a `getRootContainer` function that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement). One use case is that there might be time where it is desired for the extension to [absorb the styling of the host webpage](https://github.com/PlasmoHQ/plasmo/issues/10#issuecomment-1149499252). Another use case might be that you would like to mount the component directly into the webpage instead of having an overlay shadow DOM.
+
+```ts
+export const getRootContainer = () => {
+  return document.querySelector("#feature")
+}
+```
+
+> **NOTE:** If you export a `getRootContainer` function, the `getStyle` function will be _ignored_ since it is only used by the provided Shadow DOM container. The behavior of `getMountPoint` might also be affected as well (as the position of the component will be relative to your provided container).
+
+Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-root-container.tsx) for an example.

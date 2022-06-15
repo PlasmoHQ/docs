@@ -32,7 +32,7 @@ Above should get you the the Stripe Payment Link. For backend authorization, hea
 
 Assuming you have setup a basic Plasmo project, the first thing to do is to setup our [environment variables](/workflows/env):
 
-`.env.local`
+`.env.development`
 
 ```ini
 PLASMO_PUBLIC_STRIPE_LINK=https://buy.stripe.com/test_XXXXXXXX
@@ -42,33 +42,344 @@ STRIPE_PRIVATE_API_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxx
 
 To enable typescript intellisense, create an `index.d.ts` file:
 
-`.index.d.ts`
-
-```ts
-declare namespace NodeJS {
-  interface ProcessEnv {
-    PLASMO_PUBLIC_STRIPE_LINK?: string
-
-    STRIPE_PRIVATE_API_KEY?: string
-  }
-}
-```
+[`.index.d.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/index.d.ts)
 
 ## Accessing Chrome identity API
 
-In order to associate a subscription with an user, we can use their email address. One quick way of doing so is to leverage the Chrome extension's [identity API](https://developer.chrome.com/docs/extensions/reference/identity/#method-getProfileUserInfo). In production environment, you might want to setup proper authorization with a simple JWT to ensure the user doesn'
+In order to associate a subscription with an user, we can use their email address. One quick way of doing so is to leverage the Chrome extension's [identity API](https://developer.chrome.com/docs/extensions/reference/identity). To prevent unauthorized access, we will need to setup OAuth2 authentication schema, which works as follow:
+
+- Our extension generates an OAuth2 access token
+- Extension sends request with the token to our backend
+- Backend validates the tokens to get the user's email address
+- Backend queries subscription status for the user
 
 To enable the permission required for this feature, add the following to the `manifest` field of your `package.json` file:
 
 ```json
 {
+  ...
   "manifest": {
+    ...
     "permissions": ["identity", "identity.email"]
   }
 }
 ```
 
-## Integrating the Stripe Link into the popup page
+> **NOTE:** The `...` means if you have anything there already, preserve them as needed. You will see this in many of our code example.
+
+Then, we will need to setup an OAuth2 client ID using Google Cloud Platform (GCP). Quickly create a new project in GCP following [this guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects), then navigate to the Credentials page: `https://console.cloud.google.com/apis/credentials?referrer=search&project=<YOUR_PROJECT_ID>`. You will be presented with something like this:
+
+![GCP Credential Page](/screenshots/2022-06-10-14-10-33.png)
+
+Press `CREATE CREDENTIALS`, then select `OAuth client ID`:
+
+![Create OAuth ClientID](/screenshots/2022-06-10-14-11-50.png)
+
+On the next page, pick `Chrome app`. The form will then ask for an `Application ID`:
+
+![Create Chrome App ClientID](/screenshots/2022-06-10-14-13-21.png)
+
+This will be your Extension ID - the next section is about how to obtain it.
+
+### Setup fixed Extension ID for development
+
+You will want to ensure your extension ID is fixed for development. The reason being if you accidentally remove your development extension from your browser, the extension ID will be lost and your OAuth2 client will be invalidated.
+
+Since Chromium derives the extension ID from a public key it generated, you can fixtate the extension ID by generating your own `key` instead. This key can be specified in the [`manifest` override of your `package.json`](customization#overriding-the-manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
+
+1. Generate the private key:
+
+```sh
+openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
+```
+
+2. Generate the public key from the private key above:
+
+```sh
+openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A
+```
+
+We can then use this key by leveraging [env variable in our manifest overide](/workflows/env#using-env-in-manifest-overrides):
+
+`.env.development`
+
+```ini
+...
+CRX_PUBLIC_KEY=v47xxx
+```
+
+`package.json`
+
+```json
+{
+  "manifest": {
+    ...
+    "key": "$CRX_PUBLIC_KEY"
+  }
+}
+```
+
+[Run the development server](/workflows#run-the-development-server) then [load the extension into your browser](/workflows#loading-the-extension). Then, copy the extension ID:
+
+![Copy extension ID](/screenshots/2022-06-10-14-19-49.png)
+
+Paste the ID into the OAuth form's Application ID field, then submit. You will then receive your OAuth2 client ID:
+
+![OAuth Client ID](/screenshots/2022-06-10-14-36-19.png)
+
+Add it to your environment variables:
+
+`.env.development`
+
+```ini
+...
+OAUTH_CLIENT_ID=<YOUR_OAUTH_CLIENT_ID>
+```
+
+And use it in our manifest overide:
+
+`package.json`
+
+```json
+{
+  ...
+  "manifest": {
+    ...
+    "oauth2": {
+      "client_id": "$OAUTH_CLIENT_ID",
+      "scopes": [
+       "https://www.googleapis.com/auth/userinfo.email",
+       "https://www.googleapis.com/auth/userinfo.profile"
+      ]
+    }
+  }
+}
+```
+
+We are now ready to generate an OAuth access token to authorize and process the user's subscription!
+
+## Accessing the user info
+
+To know who our user is, we can use `chrome.identity.getProfileUserInfo`. To cache this data and reuse it across our app, we can create a quick [React context](https://reactjs.org/docs/context.html). The easiest way to do so is by using [`puro`](https://www.npmjs.com/package/puro) - Plasmo's context utilty library. Install it by adding the library to your `package.json` file and run `pnpm i`:
+
+`package.json`
+
+```json
+{
+  ...
+  "dependencies": {
+    ...
+    "puro": "0.3.4"
+  }
+}
+```
+
+Then, we can create our provider:
+
+[`core/user-info.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/core/user-info.tsx)
+
+```tsx
+import { createProvider } from "puro"
+import { useContext, useEffect, useState } from "react"
+
+const useUserInfoProvider = () => {
+  const [userInfo, setUserInfo] = useState<chrome.identity.UserInfo>(null)
+
+  useEffect(() => {
+    chrome.identity.getProfileUserInfo((data) => {
+      if (data.email && data.id) {
+        setUserInfo(data)
+      }
+    })
+  }, [])
+
+  return userInfo
+}
+
+const { BaseContext, Provider } = createProvider(useUserInfoProvider)
+
+export const useUserInfo = () => useContext(BaseContext)
+export const UserInfoProvider = Provider
+```
+
+And use it in our popup:
+
+[`popup.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/popup.tsx)
+
+```tsx
+import { UserInfoProvider, useUserInfo } from "~core/user-info"
+
+const EmailShowcase = () => {
+  const userInfo = useUserInfo()
+
+  return (
+    <div>
+      Your email is: <b>{userInfo?.email}</b>
+    </div>
+  )
+}
+
+function IndexPopup() {
+  return (
+    <UserInfoProvider>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: 16
+        }}>
+        <h1>
+          Welcome to your <a href="https://www.plasmo.com">Plasmo</a> Extension!
+        </h1>
+        <EmailShowcase />
+      </div>
+    </UserInfoProvider>
+  )
+}
+
+export default IndexPopup
+```
+
+## Integrating the Stripe Link into the Popup page
+
+To streamline the Stripe payment link with the identity API, we can prefill the email on the Stripe hosted form via [their API parameters](https://stripe.com/docs/payments/payment-links#url-prefills) with the email obtained from the `UserInfoProvicer` above. Before we redirecting our user to the Stripe payment, let's also invoke the OAuth flow to ensure the customer consents for their email address to be used. This will also initiate an access token cache for our extension, which allow future invocation to be non-interactive.
+
+[`popup.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/popup.tsx)
+
+```tsx
+<button
+  disabled={!userInfo}
+  onClick={async () => {
+    chrome.identity.getAuthToken(
+      {
+        interactive: true
+      },
+      (token) => {
+        if (!!token) {
+          window.open(
+            `${process.env.PLASMO_PUBLIC_STRIPE_LINK}?client_reference_id=${
+              userInfo.id
+            }&prefilled_email=${encodeURIComponent(userInfo.email)}`,
+            "_blank"
+          )
+        }
+      }
+    )
+  }}>
+  Subscribe to Paid feature
+</button>
+```
+
+## Verify the subscription and enable premium feature
+
+To verify the user's subscription, we will now set up our backend. This process can be simplified by leveraging [NextJS interopability with Plasmo](/quickstarts/with-nextjs). We will first install NextJS and some utility libraries:
+
+`package.json`
+
+```json
+{
+  "scripts": {
+    "start": "next start",
+    "dev": "run-p dev:*",
+    "dev:plasmo": "plasmo dev",
+    "dev:next": "next dev --port 8472",
+    "build": "run-p build:*",
+    "build:plasmo": "plasmo build",
+    "build:next": "next build"
+  },
+  ...
+  "dependencies": {
+    ...
+    "next": "12.1.6",
+    "google-auth-library": "8.0.2",
+    "swr": "1.3.0",
+    "stripe": "9.8.0"
+  },
+  "devDependencies": {
+    ...
+    "@plasmohq/rps": "1.3.4",
+  }
+}
+```
+
+> `@plasmohq/rps` is a helper library from Plasmo to facilitate running scripts in parallel or in sequential. It is a modernized fork of [npm-run-all](https://github.com/mysticatea/npm-run-all/)
+
+Once our dependencies are setup, let's create some utility functions:
+
+- [`pages/api/_common.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/pages/api/_common.ts)
+
+Then, we proceed to create our 2 API routes: one to check for user's subscription (to enable the premium feature), and one to actually invoke the premium feature. Both API routes must first parse the authorization header for access token, then use the token to fetch the user profile independently before using the profile's data to acquire the user's subscription.
+
+- [`pages/api/check-subscription.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/pages/api/check-subscription.ts)
+- [`pages/api/premium-feature.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/pages/api/premium-feature.ts)
+
+To call the dev server from our extension, we can store the API URI using environment variable and reference it in our manifest host:
+
+`.env.development`
+
+```ini
+PLASMO_PUBLIC_API_URI=http://localhost:8472
+...
+```
+
+`package.json`
+
+```json
+{
+  ...
+  "manifest": {
+    ...
+    "host_permissions": [
+      "$PLASMO_PUBLIC_API_URI/*",
+      "https://*/*"
+    ]
+  }
+}
+```
+
+Kill and re-run `pnpm dev` to start both the dev server for our backend and our extension. Before we call our API, let's setup more client-side helpers:
+
+- [core/access-token.ts](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/core/access-token.ts)
+- [core/premium-api.ts](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/core/premium-api.ts)
+
+Now, we can use `swr` to call and revalidate the `check-subscription` API in our popup:
+
+`popup.tsx`
+
+```tsx
+import useSWR from "swr"
+import { callAPI } from "~core/premium-api"
+
+...
+  const { data, error } = useSWR<{ active: boolean }>(
+    "/api/check-subscription",
+    callAPI
+  )
+
+
+  if (!!error || !data?.active) {
+    // No active subscription, show pay button
+  }
+
+  // Has active subscription, show premium feature button
+```
+
+Then, to invoke our premium feature:
+
+`popup.tsx`
+
+```tsx
+<button
+  onClick={async () => {
+    const data = await callAPI("/api/premium-feature", {
+      method: "POST"
+    })
+
+    alert(data.code)
+  }}>
+  Calling Awesome Premium Feature
+</button>
+```
 
 ## Full Example
 
