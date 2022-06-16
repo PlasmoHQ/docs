@@ -11,7 +11,7 @@ export default function MyApp({ Component, pageProps, router }) {
       <DefaultSeo
         title="Documentation"
         titleTemplate="%s | Plasmo"
-        description="Get started using Plasmo with the official documentation, and explore all of our features!"
+        description="Plasmo Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions. Get started using Plasmo with the official documentation, and explore all of our features!"
         openGraph={{
           type: "website",
           locale: "en_US",
