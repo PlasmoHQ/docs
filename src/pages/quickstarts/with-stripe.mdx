@@ -6,7 +6,7 @@ Stripe is a payment processing platform. Use cases include:
 
 - Monetizing access to expensive API calls
 - Monetizing premium extension feature
-- Selling themes, merchs, physical and digital goods, etc...
+- Selling themes, merch, physical and digital goods, etc.
 
 ## Scenario
 
@@ -14,9 +14,9 @@ You are a SaaS company looking to offer a premium API service to your customer v
 
 ## Setting Up a Stripe Product Link
 
-Due to [Manifest v3's restriction with remote code execution](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview/#remotely-hosted-code), there are limited options to have a PCI-compliant payment system integrated into an extension. The easiest way is to setup a Stripe Product Link.
+Due to [Manifest v3's restriction with remote code execution](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview/#remotely-hosted-code), there are limited options to have a PCI-compliant payment system integrated into an extension. The easiest way is to set up a Stripe Product Link.
 
-To setup a Stripe Product Link, you will first need to create a Stripe product. Head to [Stripe Product Dashboard](https://dashboard.stripe.com/test/products?active=true) page, and press Add Product, then fill out the information:
+To set up a Stripe Product Link, you must create a Stripe product. Head to [Stripe Product Dashboard](https://dashboard.stripe.com/test/products?active=true) page, and press Add Product, then fill out the information:
 
 ![Stripe add Product](/screenshots/stripe-add-product.png)
 
@@ -24,13 +24,13 @@ Then, go to the product page and click the `Create payment link` button:
 
 ![Stripe create payment](/screenshots/stripe-create-payment.png)
 
-Above should get you the the Stripe Payment Link. For backend authorization, head to the [Stripe Dashboard Home Page](https://dashboard.stripe.com/test/dashboard) for the Secret Key:
+Above should get you the Stripe Payment Link. For backend authorization, head to the [Stripe Dashboard Home Page](https://dashboard.stripe.com/test/dashboard) for the Secret Key:
 
 ![Stripe dev keys](/screenshots/stripe-dev-keys.png)
 
 ## Using env variable
 
-Assuming you have setup a basic Plasmo project, the first thing to do is to setup our [environment variables](/workflows/env):
+Assuming you have set up a basic Plasmo project, the first thing to do is to set up our [environment variables](/workflows/env):
 
 `.env.development`
 
@@ -40,13 +40,13 @@ PLASMO_PUBLIC_STRIPE_LINK=https://buy.stripe.com/test_XXXXXXXX
 STRIPE_PRIVATE_API_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxx
 ```
 
-To enable typescript intellisense, create an `index.d.ts` file:
+To enable typescript IntelliSense, create an `index.d.ts` file:
 
 [`.index.d.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/index.d.ts)
 
 ## Accessing Chrome identity API
 
-In order to associate a subscription with an user, we can use their email address. One quick way of doing so is to leverage the Chrome extension's [identity API](https://developer.chrome.com/docs/extensions/reference/identity). To prevent unauthorized access, we will need to setup OAuth2 authentication schema, which works as follow:
+To associate a subscription with a user, we can use their email address. One quick way of doing so is to leverage the Chrome extension's [identity API](https://developer.chrome.com/docs/extensions/reference/identity). To prevent unauthorized access, we will need to setup the OAuth2 authentication schema, which works as follow:
 
 - Our extension generates an OAuth2 access token
 - Extension sends request with the token to our backend
@@ -65,13 +65,13 @@ To enable the permission required for this feature, add the following to the `ma
 }
 ```
 
-> **NOTE:** The `...` means if you have anything there already, preserve them as needed. You will see this in many of our code example.
+> **NOTE:** The `...` means if you already have anything there, preserve it. You will see this in many of our code examples.
 
-Then, we will need to setup an OAuth2 client ID using Google Cloud Platform (GCP). Quickly create a new project in GCP following [this guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects), then navigate to the Credentials page: `https://console.cloud.google.com/apis/credentials?referrer=search&project=<YOUR_PROJECT_ID>`. You will be presented with something like this:
+Then, we will need to set up an OAuth2 client ID using Google Cloud Platform (GCP). Quickly create a new project in GCP following [this guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects), then navigate to the Credentials page: `https://console.cloud.google.com/apis/credentials?referrer=search&project=<YOUR_PROJECT_ID>`. It'll show you something like this:
 
 ![GCP Credential Page](/screenshots/2022-06-10-14-10-33.png)
 
-Press `CREATE CREDENTIALS`, then select `OAuth client ID`:
+Click `CREATE CREDENTIALS`, then select `OAuth client ID`:
 
 ![Create OAuth ClientID](/screenshots/2022-06-10-14-11-50.png)
 
@@ -81,11 +81,11 @@ On the next page, pick `Chrome app`. The form will then ask for an `Application 
 
 This will be your Extension ID - the next section is about how to obtain it.
 
-### Setup fixed Extension ID for development
+### Set up fixed Extension ID for development
 
-You will want to ensure your extension ID is fixed for development. The reason being if you accidentally remove your development extension from your browser, the extension ID will be lost and your OAuth2 client will be invalidated.
+You will want to pin your extension ID for development. If you accidentally remove your development extension from your browser, the extension ID will be lost, and your OAuth2 client will be invalidated.
 
-Since Chromium derives the extension ID from a public key it generated, you can fixtate the extension ID by generating your own `key` instead. This key can be specified in the [`manifest` override of your `package.json`](/customization#overriding-the-manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
+Since Chromium derives the extension ID from a public key, you can pin it by generating your own `key` instead. You can specify it in the [`manifest` override of your `package.json`](/customization#overriding-the-manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
 
 1. Generate the private key:
 
@@ -99,7 +99,7 @@ openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
 openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A
 ```
 
-We can then use this key by leveraging [env variable in our manifest overide](/workflows/env#using-env-in-manifest-overrides):
+We can then use this key by leveraging [env variable in our manifest override](/workflows/env#using-env-in-manifest-overrides):
 
 `.env.development`
 
@@ -136,7 +136,7 @@ Add it to your environment variables:
 OAUTH_CLIENT_ID=<YOUR_OAUTH_CLIENT_ID>
 ```
 
-And use it in our manifest overide:
+And use it in our manifest override:
 
 `package.json`
 
@@ -160,7 +160,7 @@ We are now ready to generate an OAuth access token to authorize and process the 
 
 ## Accessing the user info
 
-To know who our user is, we can use `chrome.identity.getProfileUserInfo`. To cache this data and reuse it across our app, we can create a quick [React context](https://reactjs.org/docs/context.html). The easiest way to do so is by using [`puro`](https://www.npmjs.com/package/puro) - Plasmo's context utilty library. Install it by adding the library to your `package.json` file and run `pnpm i`:
+We can use `chrome.identity.getProfileUserInfo` to know who our user is. To cache this data and reuse it across our app, we can create a quick [React context](https://reactjs.org/docs/context.html). The easiest way is using [`puro`](https://www.npmjs.com/package/puro) - Plasmo's context utility library. Install it by adding the library to your `package.json` file and run `pnpm i`:
 
 `package.json`
 
@@ -242,7 +242,7 @@ export default IndexPopup
 
 ## Integrating the Stripe Link into the Popup page
 
-To streamline the Stripe payment link with the identity API, we can prefill the email on the Stripe hosted form via [their API parameters](https://stripe.com/docs/payments/payment-links#url-prefills) with the email obtained from the `UserInfoProvicer` above. Before we redirecting our user to the Stripe payment, let's also invoke the OAuth flow to ensure the customer consents for their email address to be used. This will also initiate an access token cache for our extension, which allow future invocation to be non-interactive.
+To streamline the Stripe payment link with the identity API, we can pre-fill the email on the Stripe hosted form via [their API parameters](https://stripe.com/docs/payments/payment-links#url-prefills) with the email obtained from the `UserInfoProvicer` above. Before we redirect our user to the Stripe payment, let's also invoke the OAuth flow to ensure the customer consents for us to use their email address. This will also initiate an access token cache for our extension, which allow future invocation to be non-interactive.
 
 [`popup.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/popup.tsx)
 
@@ -270,9 +270,9 @@ To streamline the Stripe payment link with the identity API, we can prefill the 
 </button>
 ```
 
-## Verify the subscription and enable premium feature
+## Verify the subscription and enable some premium features
 
-To verify the user's subscription, we will now set up our backend. This process can be simplified by leveraging [NextJS interopability with Plasmo](/quickstarts/with-nextjs). We will first install NextJS and some utility libraries:
+We will now set up our backend to verify the user's subscription. We can simplify this process by leveraging [NextJS interoperability with Plasmo](/quickstarts/with-nextjs). We will first install NextJS and some utility libraries:
 
 `package.json`
 
@@ -302,18 +302,18 @@ To verify the user's subscription, we will now set up our backend. This process 
 }
 ```
 
-> `@plasmohq/rps` is a helper library from Plasmo to facilitate running scripts in parallel or in sequential. It is a modernized fork of [npm-run-all](https://github.com/mysticatea/npm-run-all/)
+> `@plasmohq/rps` is a helper library from Plasmo to facilitate running scripts in parallel or sequentially. It is a modernized fork of [npm-run-all](https://github.com/mysticatea/npm-run-all/)
 
-Once our dependencies are setup, let's create some utility functions:
+Once we've set up our dependencies, let's create some utility functions:
 
 - [`pages/api/_common.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/pages/api/_common.ts)
 
-Then, we proceed to create our 2 API routes: one to check for user's subscription (to enable the premium feature), and one to actually invoke the premium feature. Both API routes must first parse the authorization header for access token, then use the token to fetch the user profile independently before using the profile's data to acquire the user's subscription.
+Then, we create our 2 API routes: one to check for the user's subscription and one to invoke the premium feature. Both API routes must first parse the authorization header for an access token, then use the token to fetch the user profile independently before using the profile's data to acquire the user's subscription.
 
 - [`pages/api/check-subscription.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/pages/api/check-subscription.ts)
 - [`pages/api/premium-feature.ts`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/pages/api/premium-feature.ts)
 
-To call the dev server from our extension, we can store the API URI using environment variable and reference it in our manifest host:
+To call the dev server from our extension, we can store the API URI using an environment variable and reference it in our manifest host:
 
 `.env.development`
 
@@ -337,7 +337,7 @@ PLASMO_PUBLIC_API_URI=http://localhost:8472
 }
 ```
 
-Kill and re-run `pnpm dev` to start both the dev server for our backend and our extension. Before we call our API, let's setup more client-side helpers:
+Kill and re-run `pnpm dev` to start both the dev server for our backend and our extension. Before we call our API, let's set up more client-side helpers:
 
 - [core/access-token.ts](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/core/access-token.ts)
 - [core/premium-api.ts](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/core/premium-api.ts)

@@ -6,15 +6,15 @@ To overcome this issue, Plasmo [bundles remote code at build time](/workflows/re
 
 ## Obtaining the Tracking/Measurement ID
 
-To get the Tracking ID, you will first need to create a property. During this process, you will be asked to provide a website URL - we suggest providing a subdomain of a domain that you own. This ensure the data coming in is only from your properties - website/domain/extension.
+You will first need to create a property to get the Tracking ID. During this process, Google will ask to provide a website URL - we suggest providing a subdomain of your domain. This ensures the data coming in is only from your properties - website/domain/extension.
 
-> NOTE: You can actually reuse any property you owned (for example, the website property that you use to market your extension).
+> NOTE: You can reuse any property you own (for example, the website property you use to market your extension).
 
 Then, to get the Measurement ID, visit your Google Analytics dashboard, and navigate to the Tagging Instructions section (Admin -> Setup Assistant -> Tag installation -> Data Streams -> Web):
 
 ![Measurement ID](/screenshots/gtag-measurement-id.png)
 
-Click the button next to the Measurement ID, and that should copy it to your clipboard.
+Click the button next to the Measurement ID, which should copy to your clipboard.
 
 ## Env Variable Setup
 
@@ -26,7 +26,7 @@ To properly store the Measurement ID, we recommend using [environment variables]
 PLASMO_PUBLIC_GTAG_ID=<paste in your measurement ID>
 ```
 
-To get TypeScript intellisense, create an `index.d.ts` file:
+To get TypeScript IntelliSense, create an `index.d.ts` file:
 
 `index.d.ts`
 
@@ -88,7 +88,7 @@ function IndexPopup() {
 export default IndexPopup
 ```
 
-The import statement and the code inside the `useEffect` is identical to what Google gives you (see image below). We simply adapted them into the React lifecycle. The `window` object is added to make it work with Typescript.
+The import statement and the code inside the `useEffect` is identical to what Google gives you (see image below). We adapted them into the React lifecycle. We also add the `window` object to make it work with Typescript.
 
 ![Measurement ID](/screenshots/gtag-code.png)
 
