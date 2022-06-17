@@ -1,6 +1,6 @@
 # Submit Your Extension
 
-The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. By default, it runs on a manual trigger, but changing its config can make it run on every push.
+The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. It runs on a manual trigger by default, but changing its config can make it run on every push.
 
 To start publishing your Plasmo extension, set up a `keys.json` file with the schema:
 
@@ -10,7 +10,7 @@ To start publishing your Plasmo extension, set up a `keys.json` file with the sc
 }
 ```
 
-This schema is most helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure only to declare valid submission credentials. Otherwise, the action will fail.
+This schema is helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure only to declare valid submission credentials. Otherwise, the action will fail.
 
 > NOTE: git ignores this file thanks to our friendly neighborhood `.gitignore`
 
