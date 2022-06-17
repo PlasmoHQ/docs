@@ -20,6 +20,9 @@
   "pasteImage.basePath": "${projectRoot}/public/",
   "pasteImage.path": "${projectRoot}/public/screenshots",
   "pasteImage.prefix": "/",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#407" // Change this color!
+  },
   "grammarly.selectors": [
     {
       "language": "markdown",
