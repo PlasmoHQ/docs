@@ -120,3 +120,12 @@ return <>
 </>
 
 ```
+
+Instead of using a string key, you can also specify an object with a `key` and an `area` property specifying which extension storage area you would like to use:
+
+```tsx
+const [] = useStorage({
+  key: "hailing",
+  area: "local"
+})
+```
