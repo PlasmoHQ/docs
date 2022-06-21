@@ -4,5 +4,6 @@
   "assets": "Assets",
   "env": "Environment Variables",
   "remote-code": "Remote Code",
+  "i18n": "i18n",
   "submit": "Automated Submission"
 }
