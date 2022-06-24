@@ -1,0 +1,14 @@
+# Frequently Asked Questions
+
+## How to update Plasmo to latest version?
+
+You will need to purge the lock file and run the install subcommand of your chosen package maanger to get the latest version of Plasmo. You can also pin the version of plasmo, and upgrade its version number manually in `package.json` and run the install subcommand accordingly.
+
+## Tilde Import Resolution
+
+The tilde (`~`) **always** resolves to the root project directory where the `package.json` resides if used with a scheme such as `data-base64` or `data-text`. Thus `data-base64:~assets/image.png` resolves to `/assets/image.png` and `url:~src/code.js` resolves to `/src/code.js`.
+
+If the tilde is by itself, without a scheme, and is being used to import source code module (`ts` or `tsx` files), it has 2 behaviors depending on whether you are using the default setup or the [the `src` directory setup](/customization#using-src-directory-for-source-code):
+
+- With the default setup, `~` points to project root.
+- With the `src` directory setup, `~` points to the `src` directory. Thus `~core/code-module`, Plasmo resolves it to `/src/core/code-module.ts` (or tsx).

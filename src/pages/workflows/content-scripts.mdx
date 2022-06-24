@@ -55,6 +55,12 @@ Instead, Chrome offers a `chrome.scripting.executeScript` API that allows you to
 
 For the `func` key, you can pass in a Typescript function from your project, which will automatically convert to a JavaScript function when your extension bundles.
 
+### Importing Web Accessible Resources
+
+You can use the `url:` scheme to load extra source code to be used in web accessible resources.
+
+> NOTE: Please see this [note about `~` import resolution](/workflows/faq#tilde-import-resolution)
+
 See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examples/tree/main/with-main-world-content-script-injection) for an example.
 
 ## Injecting UI elements
@@ -107,7 +113,7 @@ See [the plasmo-overlay.tsx file in with-content-scripts-ui](https://github.com/
 
 ### Note about `data-text` schemes
 
-In the example above, we use the `data-text` scheme to load our stylesheet as plain-text into the cssText variable, which we then assign to our style element's textContent. Be cautious with the import path when using this scheme if you use the `src` directory, as noted [here](workflows/assets#data-base64-and-data-text-schemes).
+In the example above, we use the `data-text` scheme to load our stylesheet as plain-text into the cssText variable, which we then assign to our style element's textContent. Be cautious with the import path when using this scheme if you use the `src` directory, as noted [here](/workflows/assets#/workflows/faq#tilde-import-resolution).
 
 ## getRootContainer
 

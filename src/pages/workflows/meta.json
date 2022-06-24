@@ -2,7 +2,9 @@
   "index": "Development Cycle",
   "content-scripts": "Content Scripts",
   "assets": "Assets",
+  "resources": "Resources",
   "env": "Environment Variables",
   "remote-code": "Remote Code",
-  "submit": "Automated Submission"
+  "submit": "Automated Submission",
+  "faq": "FAQ"
 }
