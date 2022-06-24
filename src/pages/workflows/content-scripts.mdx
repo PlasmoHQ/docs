@@ -8,7 +8,7 @@ Content scripts run in the context of web pages. Some of the most common use cas
 
 ## Adding a single content script
 
-Create a `content.ts` file that exports an empty object (or import some library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
+Create a `content.ts` file that exports an empty object (or import a library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
 
 ## Adding multiple content scripts
 
@@ -113,7 +113,7 @@ See [the plasmo-overlay.tsx file in with-content-scripts-ui](https://github.com/
 
 ### Note about `data-text` schemes
 
-In the example above, we use the `data-text` scheme to load our stylesheet as plain-text into the cssText variable, which we then assign to our style element's textContent. Be cautious with the import path when using this scheme if you use the `src` directory, as noted [here](/workflows/assets#/workflows/faq#tilde-import-resolution).
+In the example above, we use the `data-text` scheme to load our stylesheet as plain-text into the cssText variable, which we then assign to our style element's textContent. Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/workflows/faq#tilde-import-resolution).
 
 ## getRootContainer
 

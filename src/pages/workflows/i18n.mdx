@@ -1,0 +1,86 @@
+# Internationalization (i18n)
+
+Plasmo has built-in support for internationalization (i18n). If you've ever done i18n in any other Chrome extension, these concepts should feel familiar to you.
+
+Plasmo expects your i18n strings in `assets/_locales/{lang}/messages.json`.
+
+## English Example
+
+Add the following to `assets/_locales/en/messages.json`:
+
+```json
+{
+  "extensionName": {
+    "message": "with-18n",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Example using i18n!",
+    "description": "Description of the extension."
+  },
+  "popup": {
+    "message": "This is showing the power of i18n!",
+    "description": "Popup message."
+  }
+}
+```
+
+Specify the default_locale in your manifest like so:
+
+```json
+"manifest": {
+    "host_permissions": [
+      "https://*/*"
+    ],
+    "default_locale": "en"
+  }
+}
+```
+
+Now you should be able to use all the i18n features Chrome provides.
+
+For example, we can fetch i18n strings like so:
+
+```tsx
+import { useState } from "react"
+
+function IndexPopup() {
+  const [data, setData] = useState("")
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: 16
+      }}>
+      <h1>
+        Welcome to your <a href="https://www.plasmo.com">Plasmo</a> Extension!
+      </h1>
+      <h2>{chrome.i18n.getMessage("popup")}</h2>
+      <input onChange={(e) => setData(e.target.value)} value={data} />
+    </div>
+  )
+}
+
+export default IndexPopup
+```
+
+In the package.json, fetching i18n strings would look something like this:
+
+```json
+{
+  "name": "__MSG_extensionName__",
+  "displayName": "__MSG_extensionName__",
+  "version": "0.0.0",
+  "description": "__MSG_extensionDescription__",
+  "author": "coldsauce",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build"
+  },
+```
+
+Please refer to the [Chrome i18n documentation](https://developer.chrome.com/extensions/i18n) for more information.
+
+If you'd like to see an example showcasing i18n, check out [with-i18n](https://github.com/PlasmoHQ/examples/blob/main/with-i18n) in the [Plasmo examples](https://github.com/PlasmoHQ/examples) repository.

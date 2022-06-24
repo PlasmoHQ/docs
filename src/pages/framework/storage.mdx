@@ -1,7 +1,9 @@
 # @plasmohq/storage
 
 <span className="flex flex-1 gap-1">
-  <a aria-label="License" href="./LICENSE">
+  <a
+    aria-label="License"
+    href="https://github.com/PlasmoHQ/storage/blob/main/license">
     <img alt="See License" src="https://img.shields.io/npm/l/plasmo" />
   </a>
   <a aria-label="NPM" href="https://www.npmjs.com/package/@plasmohq/storage">
@@ -30,7 +32,7 @@
   </a>
 </span>
 
-`@plasmohq/storage` is an utility library from [plasmo](https://www.plasmo.com/) that abstract away the persistent storage API available to browser extension. It fallbacks to localstorage in context where the extension storage API is not available, allowing for state sync between popup - options - contents - background.
+`@plasmohq/storage` is a utility library from [plasmo](https://www.plasmo.com/) that abstracts the persistent storage API available to browser extensions. It falls back to localstorage when the extension storage API is not available, allowing for state sync between popup - options - contents - background.
 
 > This library will enable the `storage` permission automatically if used with the [Plasmo framework](https://docs.plasmo.com)
 
@@ -43,8 +45,8 @@ pnpm install @plasmohq/storage
 ## Usage Examples
 
 - See [with-storage](https://github.com/PlasmoHQ/examples/tree/main/with-storage) for an example of how to use this library to sync state between options and popups.
-- See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for an example of how to use this library as your redux persistent layer (crucial for MV3).
-- See [MICE](https://github.com/PlasmoHQ/mice) for an experimental usecase of this library integrated with WebRTC to pipe message between browser via an extensions.
+- See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for an example of how to use this library as your Redux persistent layer (crucial for MV3).
+- See [MICE](https://github.com/PlasmoHQ/mice) for an experimental use case of this library integrated with WebRTC to pipe messages between browsers via an extension.
 
 ### Storage API (for content scripts or background workers)
 
@@ -73,7 +75,7 @@ return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.ta
 
 ### Watch API (for state sync)
 
-The Hook API automatically watches for new change. This is mainly for those who are using the Storage API:
+The Hook API automatically watches for new changes. This is mainly for those who are using the Storage API:
 
 ```ts
 import { Storage } from "@plasmohq/storage"
@@ -96,7 +98,7 @@ await storage.set("serial-number", 96)
 await storage.set("make", "PlasmoHQ")
 ```
 
-This can be used as a layer to communicate message across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
+This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
 
 ### Advanced Hook API usage
 
