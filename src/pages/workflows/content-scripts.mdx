@@ -55,13 +55,38 @@ Instead, Chrome offers a `chrome.scripting.executeScript` API that allows you to
 
 For the `func` key, you can pass in a Typescript function from your project, which will automatically convert to a JavaScript function when your extension bundles.
 
+See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examples/tree/main/with-main-world-content-script-injection) for an example.
+
 ### Importing Web Accessible Resources
 
-You can use the `url:` scheme to load extra source code to be used in web accessible resources.
+You can use the `url:` scheme to load extra source code to be used in web-accessible resources.
+
+Web-accessible resources can be helpful if you'd like to reference static content from your content script and the `data-base64` or `data-text` schemes don't align with what you're looking for.
+
+#### Usage
+
+In your content script,
+
+```ts
+import myJavascriptFile from "url:./path/to/my/file/something.js"
+```
+
+`something.js` will be bundled and added to the `web_accessible_resources` manifest.json key automatically — no need to do it manually.
+
+What is `myJavascriptFile`?
+
+```sh
+> console.log(myJavascriptFile)
+
+chrome-extension://<your chrome ext id>/something.eb20bc99.js?1656000646313
+
+```
+
+The imported variable is a string that points to the path of the resource.
+
+So you can access that Javascript file however you'd like!
 
 > NOTE: Please see this [note about `~` import resolution](/workflows/faq#tilde-import-resolution)
-
-See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examples/tree/main/with-main-world-content-script-injection) for an example.
 
 ## Injecting UI elements
 
