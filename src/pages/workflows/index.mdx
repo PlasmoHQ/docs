@@ -24,7 +24,7 @@ npm x plasmo init "My Awesome Extension"
 
 ## Run the development server
 
-Once you've set up your project, you can start developing your extension by navigating to your project directory and running:
+Once you've set up your project, start developing your extension by navigating to your project directory and running:
 
 ```sh
 pnpm dev
@@ -34,7 +34,7 @@ npm run dev
 plasmo dev
 ```
 
-This will create a dev bundle for your extension and a hot-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes.
+Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes.
 
 ## Loading the extension
 
@@ -48,7 +48,7 @@ Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev`
 
 To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
 
-**Pro tip:** you can pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+**Pro tip:** Pin your extension to the Chrome toolbar for easy access by clicking the pin button.
 
 ![Pinning popup](/screenshots/popup_example.png)
 
@@ -64,7 +64,7 @@ npm run build
 plasmo build
 ```
 
-You can optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+Optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
 
 ```sh
 pnpm build -- --zip

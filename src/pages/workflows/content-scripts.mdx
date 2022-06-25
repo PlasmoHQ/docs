@@ -1,6 +1,8 @@
 # Content Scripts
 
-Content scripts run in the context of web pages. Some of the most common use cases are:
+Content scripts run in the context of web pages.
+
+### Use cases:
 
 - Scraping data from the current web page
 - Selecting, finding, and styling elements from the current web page
@@ -8,15 +10,15 @@ Content scripts run in the context of web pages. Some of the most common use cas
 
 ## Adding a single content script
 
-Create a `content.ts` file that exports an empty object (or import a library), and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
+Create a `content.ts` file that exports an empty object and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
 
 ## Adding multiple content scripts
 
-Create a `contents` directory for multiple content scripts and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
+Create a `contents` directory for multiple content scripts, and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
 
 ## Customizing content script config
 
-To provide a custom content script configuration (such as matching a custom domain per script, all_frames, etc.), export a config object from your content script like so:
+To provide a custom content script configuration, such as matching a custom domain per script, setting the `all_frames` key, etc., export a config object from your content script:
 
 ```ts
 import type { PlasmoContentScript } from "plasmo"
@@ -33,9 +35,9 @@ Working with this configuration object is a breeze thanks to the exported `Plasm
 
 You must inject into the main world if you'd like to access the `window` object from your content script.
 
-Currently, it's not possible to declaratively inject content scripts into the main world via the `content_scripts` manifest field.
+It's not currently possible to declaratively inject content scripts into the main world via the `content_scripts` manifest field.
 
-Instead, Chrome offers a `chrome.scripting.executeScript` API that allows you to inject content scripts into the main world.
+Instead, Chrome offers a `chrome.scripting.executeScript` API that lets you inject content scripts into the main world.
 
 ```ts
  chrome.scripting.executeScript(
@@ -59,9 +61,9 @@ See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examp
 
 ### Importing Web Accessible Resources
 
-You can use the `url:` scheme to load extra source code to be used in web-accessible resources.
+Use the `url:` scheme to load assets to be used from web-accessible resources.
 
-Web-accessible resources can be helpful if you'd like to reference static content from your content script and the `data-base64` or `data-text` schemes don't align with what you're looking for.
+Web-accessible resources are helpful if you'd like to reference static content from your content script, and the `data-base64` or `data-text` schemes aren't a good solution to your problem.
 
 #### Usage
 
@@ -84,7 +86,7 @@ chrome-extension://<your chrome ext id>/something.eb20bc99.js?1656000646313
 
 The imported variable is a string that points to the path of the resource.
 
-So you can access that Javascript file however you'd like!
+So access that JavaScript file however you'd like!
 
 > NOTE: Please see this [note about `~` import resolution](/workflows/faq#tilde-import-resolution)
 
@@ -100,27 +102,27 @@ See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/wit
 
 ### How does Plasmo mount the React component?
 
-Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) to mount the component. This isolation technique prevents the web page's style from affecting your component's styling.
+Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) and mounts the React component to it. This isolation technique prevents the web page's style from affecting the component's styling.
 
 ## getMountPoint
 
-There are cases where you might want to mount/anchor your react component on top of a specific element on the current webpage. To do so, export a function called `getMountPoint` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
+To mount/anchor a React component on top of a specific element on the current webpage, export a function called `getMountPoint` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
 
 ```ts
 export const getMountPoint = async () => document.querySelector("#element")
 ```
 
-This function can be asynchronous, which allows you to wait until the element exists. It is also very agnostic. For example, you can send the current webpage to a remote API via fetch to calculate the element selector, then query and return that element. The possibilities are endless!
+This function is asynchronous, which allows you to wait until the element exists. It is also agnostic. You can send the current webpage to a remote API via fetch to calculate the element selector, then query and return that element. The possibilities are endless!
 
 Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-mount.tsx) for an example.
 
-### How does getMountPoint anchor my component?
+### How does getMountPoint anchor the React component?
 
-It first listens to the scroll event of the current window. On each scroll event, it uses the `getBoundingClientRect` method to calculate the absolute position of the target element. Then, it applies the position to the container used to mount your component.
+`getMountPoint` first listens to the current window's scroll event. On each scroll event, it uses the `getBoundingClientRect` function to calculate the absolute position of the target element. Then, it applies the calculated position to the container used to mount your component.
 
 ## getStyle
 
-To inject stylesheets into your content script UI's Shadow DOM (or anywhere in the current webpage), you may export a `getStyle` function that returns a valid [`HTMLElement.style`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) element:
+To inject stylesheets into your content script UI's Shadow DOM or anywhere in the current webpage, export a `getStyle` function that returns a valid [`HTMLElement.style`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) element:
 
 ```ts
 import cssText from "data-text:~/contents/plasmo-overlay.css"
@@ -132,17 +134,17 @@ export const getStyle = () => {
 }
 ```
 
-Plasmo will append the style element into the Shadow DOM before the container of the exported component.
+Plasmo appends the style element into the Shadow DOM before the exported component's container.
 
 See [the plasmo-overlay.tsx file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-overlay.tsx) for an example.
 
 ### Note about `data-text` schemes
 
-In the example above, we use the `data-text` scheme to load our stylesheet as plain-text into the cssText variable, which we then assign to our style element's textContent. Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/workflows/faq#tilde-import-resolution).
+In the example above, we use the `data-text` scheme to load our stylesheet as plain text into the `cssText` variable, which we then assign to our style element's `textContent`. Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/workflows/faq#tilde-import-resolution).
 
 ## getRootContainer
 
-To replace the provided Shadow DOM, you can export a `getRootContainer` function that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement).
+To replace the Shadow DOM, export a `getRootContainer` function that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement).
 
 Use cases:
 
@@ -155,6 +157,6 @@ export const getRootContainer = () => {
 }
 ```
 
-> **NOTE:** If you export a `getRootContainer` function, Plasmo ignores the `getStyle` function since only the provided Shadow DOM container uses it. The behavior of `getMountPoint` might also be affected (as the component's position will be relative to your provided container).
+> **NOTE:** If you export a `getRootContainer` function, Plasmo ignores the `getStyle` function since only the provided Shadow DOM container uses it. `getMountPoint`'s behavior might also be affected as the component's position will be relative to your provided container.
 
 Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-root-container.tsx) for an example.
