@@ -1,7 +1,7 @@
 {
-  "index": "Introduction",
+  "index": "Framework",
   "workflows": "Workflows",
   "quickstarts": "Quickstarts",
   "customization": "Customization",
-  "framework": "API"
+  "framework-api": "API"
 }
