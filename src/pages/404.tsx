@@ -5,7 +5,7 @@ export default function NotFoundPage() {
     <article className="flex flex-col items-center items-center justify-center p-8">
       <h1>404</h1>
       <h2>Where no one has gone before</h2>
-      <blockquote>
+      <blockquote style={{ maxWidth: 470 }}>
         <p>
           We're the same. We share the same history, the same heritage, the same
           lives. We're tied together beyond any untying. Man or woman, it makes
