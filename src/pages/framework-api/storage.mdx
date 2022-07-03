@@ -146,12 +146,12 @@ With the above setup, suppose we call `setHailingFrequency("8472")` in any of th
 
 #### Specifying an initial value AND persisting it:
 
-By using a function instead of a static value, the initial value will be persisted into storage memory.
+By using a function instead of a static value, the initial value will be persisted into storage memory. The initialize function has one parameter which is the existing value in storage. If there is no value, it is `undefined`.
 
-Let's say we have a `popup.tsx` that initialize the state to "42":
+Let's say we have a `popup.tsx` that initialize the state to "42" if there is nothing in storage:
 
 ```tsx
-const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async () => "42")
+const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async (v) => v === undefined ? "42": v)
 ...
 {hailingFrequency} // "42"
 ```
