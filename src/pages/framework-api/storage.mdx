@@ -60,22 +60,11 @@ await storage.set("key", "value")
 const data = await storage.get("key") // value
 ```
 
-### Hook API (for react components - i.e popup and option pages)
-
-```tsx
-import { useStorage } from '@plasmohq/storage';
-
-// ...
-
-const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")
-
-return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.target.value)}/>
-
-```
-
 ### Watch API (for state sync)
 
 The Hook API automatically watches for new changes.
+
+To watch for changes when using the Storage API:
 
 ```ts
 import { Storage } from "@plasmohq/storage"
@@ -100,7 +89,82 @@ await storage.set("make", "PlasmoHQ")
 
 This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
 
-### Advanced Hook API usage
+### Hook API (for react components - i.e popup, options, content-script-ui)
+
+The hook API is designed to streamline state-syncing workflow between the different pieces of an extension. There are many ways it can be used, but first and fore-most you will want to import the hook into your react component:
+
+```tsx
+import { useStorage } from "@plasmohq/storage"
+```
+
+#### Watch and render a value in storage:
+
+```tsx
+const [hailingFrequency] = useStorage("hailing")
+...
+{hailingFrequency}
+```
+
+#### Specifying the storage area:
+
+```tsx
+const [hailingFrequency] = useStorage({
+  key: "hailing",
+  area: "local"
+})
+```
+
+#### Specifying an initial value for rendering WITHOUT persisting
+
+"Persisting" means writing into the internal memory. By not persisting the value, only this specific instance of the hook will render the given initial value when there is no value in storage. Other instances can either show `undefined` OR specify their own initial value. To elaborate on this:
+
+Given a `popup.tsx` that set a static initial value:
+
+```tsx
+const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")
+
+return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.target.value)}/> // "42"
+```
+
+If we subscribe to this key in a `content.tsx` script, we will see it be `undefined` until `setHailingFrequency` is called with a defined value:
+
+```tsx
+const [hailingFrequency] = useStorage("hailing")
+
+return <p>{hailingFrequency}</p> // undefined
+```
+
+If we subscribe to this key in an `options.tsx`, but with a different static initial value, we will see that value instead:
+
+```tsx
+const [hailingFrequency] = useStorage("hailing", "147")
+
+return <p>{hailingFrequency}</p> // "147"
+```
+
+With the above setup, suppose we call `setHailingFrequency("8472")` in any of the instances above, we will see that all instance will now show "8472" and will now track the value in storage instead of initial value.
+
+#### Specifying an initial value AND persisting it:
+
+By using a function instead of a static value, the initial value will be persisted into storage memory.
+
+Let's say we have a `popup.tsx` that initialize the state to "42":
+
+```tsx
+const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async () => "42")
+...
+{hailingFrequency} // "42"
+```
+
+Then, if we make a new hook instance in our `content.tsx` or `options.tsx`, we will see the initial value that was persisted, without calling `setHailingFrequency`:
+
+```tsx
+const [hailingFrequency] = useStorage("hailing")
+
+return <p>{hailingFrequency}</p> // "42"
+```
+
+#### Advanced Hook API usage
 
 When dealing with form input or real-time input, you might need the following:
 
@@ -121,13 +185,4 @@ return <>
   </button>
 </>
 
-```
-
-Instead of using a string key, you can also specify an object with a `key` and an `area` property specifying which extension storage area you would like to use:
-
-```tsx
-const [] = useStorage({
-  key: "hailing",
-  area: "local"
-})
 ```
