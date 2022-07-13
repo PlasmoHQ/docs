@@ -36,22 +36,6 @@ plasmo dev
 
 Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes.
 
-## Loading the extension
-
-We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
-
-Head over to `chrome://extensions` and enable Developer Mode.
-
-![Enable developer mode](/screenshots/developer_mode.png)
-
-Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
-
-To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
-
-**Pro tip:** Pin your extension to the Chrome toolbar for easy access by clicking the pin button.
-
-![Pinning popup](/screenshots/popup_example.png)
-
 ## Create a production bundle
 
 To create a production bundle for distribution, run:
@@ -74,7 +58,38 @@ npm run build -- --zip
 plasmo build --zip
 ```
 
-> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when creating your first content script!)
+## `--target` flag
+
+The `dev` and `build` commands accept a `--target` flag, which can be used to specify a specific browser and manifest version combination to build for:
+
+```sh
+plasmo dev --target=firefox-mv2
+
+plasmo build --target=firefox-mv2
+```
+
+The final bundle will be available in either the `build/firefox-mv2-dev` or the `build/firefox-mv2-prod` directory.
+
+Officially supported targets are:
+
+- `chrome-mv3` (default)
+- `firefox-mv2`
+
+## Loading the extension
+
+We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
+
+Head over to `chrome://extensions` and enable Developer Mode.
+
+![Enable developer mode](/screenshots/developer_mode.png)
+
+Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
+
+To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
+
+**Pro tip:** Pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+
+![Pinning popup](/screenshots/popup_example.png)
 
 ## Adding a Popup Page
 
@@ -99,3 +114,7 @@ See [with-newtab](https://github.com/PlasmoHQ/examples/tree/main/with-newtab)
 Create a `background.ts` file in the root directory, and start hacking 💪
 
 See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background)
+
+```
+
+```

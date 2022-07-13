@@ -19,3 +19,44 @@ import someCoolImage from "data-base64:~assets/some-cool-image.png"
 ```
 
 > NOTE: Please see this [note about `~` import resolution](/workflows/faq#tilde-import-resolution)
+
+## Importing Web Accessible Resources
+
+Plasmo automatically copy any web accessible resources declared in [the manifest override](/customization#overriding-the-manifest). For example, by specifying the config below in `package.json`:
+
+```json
+  "manifest": {
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "~raw.js",
+          "assets/pic*.png",
+          "resources/test.json"
+        ],
+        "matches": [
+          "https://www.plasmo.com/*"
+        ]
+      }
+    ],
+    "host_permissions": [
+      "https://*/*"
+    ]
+  }
+```
+
+The files below will be copied into the extension bundle and be available to [`chrome.getURL()`](https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL):
+
+- `raw.js` in the root of the project (where package.json is)
+- Any file matching the glob `assets/pic*.png` from the project root
+- `resources/test.json` from the project root
+
+You can also include files installed from `node_module` as well:
+
+```json
+  "resources": [
+    "@inboxsdk/core/pageWorld.js",
+    "@inboxsdk/core/background.js"
+  ],
+```
+
+See [with-web-accessible-resources](https://github.com/PlasmoHQ/examples/tree/main/with-web-accessible-resources)
