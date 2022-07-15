@@ -8,10 +8,20 @@ const { withPlausibleProxy } = require("next-plausible")
 
 module.exports = withPlausibleProxy()(
   withNextra({
+    reactStrictMode: true,
     i18n: {
       locales: ["en"],
       defaultLocale: "en"
     },
-    reactStrictMode: true
+
+    async redirects() {
+      return [
+        {
+          source: "/framework/:slug",
+          destination: "/framework-api/:slug",
+          permanent: true
+        }
+      ]
+    }
   })
 )
