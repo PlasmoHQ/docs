@@ -60,6 +60,24 @@ await storage.set("key", "value")
 const data = await storage.get("key") // value
 ```
 
+#### Customizing the storage area
+
+```ts
+const storage = new Storage({
+  area: "local"
+})
+```
+
+#### Preventing data from being mirroed into localStorage
+
+```ts
+const storage = new Storage({
+  secretKeyList: ["shield-modulation"]
+})
+```
+
+This prevents data from being leaked into localStorage when using with content-scripts. It's recommended to use this feature if you are storing JWT access token to invoke your server-side API.
+
 ### Watch API (for state sync)
 
 The Hook API automatically watches for new changes.
