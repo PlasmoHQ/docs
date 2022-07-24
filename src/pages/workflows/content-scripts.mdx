@@ -85,6 +85,28 @@ See [the plasmo-overlay.tsx file in with-content-scripts-ui](https://github.com/
 
 In the example above, we use the `data-text` scheme to load our stylesheet as plain text into the `cssText` variable, which we then assign to our style element's `textContent`. Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/workflows/faq#tilde-import-resolution).
 
+## Styling the built-in shadow containers
+
+Use the ids `#plasmo-mount-container` and `#plasmo-shadow-container` to tweak the style of these shadowDOM containers in your css:
+
+```css
+#plasmo-shadow-container {
+  z-index: 99999;
+}
+
+#plasmo-mount-container {
+  background: blue;
+}
+```
+
+## getShadowHostId
+
+There are cases when we might want to make run-time change to the shadow host. By exporting a `getShadowHostId` function (optionally async), we can assign the shadow host's DOM ID, which will allow us to select and modify it:
+
+```ts
+export const getShadowHostId = () => "custom-shadow-host"
+```
+
 ## getRootContainer
 
 To replace the Shadow DOM, export a `getRootContainer` function that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement).
