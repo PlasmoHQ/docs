@@ -1,6 +1,7 @@
 {
   "index": "Development Cycle",
   "content-scripts": "Content Scripts",
+  "content-scripts-ui": "Content Scripts UI",
   "assets": "Assets",
   "env": "Environment Variables",
   "remote-code": "Remote Code",
