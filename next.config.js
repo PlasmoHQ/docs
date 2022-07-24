@@ -20,6 +20,16 @@ module.exports = withPlausibleProxy()(
           source: "/framework/:slug",
           destination: "/framework-api/:slug",
           permanent: true
+        },
+        {
+          source: "/cs",
+          destination: "/workflows/content-scripts",
+          permanent: true
+        },
+        {
+          source: "/csui",
+          destination: "/workflows/content-scripts-ui",
+          permanent: true
         }
       ]
     }
