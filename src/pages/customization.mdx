@@ -29,6 +29,25 @@ For instance, the Plasmo Framework might not understand that you need to have an
 }
 ```
 
+## Shadowing the HTML Templates
+
+To replace the default HTML templates, you can create an `.html` file with the same naming convention to the component file. For example, if you have a `popup.tsx` and would like to override the html, create a `popup.html` file:
+
+`popup.html`
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>__plasmo_static_index_title__</title>
+    <meta charset="utf-8" />
+  </head>
+  <body></body>
+</html>
+```
+
+If you have a `popup/index.tsx` file, create a `popup/index.html` file with content similar to above. Note that you do not need to include the root element or the script tag. The Plasmo Framework will handle that for you.
+
 ## Using the `src` directory for source code
 
 Instead of having your source code in the root directory, you can put it in a child `src` directory.
