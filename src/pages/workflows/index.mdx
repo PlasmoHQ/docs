@@ -7,17 +7,21 @@
 To run the interactive initialization wizard, use the following command:
 
 ```sh
-pnpm dlx plasmo init
-# OR npm v7
-npm x plasmo init
+pnpm create plasmo
+# OR
+yarn create plasmo
+# OR
+npm create plasmo
 ```
 
 To skip the naming prompt, supply a name as a positional argument:
 
 ```sh
-pnpm dlx plasmo init "My Awesome Extension"
-# OR npm v7
-npm x plasmo init "My Awesome Extension"
+pnpm create plasmo "My Awesome Extension"
+# OR
+yarn create plasmo "My Awesome Extension"
+# OR
+npm create plasmo "My Awesome Extension"
 ```
 
 > **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
@@ -51,7 +55,7 @@ plasmo build
 Optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
 
 ```sh
-pnpm build -- --zip
+pnpm build --zip
 # OR
 npm run build -- --zip
 # OR
