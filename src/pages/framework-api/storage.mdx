@@ -92,7 +92,7 @@ const storage = new Storage()
 await storage.set("serial-number", 47)
 await storage.set("make", "plasmo-corp")
 
-storage.current.watch({
+storage.watch({
   "serial-number": (c) => {
     console.log(c.newValue)
   },
