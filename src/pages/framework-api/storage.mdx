@@ -68,7 +68,7 @@ const storage = new Storage({
 })
 ```
 
-#### Preventing data from being mirroed into localStorage
+#### Preventing data from being mirrored into localStorage
 
 ```ts
 const storage = new Storage({
@@ -76,7 +76,7 @@ const storage = new Storage({
 })
 ```
 
-This prevents data from being leaked into localStorage when using with content-scripts. It's recommended to use this feature if you are storing JWT access token to invoke your server-side API.
+The code above prevents data from being leaked into localStorage when used with content scripts. This setting is recommended if you are storing JWT access token to invoke your server-side API.
 
 ### Watch API (for state sync)
 
@@ -112,7 +112,7 @@ This can be used as a layer to communicate messages across your extension. We de
 The hook API is designed to streamline state-syncing workflow between the different pieces of an extension. There are many ways it can be used, but first and fore-most you will want to import the hook into your react component:
 
 ```tsx
-import { useStorage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
 ```
 
 #### Watch and render a value in storage:
@@ -168,7 +168,7 @@ By using a function instead of a static value, the initial value will be persist
 
 Let's say we have a `popup.tsx` that initialize the state to "42" if there is nothing in storage:
 
-```tsx
+```jsx
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async (v) => v === undefined ? "42": v)
 ...
 {hailingFrequency} // "42"
@@ -186,7 +186,7 @@ return <p>{hailingFrequency}</p> // "42"
 
 When dealing with form input or real-time input, you might need the following:
 
-```tsx
+```jsx
 const [hailingFrequency, , {
   setRenderValue,
   setStoreValue,

@@ -17,7 +17,7 @@ Here's some example usage:
 `popup.tsx`
 
 ```tsx
-import { useStorage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
 
 function IndexPopup() {
   const [openCount] = useStorage<number>("open-count", (storedCount) =>
@@ -49,7 +49,7 @@ export default IndexPopup
 `options.tsx`
 
 ```tsx
-import { useStorage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
 
 function IndexOptions() {
   const [openCount] = useStorage<number>("open-count")

@@ -1,19 +1,30 @@
+/**
+ * @type {import('nextra-theme-docs').DocsThemeConfig}
+ */
 const theme = {
-  projectLink: "https://github.com/PlasmoHQ/plasmo", // GitHub link in the navbar
-  projectChatLink: "https://www.plasmo.com/s/d", // Next.js discord server
-
+  chat: {
+    link: "https://www.plasmo.com/s/d" // Plasmo discord server,
+  },
   docsRepositoryBase: "https://github.com/PlasmoHQ/docs/blob/main/src/pages", // base URL for the docs repository
-  titleSuffix: " - Plasmo",
-  nextLinks: true,
-  prevLinks: true,
-  search: true,
-  //   TODO: Let's set up Algolia search
-  customSearch: null,
+  titleSuffix: " - Plasmo Framework",
+  navigation: {
+    next: true,
+    prev: true
+  },
+  notFound: undefined,
+
   darkMode: true,
   footer: true,
 
-  footerText: `© ${new Date().getFullYear()} Plasmo Corp. All rights reserved.`,
-  footerEditLink: `Edit this page on GitHub`,
+  footer: {
+    text: `© ${new Date().getFullYear()} Plasmo Corp. All rights reserved.`
+  },
+  project: {
+    link: "https://github.com/PlasmoHQ/plasmo"
+  },
+  editLink: {
+    text: "Edit this page on GitHub"
+  },
   logo: (
     <>
       <svg
@@ -24,13 +35,13 @@ const theme = {
         xmlns="http://www.w3.org/2000/svg">
         <style>
           {`
-          html.dark path {
-            fill: white;
-          }
-          html.light path {
-            fill: black;
-          }
-          `}
+    html.dark path {
+      fill: white;
+    }
+    html.light path {
+      fill: black;
+    }
+    `}
         </style>
 
         <path d="M16.2269 23.73C17.3315 23.73 18.2611 24.6564 17.8519 25.6824C17.7161 26.0229 17.5444 26.3501 17.3387 26.658C16.7596 27.5247 15.9365 28.2002 14.9735 28.5991C14.0104 28.998 12.9508 29.1023 11.9284 28.899C10.9061 28.6956 9.96703 28.1937 9.22997 27.4566C8.49291 26.7196 7.99096 25.7805 7.78761 24.7582C7.58425 23.7358 7.68862 22.6762 8.08752 21.7131C8.48641 20.7501 9.16191 19.927 10.0286 19.3479C10.3365 19.1422 10.6637 18.9705 11.0042 18.8347C12.0302 18.4255 12.9566 19.3551 12.9566 20.4597V21.73C12.9566 22.8346 13.852 23.73 14.9566 23.73H16.2269Z" />
@@ -83,10 +94,6 @@ const theme = {
           font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI,
             Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
             Helvetica Neue, sans-serif;
-        }
-
-        #__next > div > div > div {
-          width: 100%;
         }
       `}</style>
     </>

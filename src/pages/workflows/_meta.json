@@ -6,6 +6,6 @@
   "env": "Environment Variables",
   "remote-code": "Remote Code",
   "submit": "Automated Submission",
-  "i18n": "Internationalization",
+  "locales": "Locales",
   "faq": "FAQ"
 }

@@ -1,11 +1,13 @@
 import Link from "next/link"
 
+import style from "~styles/404.module.css"
+
 export default function NotFoundPage() {
   return (
-    <article className="flex flex-col items-center items-center justify-center p-8">
-      <h1>404</h1>
-      <h2>Where no one has gone before</h2>
-      <blockquote style={{ maxWidth: 470 }}>
+    <article className={style.container}>
+      <h1 className={style.header}>404</h1>
+      <h2 className={style.subheader}>Where no one has gone before</h2>
+      <blockquote className={style.quote} style={{ maxWidth: 470 }}>
         <p>
           We're the same. We share the same history, the same heritage, the same
           lives. We're tied together beyond any untying. Man or woman, it makes
@@ -16,9 +18,7 @@ export default function NotFoundPage() {
         </p>
       </blockquote>
       <Link href="/">
-        <a className="w-full text-lg font-medium p-4 no-underline transition-colors text-gray-600 dark:text-gray-300 dark:hover:text-primary-500 hover:text-primary-500 inline-flex items-center justify-center rounded ml-2">
-          👈 Back to base
-        </a>
+        <a className={style.back}>👈 Back to base</a>
       </Link>
     </article>
   )
