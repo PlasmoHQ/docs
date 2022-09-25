@@ -30,9 +30,9 @@ const theme: DocsThemeConfig = {
     prev: true
   },
 
-  search: {
-    component: null
-  },
+  // search: {
+  //   component: null
+  // },
 
   notFound: undefined,
 
