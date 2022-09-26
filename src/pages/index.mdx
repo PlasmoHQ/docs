@@ -1,3 +1,5 @@
+import { Callout } from "nextra-theme-docs"
+
 # Plasmo Framework
 
 <span className="flex flex-1 gap-1">
@@ -79,7 +81,12 @@ This command will set up the simplest Plasmo browser extension project for you. 
 | `README.md`       | Basic documentation                                                                                                                            |
 | `tsconfig.json`   | TypeScript configuration                                                                                                                       |
 
-> **NOTE:** If you would like to use the `src` directory for your source code (`tsx` and `ts`), please make sure to follow this [guide](/customization/src).
+<Callout emoji="📢">
+
+**NOTE:** To use the `src` directory for source code module, please follow this
+[guide](/customization/src).
+
+</Callout>
 
 ### Development Server
 
@@ -113,7 +120,11 @@ Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev`
 
 To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
 
+<Callout>
+
 **Pro tip:** pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+
+</Callout>
 
 ![](/screenshots/popup_example.png)
 

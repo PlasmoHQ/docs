@@ -3,6 +3,8 @@ import type { DocsThemeConfig } from "nextra-theme-docs/."
 import { Head } from "~components/head"
 import { Logo } from "~components/logo"
 
+import packageJson from "../package.json"
+
 const theme: DocsThemeConfig = {
   // banner: {
   //   key: "plasmo-0.55.0",
@@ -44,7 +46,9 @@ const theme: DocsThemeConfig = {
         className="font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50"
         href={
           "https://www.plasmo.com"
-        }>{`© ${new Date().getFullYear()} Plasmo Corp. All rights reserved.`}</a>
+        }>{`© ${new Date().getFullYear()} Plasmo Corp. All rights reserved. v${
+        packageJson.version
+      }`}</a>
     )
   },
   project: {

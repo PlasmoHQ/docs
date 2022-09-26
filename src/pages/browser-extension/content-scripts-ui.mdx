@@ -50,7 +50,7 @@ See [the plasmo-overlay.tsx file in with-content-scripts-ui](https://github.com/
 
 ### Note about `data-text` schemes
 
-In the example above, we use the `data-text` scheme to load our stylesheet as plain text into the `cssText` variable, which we then assign to our style element's `textContent`. Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/workflows/faq#tilde-import-resolution).
+In the example above, we use the [`data-text`](/browser-extension/import#data-text) scheme to load our stylesheet as plain text into the `cssText` variable, which we then assign to our style element's `textContent`. Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/browser-extension/import#tilde-).
 
 ### Styling the shadows
 
@@ -71,7 +71,7 @@ Use the ids `#plasmo-mount-container` and `#plasmo-shadow-container` to tweak th
 To use a custom font in your CSUI, you must import the font inside a css file and declare it in the `css` property of the [config object](/browser-extension/content-scripts#config). The reason is that font assets are not recognized by the browser if declared inside a shadowDOM; they must be loaded into the global scope. Follow the steps below:
 
 1. Add your font in the `assets` directory, e.g `/assets/Fascinate.woff2`
-2. Create a `font.css` file, importing the font inline using the `data-base64` scheme:
+2. Create a `font.css` file, importing the font inline using the [`data-base64`](/browser-extension/import#data-base64) scheme:
 
 ```css
 @font-face {
@@ -86,7 +86,7 @@ To use a custom font in your CSUI, you must import the font inside a css file an
 }
 ```
 
-3. Declare the file in the `css` property of the config:
+3. Declare the file in the `css` property in the config:
 
 ```tsx
 export const config: PlasmoContentScript = {

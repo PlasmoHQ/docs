@@ -86,7 +86,7 @@ See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examp
 
 ## Importing resources
 
-To import external assets into your content script, you can use the `url:` scheme:
+To import external assets into your content script, you can use the [`url:` scheme](/browser-extension/import#url):
 
 ```ts
 import myFile from "url:./path/to/my/file/something.js"
@@ -100,6 +100,6 @@ The `url:` scheme will automatically resolve the `something.js` asset and add it
 chrome-extension://<your chrome ext id>/something.eb20bc99.js?1656000646313
 ```
 
-Alternatively, you can use the `data-base64` or the `data-text` scheme to import and embed the asset directly into your code. For small assets, these schemes should work well.
+Alternatively, you can use the [`data-base64`](/browser-extension/import#data-base64) or the [`data-text`](/browser-extension/import#data-text) scheme to import and embed the asset directly into your code. For small assets, these schemes should work well.
 
 > NOTE: Please see this [note about `~` import resolution](/workflows/faq#tilde-import-resolution)

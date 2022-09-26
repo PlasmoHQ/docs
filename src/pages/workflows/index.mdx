@@ -1,6 +1,13 @@
+import { Bleed, Callout } from "nextra-theme-docs"
+
 # Create a New Extension
 
-> 📢 **NOTE:** If you would like to use the `src` directory for your source code (`tsx` and `ts`), please make sure to follow this [guide](/customization/src).
+<Callout emoji="📢">
+
+**NOTE:** To use the `src` directory for source code module, please follow this
+[guide](/customization/src).
+
+</Callout>
 
 To run the interactive initialization wizard, use the following command:
 
@@ -22,7 +29,11 @@ yarn create plasmo "My Awesome Extension"
 npm create plasmo "My Awesome Extension"
 ```
 
-> **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
+<Callout type="info" emoji="⭐">
+
+**NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
+
+</Callout>
 
 ## With specific entry files
 
@@ -40,7 +51,11 @@ npm create plasmo -- --entry=options,newtab,content/inline
 
 The command above will create a project with the [options page](adding-the-options-ui), a [newtab page](browser-extension#adding-a-new-tab-page), and an [inline content script UI]().
 
-> NOTE: `npm` does not pass arguments down to its child command. Thus, you must supply a `--` to escape `npm` before specifying plasmo's parameters and flags.
+<Callout type="warning" emoji="⚠️">
+
+**NOTE**: `npm` does not pass arguments down to its child command. Thus, you must supply a `--` to escape `npm` before specifying plasmo's parameters and flags.
+
+</Callout>
 
 ## With an example template
 
