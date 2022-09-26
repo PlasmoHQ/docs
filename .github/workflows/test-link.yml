@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@master
       - name: Broken Web Link Checker
         uses: hashicorp/gh-action-check-broken-links@v1
         with:
           baseUrl: "https://docs.plasmo.com"
+          files: "src/pages/*.mdx"
