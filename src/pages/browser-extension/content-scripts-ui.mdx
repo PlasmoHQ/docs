@@ -4,8 +4,8 @@ Plasmo has first-class support for mounting React, Svelte3, or Vue3 components i
 
 An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/workflows/content-scripts#customizing-content-script-config). To start injecting UI using React:
 
-0. If you have a `content.ts` file, rename it to `contents/stuff.tsx`
-1. Create a new content script inside `contents` directory with the `.tsx` extension: `contents/inline.tsx`
+0. Create a `contents` directory if you don't have one already.
+1. Create a new file inside `contents` directory with the `.tsx` extension: `contents/inline.tsx`
 2. Export default a React component:
 
 ```tsx
@@ -43,6 +43,8 @@ Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/example
 `getOverlayAnchor` first listens to the current window's scroll event. On each scroll event, it uses the `getBoundingClientRect` function to calculate the absolute position of the target element. Then, it applies the calculated position to the container used to mount your component.
 
 ## watchOverlayAnchor
+
+This method allows the developer to refresh the overlay position as needed to realign with its anchor. It passes down an `updatePosition` callback for the developer to call upon detecting any changes that requires re-positioning of the overlay.
 
 ## getInlineAnchor
 

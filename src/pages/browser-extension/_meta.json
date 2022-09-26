@@ -5,6 +5,7 @@
   "content-scripts-ui": "Content Scripts UI",
   "background-service-worker": "Background SW",
   "env": "Environment Variables",
+  "import-schemes": "Import Schemes",
   "assets": "Assets",
   "icon": "Icon",
   "locales": "Locales",
