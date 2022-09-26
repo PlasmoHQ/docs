@@ -1,0 +1,18 @@
+name: "Test Broken Links"
+
+on:
+  push:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Broken Web Link Checker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Broken Web Link Checker
+        uses: hashicorp/gh-action-check-broken-links@v1
+        with:
+          baseUrl: "https://docs.plasmo.com"
+          files: "src/pages/*.mdx"
