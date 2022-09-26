@@ -1,5 +1,6 @@
 import PlausibleProvider from "next-plausible"
 import { DefaultSeo } from "next-seo"
+
 import "nextra-theme-docs/style.css"
 
 export default function MyApp({ Component, pageProps, router }) {
@@ -9,7 +10,7 @@ export default function MyApp({ Component, pageProps, router }) {
   return getLayout(
     <PlausibleProvider domain="docs.plasmo.com">
       <DefaultSeo
-        description="Plasmo Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions. Get started using Plasmo with the official documentation, and explore all of our features!"
+        description="Plasmo Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions."
         openGraph={{
           type: "website",
           locale: "en_US",
