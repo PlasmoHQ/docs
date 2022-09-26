@@ -1,26 +1,42 @@
 # Content Scripts
 
-Content scripts run in the context of web pages.
+Content scripts run in the context of web pages under an "isolated world." This allows multiple content scripts from various extensions to co-exist without conflicting with each other's execution.
 
 ### Use cases:
 
 - Scraping data from the current web page
 - Selecting, finding, and styling elements from the current web page
 - [Injecting UI elements into the current web page](/browser-extension/content-scripts-ui)
+- [Injecting code into the "main world" context](#injecting-into-the-main-world)
 
 ## Adding a single content script
 
 > **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when creating your first content script!)
 
-Create a `content.ts` file that exports an empty object and hack away! See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for an example.
+Create a `content.ts` file that exports an empty object and hack away!
+
+```ts
+export {}
+console.log(
+  "You may find that having is not so pleasing a thing as wanting. This is not logical, but it is often true."
+)
+```
+
+Refresh your browser and open any webpage, then open its inspector:
+
+![content-script-spock-quote](/screenshots/2022-09-26-11-01-08.png)
+
+See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for another example.
 
 ## Adding multiple content scripts
 
-Create a `contents` directory for multiple content scripts, and add your content scripts there. See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
+Create a `contents` directory for multiple content scripts, and add your content scripts there. Make sure their names describe what they do!
 
-## Customizing content script config
+See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/with-many-content-scripts) for an example.
 
-To provide a custom content script configuration, such as matching a custom domain per script, setting the `all_frames` key, etc., export a config object from your content script:
+## Config
+
+Content scripts created with Plasmo are statically declared scripts by default. To provide a custom content script configuration, export a config object from your content script:
 
 ```ts
 import type { PlasmoContentScript } from "plasmo"
@@ -32,6 +48,8 @@ export const config: PlasmoContentScript = {
 ```
 
 Working with this configuration object is a breeze thanks to the exported `PlasmoContentScript` type 🥳.
+
+The main usecase for this config is to tell the browser how to load this specific content-script, i.e which site should it run on, should it run on `about:blank` page, and which page should be included or excluded. To learn more about the config and what each property does, [click here](https://developer.chrome.com/docs/extensions/mv3/content_scripts/#static-declarative).
 
 ## Injecting into the main world
 
@@ -66,23 +84,21 @@ For the `func` key, you can pass in a Typescript function from your project, whi
 
 See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examples/tree/main/with-main-world-content-script-injection) for an example.
 
-### Importing Web Accessible Resources
+## Importing resources
 
 To import external assets into your content script, you can use the `url:` scheme:
 
 ```ts
-import myJavascriptFile from "url:./path/to/my/file/something.js"
+import myFile from "url:./path/to/my/file/something.js"
 ```
 
-The `url:` scheme will automatically resolve the `something.js` asset and add it to the `web_accessible_resources` declaration in the built bundle. What is the value of `myJavascriptFile`?
+The `url:` scheme will automatically resolve the `something.js` asset and add it to the `web_accessible_resources` declaration in the built bundle. The above `myFile` variable will be a string containing the URL to the asset:
 
 ```sh
-> console.log(myJavascriptFile)
+> console.log(myFile)
 
 chrome-extension://<your chrome ext id>/something.eb20bc99.js?1656000646313
 ```
-
-The imported variable is a string that points to the path of the resource. You can now access that file however you'd like!
 
 Alternatively, you can use the `data-base64` or the `data-text` scheme to import and embed the asset directly into your code. For small assets, these schemes should work well.
 
