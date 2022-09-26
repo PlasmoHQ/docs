@@ -1,18 +1,32 @@
-# Frequently Asked Questions
+# Workflows Frequently Asked Questions
 
-## How can I update Plasmo to the latest version?
+## How do I update Plasmo to the latest version?
 
-You will need to purge the lock file and run the install subcommand of your chosen package manager to get the latest version of Plasmo. You can manually pin Plasmo's version by upgrading its version number in `package.json` and running the install subcommand accordingly.
+If you use pnpm, run:
 
-## Tilde Import Resolution
+```sh
+pnpm up -L plasmo
+```
 
-The tilde (`~`) **always** resolves to the root project directory where the `package.json` resides if used outside a source code module, OR with a scheme such as `data-base64`, `data-text`, or `url`. Thus:
+For other package managers, you will need to purge the lock file and rerun the install subcommand to get the latest version of Plasmo.
 
-- `~rulesets/test.json` used in the [manifest overide inside `package.json`](/customization#overriding-the-manifest) resolves to `/rulesets/test.json`
-- `data-base64:~assets/image.png` resolves to `/assets/image.png`
-- `url:~src/code.js` resolves to `/src/code.js.`
+Alternatively, you can manually pin Plasmo's version by upgrading its version number in `package.json` and running the install subcommand afterward.
 
-If the tilde is by itself without a scheme and is being used to import a source code module from another source code module (`ts` or `tsx` files), it has two behaviors depending on whether you are using the default setup or the [the `src` directory setup](/customization#using-src-directory-for-source-code):
+## What should I do if an error occurs?
 
-- With the default setup, `~` points to the project root.
-- With the `src` directory setup, `~` points to the `src` directory. Thus `~core/code-module.tsx`, resolves to `/src/core/code-module.tsx`.
+Please run plasmo with the `--verbose` flag and paste the output in the log section of a [bug report](/bug). That will help us triage the issue 100x faster 🙏
+
+## What are the officially supported browser targets?
+
+Officially supported targets are:
+
+- `chrome-mv3` (default)
+- `firefox-mv2`
+
+Any chromium-based browser (e.g. Edge, Brave, Opera, etc.) should work, e.g:
+
+- `edge-mv3`
+- `brave-mv3`
+- `opera-mv3`
+
+We are working to support `safari-mv3` soon, see [this issue](https://github.com/PlasmoHQ/plasmo/issues/233)

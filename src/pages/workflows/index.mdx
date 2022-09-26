@@ -1,8 +1,13 @@
-# Development Cycle
+import { Bleed, Callout } from "nextra-theme-docs"
 
-> 📢 **NOTE:** If you would like to use the `src` directory for your source code (`tsx` and `ts`), please make sure to follow this [guide](/customization#using-src-directory-for-source-code).
+# Create a New Extension
 
-## Create a new extension
+<Callout emoji="📢">
+
+**NOTE:** To use the `src` directory for source code module, please follow this
+[guide](/customization/src).
+
+</Callout>
 
 To run the interactive initialization wizard, use the following command:
 
@@ -24,60 +29,45 @@ yarn create plasmo "My Awesome Extension"
 npm create plasmo "My Awesome Extension"
 ```
 
-> **NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
+<Callout type="info" emoji="⭐">
 
-## Run the development server
+**NOTE:** you can install the plasmo CLI as a global command with `pnpm i -g plasmo` (switch `pnpm` with your favorite package manager).
 
-Once you've set up your project, start developing your extension by navigating to your project directory and running:
+</Callout>
 
-```sh
-pnpm dev
-# OR
-npm run dev
-# OR
-plasmo dev
-```
+## With specific entry files
 
-Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes.
+The default project contains just a [popup](browser-extension#adding-a-popup-page) entry file. However, you can customize this behavior by using the `entry` parameter with a comma-separated list of entry files to include in your initial project.
 
-## Create a production bundle
+To see every available entry file, check [this directory](https://github.com/PlasmoHQ/plasmo/tree/main/packages/init/entries).
 
-To create a production bundle for distribution, run:
+To use this flag, pick the entry files you would like to see in your project, omits its extension, and supply it to the `--entry` flag:
 
 ```sh
-pnpm build
+pnpm create plasmo --entry=options,newtab,content/inline
 # OR
-npm run build
-# OR
-plasmo build
+npm create plasmo -- --entry=options,newtab,content/inline
 ```
 
-Optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+The command above will create a project with the [options page](adding-the-options-ui), a [newtab page](browser-extension#adding-a-new-tab-page), and an [inline content script UI]().
+
+<Callout type="warning" emoji="⚠️">
+
+**NOTE**: `npm` does not pass arguments down to its child command. Thus, you must supply a `--` to escape `npm` before specifying plasmo's parameters and flags.
+
+</Callout>
+
+## With an example template
+
+Even more powerful, plasmo can create a new project based on a project in [our examples](https://github.com/PlasmoHQ/examples/). Pick an example you would like to use, and use it as a flag when running the `create plasmo` command:
 
 ```sh
-pnpm build --zip
+pnpm create plasmo --with-env
 # OR
-npm run build -- --zip
-# OR
-plasmo build --zip
+npm create plasmo -- --with-env
 ```
 
-## `--target` flag
-
-The `dev` and `build` commands accept a `--target` flag, which can be used to specify a specific browser and manifest version combination to build for:
-
-```sh
-plasmo dev --target=firefox-mv2
-
-plasmo build --target=firefox-mv2
-```
-
-The final bundle will be available in either the `build/firefox-mv2-dev` or the `build/firefox-mv2-prod` directory.
-
-Officially supported targets are:
-
-- `chrome-mv3` (default)
-- `firefox-mv2`
+The above will generate a project using the [with-env](https://github.com/PlasmoHQ/examples/tree/main/with-env) example under the name you will provide.
 
 ## Loading the extension
 
@@ -94,27 +84,3 @@ To see your popup, click on the puzzle piece icon on the Chrome toolbar, and cli
 **Pro tip:** Pin your extension to the Chrome toolbar for easy access by clicking the pin button.
 
 ![Pinning popup](/screenshots/popup_example.png)
-
-## Adding a Popup Page
-
-Create a `popup.tsx` file or a `popup/index.tsx` file that exports a default React component. With that, your popup is ready to be used 🚀!
-
-See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-popup)
-
-## Adding the Options UI
-
-Create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌
-
-See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
-
-## Adding a New Tab Page
-
-Create a `newtab.tsx` file or a `newtab/index.tsx` file, and Plasmo will take care of the rest to render your new tab page 🤘!
-
-See [with-newtab](https://github.com/PlasmoHQ/examples/tree/main/with-newtab)
-
-## Adding a Background Service Worker
-
-Create a `background.ts` file in the root directory, and start hacking 💪
-
-See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background)

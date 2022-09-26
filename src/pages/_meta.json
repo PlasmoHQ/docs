@@ -1,7 +1,8 @@
 {
   "index": "Framework",
   "workflows": "Workflows",
-  "quickstarts": "Quickstarts",
+  "browser-extension": "Browser Extension SDK",
+  "framework-api": "Browser Extension API",
   "customization": "Customization",
-  "framework-api": "API"
+  "quickstarts": "Quickstarts"
 }

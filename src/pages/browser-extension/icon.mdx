@@ -1,0 +1,40 @@
+# Extension Icon
+
+The Plasmo framework automatically generates smaller resolution versions of the icon for the built bundle. Thus, all you need to work on is the high-fidelity version!
+
+By default, it processes the `assets/icon.png` file for the extension icon. Optionally, it also supports the following names instead of `icon`:
+
+| icon512  | icon-512  | icon-512x512   |
+| -------- | --------- | -------------- |
+| icon1024 | icon-1024 | icon-1024x1024 |
+
+The alternative name is helpful to clarify the size of the original icon. However, only one file will be picked by the framework. Ensure it is inside the `assets` directory and is a PNG file with `.png` extension.
+
+## Development Icon
+
+In [development mode](/workflows/dev), Plasmo grayscales the icon to help distinguish it from the production bundle:
+
+![gray-scaled icon](/screenshots/2022-09-26-01-52-08.png)
+
+## Custom Development Icon
+
+To override the grayscale behavior, you can place an `icon.development.png` file in the `assets` directory. Plasmo will use this file instead of the `icon.png` file in development mode.
+
+## Icon Sizes
+
+Plasmo generates the following icon sizes:
+
+| 16x16 | 48x48 | 64x64 | 32x32 | 128x128 |
+| ----- | ----- | ----- | ----- | ------- |
+
+Developers can specify a custom icon for each size by placing a file with any of the following names in the `assets` directory:
+
+- icon16.png
+- icon-16.png
+- icon-16x16.png
+
+It's also possible to override the development version of each size by placing file any of these names:
+
+- icon16.development.png
+- icon-16.development.png
+- icon-16x16.development.png

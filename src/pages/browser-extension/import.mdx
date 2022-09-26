@@ -1,0 +1,183 @@
+# Import Resolution
+
+Plasmo framework ships with its own code/asset bundler tailored specifically for extension development. It supports raw/transformed bundle inlining, asset mirroring, environment injection, and more.
+
+## Paths
+
+Plasmo has built-in support for most common import path such as relative import, `node_module` package import, `ESM exports` import. It also provides project-relative paths via tilde and absolute imports. To further customize your import path, checkout the [Alias Imports Section](/customization/alias).
+
+### Tilde (`~/`)
+
+The tilde import path is a convenient shortcut for the "source code module directory." Plasmo only considers files ending in the following extension to be "source code module":
+
+```ts
+export const relevantExtensionList = [
+  ".ts",
+  ".tsx",
+  ".svelte",
+  ".vue",
+  ".json"
+] as const
+```
+
+When used outside a source code module or with an asset [scheme](#schemes) such as `data-base64`, `data-text`, or `url`, the tilde (`~`) **always** resolves to the project's root directory where the `package.json` resides. Thus:
+
+- `~rulesets/test.json` used in the [manifest override inside `package.json`](/customization/manifest) resolves to `/rulesets/test.json`
+- `data-base64:~assets/image.png` resolves to `/assets/image.png`
+- `url:~src/code.js` resolves to `/src/code.js.`
+
+Suppose the tilde is by itself without a scheme and is being used to import a source code module from another source code module. In that case, it has two behaviors depending on whether you are using the default setup or the [the `src` directory setup](/customization/src):
+
+- With the default setup, `~` points to the project root.
+- With the `src` directory setup, `~` points to the `src` directory. Thus `~core/code-module.tsx`, resolves to `/src/core/code-module.tsx`.
+
+### Absolute (`/`)
+
+Unlike tilde, the absolute import path will always resolve to the project root (where the `package.json` resides) regardless of the `src` directory. Use the absolute import path if you prefer complete consistency.
+
+### Relative (`./`, `../`)
+
+To import files using paths relative to the current file, use the `./` prefix. For example, to import a file from the same directory as the existing file, use `./file-name`. To import a file from a subdirectory, use `./subdirectory/file-name`. To import a file from a parent directory, use `../file-name`.
+
+## Schemes
+
+Plasmo introduces several "import schemes" that developers can use to import asset files into the extension bundle. The scheme is prefixed to the file path and separated by a colon. For example, `data-base64:~/assets/image.png` is a valid import path.
+
+### raw
+
+The `raw` scheme instructs Plasmo to:
+
+1. Copy the file into the extension bundle at the root level
+2. Assign a content hash to distinguish it from other files with similar names
+
+The imported variable is an absolute URL to the file at runtime:
+
+```ts
+import imageUrl from "raw:~/assets/image.png"
+
+console.log(imageUrl) // chrome-extension://<extension-id>/image.<hashA>.png
+```
+
+### raw-env
+
+The `raw-env` scheme is like the `raw` scheme but with added [environment variables](./env). For example, if you have a file `~/assets/config.json` with the following content:
+
+```json
+{
+  "url": "$PLASMO_PUBLIC_URL"
+}
+```
+
+And you declared an environment variable `PLASMO_PUBLIC_URL` with the value `https://www.plasmo.com`, then the resulting file will be:
+
+```json
+{
+  "url": "https://www.plasmo.com"
+}
+```
+
+> NOTE: `raw-env` is mostly useful for text-based assets.
+
+### url
+
+The `url` scheme instructs Plasmo to:
+
+1. Transform/bundle/optimize the file for browser consumption (html/js/css/images)
+2. Copy the result + dependencies into the extension bundle at the root level
+3. Assign a content hash to distinguish it from other files with similar names
+4. (Content Script only) Add the file to the `web_accessible_resources` entry
+
+The imported variable is an absolute URL to the file at runtime:
+
+```ts
+import styleAUrl from "url:~/a/style.scss"
+import styleBUrl from "url:~/b/style.scss"
+import codeUrl from "url:~/c/index.ts"
+
+console.log(styleAUrl) // chrome-extension://<extension-id>/style.<hashA>.css
+console.log(styleBUrl) // chrome-extension://<extension-id>/style.<hashB>.css
+console.log(codeUrl) // chrome-extension://<extension-id>/file.<hashB>.js
+```
+
+> Using the `url` with image assets will optimize them for size and browser loading.
+
+### data-text
+
+The `data-text` scheme instructs Plasmo to:
+
+1. Read the file's content
+2. Transform/bundle/optimize the file for browser consumption (html/js/css/images)
+3. Inline the content as a single bundle in a string
+
+```ts
+import styleText from "data-text:~/assets/style.scss"
+
+console.log(styleText)
+// {
+//   "color": "red",
+// }
+```
+
+### data-text-env
+
+The `data-text` scheme instructs Plasmo to:
+
+1. Read the file's content
+2. Inject public environment variables
+3. Transform/bundle/optimize the file for browser consumption (html/js/css/images)
+4. Inline the content as string
+
+`.env`
+
+```ini
+PLASMO_PUBLIC_URL=https://itero.plasmo.com
+```
+
+`code.json`
+
+```json
+{
+  "url": "$PLASMO_PUBLIC_URL"
+}
+```
+
+`content.tsx`
+
+```ts
+import codeText from "data-text-env:~/assets/code.json"
+
+console.log(codeText) // To use it as JSON, use JSON.parse(codeText)
+// "{
+//   "url": "https://itero.plasmo.com",
+// }"
+```
+
+### data-base64
+
+The `data-base64` scheme instructs Plasmo to:
+
+1. Read the file's content
+2. Transform/bundle/optimize the file for browser consumption (html/js/css/images)
+3. Convert the result to base64 string and inline it into the code
+
+```ts
+import iconBase64 from "data-base64:~/assets/icon.png"
+
+console.log(iconBase64) // data:image/png;base64,etc...
+```
+
+### data-env
+
+The `data-env` scheme instructs Plasmo to:
+
+1. Read the file's content
+2. Inject public environment variables
+3. Transform/bundle/optimize the file for browser consumption (html/js/css/images)
+4. Return appropriate runtime asset result
+
+```ts
+import data from "data-env:~/assets/data.json"
+
+// Data will be a JSON object, no need to JSON.parse!
+console.log(data) // { url: "https://itero.plasmo.com" }
+```

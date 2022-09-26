@@ -1,0 +1,46 @@
+# Overriding the Manifest
+
+The following fields from the `package.json` will be passed over to the generated extension manifest:
+
+- `packageJson.version` -> `manifest.version`
+- `packageJson.displayName` -> `manifest.name`
+- `packageJson.description` -> `manifest.description`
+- `packageJson.author` -> `manifest.author`
+- `packageJson.homepage` -> `manifest.homepage_url`
+
+The Plasmo Framework extends the `package.json` with a `manifest` field to override the generated extension manifest. The primary use case is to enable features that the Plasmo framework does not _yet_ natively support.
+
+For instance, the Plasmo Framework might not understand that you need to have an `activeTab` permission. You'll need to modify your project's `package.json` like so:
+
+```json
+...
+"manifest": {
+    "permissions": [
+        "activeTab"
+    ]
+}
+```
+
+## Using environment variable
+
+You can use environment variables inside the manifest overrides. For instance in the [with-storage example](https://github.com/PlasmoHQ/examples/blob/main/with-storage/package.json):
+
+```json
+"manifest": {
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "$FIREFOX_EXT_ID"
+    }
+  }
+}
+```
+
+## Using locale template string
+
+Locale template string can be used in the manifest overrides:
+
+```json
+"manifest": {
+  "name": "__MSG_extensionName__"
+}
+```

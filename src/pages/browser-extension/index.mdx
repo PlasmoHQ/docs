@@ -1,0 +1,27 @@
+# Extension Pages
+
+Extension pages are built-in pages recognized by the browser. They include the extension's popup, options, and newtab pages.
+
+## Adding a Popup Page
+
+The Popup Page is a small dialog window that opens when the user clicks on the extension's icon in the browser toolbar. It is the most common type of extension page.
+
+Create a `popup.tsx` file or a `popup/index.tsx` file that exports a default React component. With that, your popup is ready to be used 🚀!
+
+See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-popup)
+
+## Adding the Options UI
+
+The Option UI page aims to provide a dedicated place for the extension's setting and configuration.
+
+Create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌
+
+See [with-options](https://github.com/PlasmoHQ/examples/tree/main/with-options-ui)
+
+## Adding a New Tab Page
+
+The New Tab page overrides the default tab and is generally how the browser greets the user.
+
+Create a `newtab.tsx` file or a `newtab/index.tsx` file, and Plasmo will take care of the rest to render your new tab page 🤘!
+
+See [with-newtab](https://github.com/PlasmoHQ/examples/tree/main/with-newtab)

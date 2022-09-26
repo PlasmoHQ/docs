@@ -1,0 +1,33 @@
+# Background Service Worker
+
+The background service worker of a browser extension runs in the service worker context, which allows it to bypass CORS and fetch resources from any origin. It is also common to offload heavy computation to the background service worker.
+
+To begin, create a `background.ts` file in the root directory, and start hacking 💪
+
+```ts
+export {}
+
+console.log(
+  "Live now; make now always the most precious time. Now will never come again."
+)
+```
+
+Reload the extension, then open its "Service Worker inspector":
+
+![Service Worker Inspector](/screenshots/2022-09-26-11-05-15.png)
+
+You should see the log in the inspector:
+
+![background sw picard log](/screenshots/2022-09-26-11-06-00.png)
+
+See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background)
+
+> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when creating your first content script!)
+
+## Persisting states
+
+The worker becomes idle after a few seconds of inactivity, and the browser will kill its process entirely after 5 minutes. Thus, it is impossible to persist the background service worker's state by itself without a storage engine since it rotates its execution context regularly.
+
+The simplest way to persist bgsw state is to use the [storage API](/framework-api/storage).
+
+The more advanced way is to send the state to a remote database via a fetch call or WebSocket.

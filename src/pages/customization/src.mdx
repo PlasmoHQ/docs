@@ -1,0 +1,47 @@
+import { Callout } from "nextra-theme-docs"
+
+# Using the `src` directory for source code
+
+Instead of having your source codes in the root directory, you can put them in a child `src` directory.
+
+## --with-src
+
+Creating a Plasmo project with a `src` directory setup is as simple as:
+
+```bash
+pnpm create plasmo --with-src
+```
+
+The command above utilizes Plasmo's [example template feature](/workflows#with-an-example-template).
+
+<Callout>
+
+Please ensure that **ALL source files** including Plasmo's entry files such as `popup.tsx`, `options.tsx`, `background.ts`, `contents/*` etc. are in the `src` directory. Otherwise, Plasmo **WILL NOT** know where to find the entry files, which will result in an empty extension!
+
+This customization only resolves `~` to `/src` for source code
+modules. Please see this note about [tilde import
+resolution](/browser-extension/import#tilde-).
+
+</Callout>
+
+## Manual Setup
+
+First, copy all your source code files into the `src` directory. Then, for TypeScript to work correctly, you will need to point the resolved `paths` for the `~*` prefix in the `tsconfig.json` file to `"./src/*"`.
+
+The new configuration looks like this:
+
+```json
+{
+  "extends": "plasmo/templates/tsconfig.base",
+  "exclude": ["node_modules"],
+  "include": [".plasmo/**/*", "./**/*.ts", "./**/*.tsx"],
+  "compilerOptions": {
+    "paths": {
+      "~*": ["./src/*"]
+    },
+    "baseUrl": "."
+  }
+}
+```
+
+See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src).
