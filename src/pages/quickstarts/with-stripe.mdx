@@ -30,7 +30,7 @@ Above should get you the Stripe Payment Link. For backend authorization, head to
 
 ## Using env variable
 
-Assuming you have set up a basic Plasmo project, the first thing to do is to set up our [environment variables](/workflows/env):
+Assuming you have set up a basic Plasmo project, the first thing to do is to set up our [environment variables](/browser-extension/env):
 
 `.env.development`
 
@@ -99,7 +99,7 @@ openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
 openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A
 ```
 
-We can then use this key by leveraging [env variable in our manifest override](/workflows/env#using-env-in-manifest-overrides):
+We can then use this key by leveraging [env variable in our manifest override](/browser-extension/env#using-env-in-manifest-overrides):
 
 `.env.development`
 

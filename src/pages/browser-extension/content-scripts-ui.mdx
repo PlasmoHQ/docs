@@ -2,7 +2,7 @@
 
 Plasmo has first-class support for mounting React, Svelte3, or Vue3 components into the current webpage. This feature is called content scripts UI (CSUI).
 
-An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/workflows/content-scripts#customizing-content-script-config). To start injecting UI using React:
+An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/browser-extension/content-scripts#config). To start injecting UI using React:
 
 0. Create a `contents` directory if you don't have one already.
 1. Create a new file inside `contents` directory with the `.tsx` extension: `contents/inline.tsx`
@@ -28,7 +28,7 @@ Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_C
 
 ### Config
 
-Content scripts UI are a special sub-set of content scripts. Thus, you can also [export a config object](/browser-extension/content-scripts#config).
+Content scripts UI are a sub-set of content scripts. Thus, you can [export a config object](/browser-extension/content-scripts#config).
 
 ## getStyle
 

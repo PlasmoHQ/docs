@@ -2,7 +2,7 @@
 
 Since Manifest V3 does not support [remote code execution](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview/#remotely-hosted-code), it has been very difficult for developer to integrate google analytics into their extension project, especially with the latest [gtag4 version](https://developers.google.com/analytics/devguides/collection/ga4).
 
-To overcome this issue, Plasmo [bundles remote code at build time](/workflows/remote-code).
+To overcome this issue, Plasmo [bundles remote code at build time](/browser-extension/remote-code).
 
 ## Obtaining the Tracking/Measurement ID
 
@@ -18,7 +18,7 @@ Click the button next to the Measurement ID, which should copy to your clipboard
 
 ## Env Variable Setup
 
-To properly store the Measurement ID, we recommend using [environment variables](/workflows/env). Create an `.env.local` file:
+To properly store the Measurement ID, we recommend using [environment variables](/browser-extension/env). Create an `.env.local` file:
 
 `.env.local`
 
@@ -49,6 +49,7 @@ Below is an example of how to implement the google tag tracking script in the po
 
 ```tsx
 import "https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID"
+
 import { useEffect, useState } from "react"
 
 function IndexPopup() {
