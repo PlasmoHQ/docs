@@ -1,0 +1,39 @@
+# Create a production Build
+
+To create a production bundle for distribution, run:
+
+```sh
+pnpm build
+# OR
+npm run build
+```
+
+## Generating a zip bundle
+
+Optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+
+```sh
+pnpm build --zip
+# OR
+npm run build -- --zip
+```
+
+## With specific target
+
+The `build` command accepts a `--target` flag. Use it to specify a browser and manifest version combination to build for:
+
+```sh
+plasmo build --target=firefox-mv2
+```
+
+The final bundle will be available in the `build/firefox-mv2-prod` directory.
+
+For a list of officially supported targets, [click here](./faq#what-are-the-officially-supported-browser-targets).
+
+## With source maps
+
+By default, Plasmo does not generate source maps for your production bundle. However, you can use the `--source-maps` flag to change this behavior:
+
+```sh
+plasmo build --source-maps
+```

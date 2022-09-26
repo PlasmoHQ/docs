@@ -1,12 +1,8 @@
 # Assets
 
-Plasmo processes some files within the `assets` directory. Use this feature to store assets you want to load inline into your source code instead of copying them into the built bundle.
+Extension bundles can include assets such as images, fonts, binary WASM bundles, and other files. Plasmo provides several methods to work with these assets.
 
-## Extension icon with `assets/icon512.png`
-
-Plasmo uses the `assets/icon512.png` file for the extension icon. It automatically generates a smaller resolution version of the icon for the final build bundle. All you need to work on is the 512x512 version!
-
-## Importing image assets inline
+## Importing Image Assets Inline
 
 The easiest way to load images inside your extension is to use the `data-base64` scheme. This will inline the image as base64 encoded data in the built bundle of your extension:
 
@@ -22,7 +18,7 @@ import someCoolImage from "data-base64:~assets/some-cool-image.png"
 
 ## Importing Web Accessible Resources
 
-Plasmo automatically copy any web accessible resources declared in [the manifest override](/customization#overriding-the-manifest). For example, by specifying the config below in `package.json`:
+Plasmo automatically copies any web-accessible resources declared in [the manifest override](/customization/manifest). For example, by specifying the following config in `package.json`:
 
 ```json
   "manifest": {
@@ -50,13 +46,26 @@ The files below will be copied into the extension bundle and be available to [`c
 - Any file matching the glob `assets/pic*.png` from the project root
 - `resources/test.json` from the project root
 
-You can also include files installed from `node_module` as well:
+See [with-web-accessible-resources](https://github.com/PlasmoHQ/examples/tree/main/with-web-accessible-resources)
+
+## Importing Assets from `node_modules`
+
+Sometimes, a node package exposes static assets files you must include in your bundle as web-accessible resources. To do so, specify those assets in the `web_accessible_resources` field of the manifest override in `package.json`:
 
 ```json
-  "resources": [
-    "@inboxsdk/core/pageWorld.js",
-    "@inboxsdk/core/background.js"
-  ],
+  "manifest": {
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "@inboxsdk/core/pageWorld.js",
+          "@inboxsdk/core/background.js"
+        ],
+        "matches": [
+          "https://mail.google.com/*"
+        ]
+      }
+    ]
+  }
 ```
 
-See [with-web-accessible-resources](https://github.com/PlasmoHQ/examples/tree/main/with-web-accessible-resources)
+See [with-inbox-sdk](https://github.com/PlasmoHQ/examples/tree/main/with-inbox-sdk)

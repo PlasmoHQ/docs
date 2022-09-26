@@ -1,0 +1,7 @@
+{
+  "index": "Opinionated",
+  "manifest": "Manifest Override",
+  "src": "Use src Directory",
+  "html": "Replace the HTML",
+  "alias": "Alias Imports"
+}

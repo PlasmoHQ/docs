@@ -1,0 +1,35 @@
+# Start the Development Server
+
+Once you've set up your project, start developing your extension by navigating to your project directory and running:
+
+```sh
+pnpm dev
+# OR
+npm run dev
+# OR
+plasmo dev
+```
+
+Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes. It also prefixes the extension name with `DEV |` and makes the icon grayscale to distinguish between development and production bundles.
+
+## With specific target
+
+The `dev` command accepts a `--target` flag. Use it to specify a browser and manifest version combination to develop for:
+
+```sh
+plasmo dev --target=firefox-mv2
+```
+
+The final bundle will be available in the `build/firefox-mv2-dev` directory.
+
+For a list of officially supported targets, [click here](./faq#what-are-the-officially-supported-browser-targets).
+
+## Without source maps
+
+By default, Plasmo generates source maps for your extension during development. If for some reason you need to disable this, you can use the `--no-source-maps` flag:
+
+```sh
+plasmo dev --no-source-maps
+```
+
+This is useful when you have dependencies that does not play well with source maps.

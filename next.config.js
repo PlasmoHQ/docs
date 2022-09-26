@@ -25,12 +25,12 @@ module.exports = withPlausibleProxy()(
         },
         {
           source: "/cs",
-          destination: "/workflows/content-scripts",
+          destination: "/browser-extension/content-scripts",
           permanent: true
         },
         {
           source: "/csui",
-          destination: "/workflows/content-scripts-ui",
+          destination: "/browser-extension/content-scripts-ui",
           permanent: true
         },
         {

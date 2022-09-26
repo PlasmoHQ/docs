@@ -1,0 +1,27 @@
+# Using the `src` directory for source code
+
+Instead of having your source code in the root directory, you can put it in a child `src` directory.
+
+For TypeScript to work correctly, you will need to point the resolved `paths` for the `~*` prefix in the `tsconfig.json` file to `"./src/*"`.
+
+The new configuration looks like this:
+
+```json
+{
+  "extends": "plasmo/templates/tsconfig.base",
+  "exclude": ["node_modules"],
+  "include": [".plasmo/**/*", "./**/*.ts", "./**/*.tsx"],
+  "compilerOptions": {
+    "paths": {
+      "~*": ["./src/*"]
+    },
+    "baseUrl": "."
+  }
+}
+```
+
+Please ensure that **ALL source files** (including Plasmo's entry files such as `popup.tsx`, `options.tsx`, `background.ts`, etc.) are in the `src` directory. Otherwise, Plasmo will not know where to find the entry files, which will result in an empty extension!
+
+> **NOTE:** This customization only resolves `~` to `/src` for source code files with `tsx` and `ts` extension. Please see this note about [asset resolving](/browser-extension/faq#tilde-import-resolution).
+
+See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src).

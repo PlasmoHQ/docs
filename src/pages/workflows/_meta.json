@@ -1,11 +1,7 @@
 {
-  "index": "Development Cycle",
-  "content-scripts": "Content Scripts",
-  "content-scripts-ui": "Content Scripts UI",
-  "assets": "Assets",
-  "env": "Environment Variables",
-  "remote-code": "Remote Code",
+  "index": "Create a New Extension",
+  "dev": "Development Server",
+  "build": "Production Build",
   "submit": "Automated Submission",
-  "locales": "Locales",
   "faq": "FAQ"
 }

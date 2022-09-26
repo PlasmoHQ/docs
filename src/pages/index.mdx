@@ -38,12 +38,14 @@ The [Plasmo](https://www.plasmo.com/) Framework is a battery-packed browser exte
 ## Features
 
 - First-class [React](https://reactjs.org/) + [Typescript](https://www.typescriptlang.org/) Support
-- [Declarative development](/#where-is-the-manifestjson-file)
+- [Declarative Development](/#where-is-the-manifestjson-file)
+- [Content Scripts UI](/csui)
+- [Tab Pages](/browser-extension/tab-pages)
 - Live-reloading
-- [`.env*` files](/workflows/env)
-- Targetting [multiple browser and manifest pairs](workflows#--target-flag)
-- [Remote code bundling](/workflows/remote-code) (e.g., for gtag4)
-- Automated deployment (via [BPP](/workflows/submit))
+- [`.env*` files](/browser-extension/env)
+- Targetting [multiple browser and manifest pairs](/workflows/build#with-specific-target)
+- [Remote code bundling](/browser-extension/remote-code) (e.g., for gtag4)
+- [Automated deployment via BPP](/workflows/submit)
 - Optional support for [Svelte](https://github.com/PlasmoHQ/with-svelte) and [Vue](https://github.com/PlasmoHQ/with-vue)
 - And many, many more! 🚀
 
@@ -67,35 +69,37 @@ npm create plasmo
 
 This command will set up the simplest Plasmo browser extension project for you. The structure is straightforward:
 
-| File name         | Description                                                                                                                                            |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `popup.tsx`       | This file exports default a React component, which gets rendered into your popup page. _This is all you need to work on your extension popup!_         |
-| `assets`          | Plasmo automatically generates the smaller icons and applies them in the manifest for you from the "icon512.png" file                                  |
-| `package.json`    | Your usual Node.js project descriptor, with [an optional "manifest" property to customize Plasmo to your need](/customization#overriding-the-manifest) |
-| `.prettierrc.cjs` | For code styling consistency                                                                                                                           |
-| `.gitignore`      | Your friendly neighborhood git ignore file                                                                                                             |
-| `readme.md`       | Basic documentation                                                                                                                                    |
-| `tsconfig.json`   | TypeScript configuration                                                                                                                               |
+| File name         | Description                                                                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `popup.tsx`       | This file exports default a React component, which gets rendered into your popup page. _This is all you need to work on your extension popup!_ |
+| `assets`          | Plasmo [automatically generates the smaller icons](/browser-extension/icon) and applies them in the manifest for you from the "icon.png" file  |
+| `package.json`    | Your usual Node.js project descriptor, with [an optional "manifest" property to customize Plasmo to your need](/customization/manifest)        |
+| `.prettierrc.cjs` | For code styling consistency                                                                                                                   |
+| `.gitignore`      | Your friendly neighborhood git ignore file                                                                                                     |
+| `README.md`       | Basic documentation                                                                                                                            |
+| `tsconfig.json`   | TypeScript configuration                                                                                                                       |
 
-> **NOTE:** If you would like to use the `src` directory for your source code (`tsx` and `ts`), please make sure to follow this [guide](/customization#using-the-src-directory-for-source-code).
+> **NOTE:** If you would like to use the `src` directory for your source code (`tsx` and `ts`), please make sure to follow this [guide](/customization/src).
 
-### Building
+### Development Server
 
-For live-reloading support, build a development version with
+For live-reloading support, you can start the development server with:
 
 ```sh
 pnpm dev
 ```
 
-This will create a built version of the extension in `build/chrome-mv3-dev`
+The above command will watch for file changes and regenerate a bundle of your extension in `build/chrome-mv3-dev`.
 
-For a production build,
+### Production Build
+
+For a production build, run:
 
 ```sh
 pnpm build
 ```
 
-This will create a built version of the extension in `build/chrome-mv3-prod`
+This will create a production version of the extension in `build/chrome-mv3-prod`
 
 ### Loading the Extension in Chrome
 
@@ -115,7 +119,7 @@ To see your popup, click on the puzzle piece icon on the Chrome toolbar, and cli
 
 ## Where is the manifest.json file?
 
-It will be generated on-the-fly for you. Plasmo generates the manifest based on your source files and configurations you export from your code - similar to how [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
+Plasmo abstracts away the manifest file. The framework generates the manifest under the hood based on your source files and configurations you export from your code, similar to [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
 
 We will further abstract with auto-permissions and a needs-based permission scheme, removing the need to specify permissions manually! _(Coming soon)_
 

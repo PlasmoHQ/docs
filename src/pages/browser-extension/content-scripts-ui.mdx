@@ -1,14 +1,24 @@
 # Content Script UI
 
-Plasmo has first-class support for mounting a React component, a Svelte3 component, or a Vue3 component into the current webpage. This feature is called content scripts UI (CSUI).
+Plasmo has first-class support for mounting React, Svelte3, or Vue3 components into the current webpage. This feature is called content scripts UI (CSUI).
 
-An extension can have as many CSUI as needed, with each CSUI targeting a group of webpage or a specific webpage by [exporting the config object](/workflows/content-scripts#customizing-content-script-config). To start injecting UI using React:
+An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/workflows/content-scripts#customizing-content-script-config). To start injecting UI using React:
 
-1. Create a new content script inside `contents` directory with the `.tsx` extension
-2. Export default a React component
+0. If you have a `content.ts` file, rename it to `contents/stuff.tsx`
+1. Create a new content script inside `contents` directory with the `.tsx` extension: `contents/inline.tsx`
+2. Export default a React component:
+
+```tsx
+const PlasmoInline = () => {
+  return <button>Custom button</button>
+}
+
+export default PlasmoInline
+```
+
 3. Profit 🎉
 
-> NOTE: It works with a `content.tsx` at the root source code directory as well.
+> NOTE: It works with a `content.tsx` at the source code directory as well.
 
 See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/with-content-scripts-ui)
 
@@ -16,9 +26,9 @@ See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/wit
 
 Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) and mounts the React component to it. This isolation technique prevents the web page's style from affecting the component's styling.
 
-## getMountPoint
+## getOverlayAnchor
 
-To mount/anchor a React component on top of a specific element on the current webpage, export a function called `getMountPoint` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
+To anchor a React component on top of a specific element on the current webpage, export a function called `getOverlayAnchor` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
 
 ```ts
 export const getMountPoint = async () => document.querySelector("#element")
@@ -28,13 +38,38 @@ This function is asynchronous, which allows you to wait until the element exists
 
 Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-mount.tsx) for an example.
 
-### How does getMountPoint anchor the React component?
+### How does getOverlayAnchor works?
 
-`getMountPoint` first listens to the current window's scroll event. On each scroll event, it uses the `getBoundingClientRect` function to calculate the absolute position of the target element. Then, it applies the calculated position to the container used to mount your component.
+`getOverlayAnchor` first listens to the current window's scroll event. On each scroll event, it uses the `getBoundingClientRect` function to calculate the absolute position of the target element. Then, it applies the calculated position to the container used to mount your component.
+
+## watchOverlayAnchor
+
+## getInlineAnchor
+
+To anchor a React component inline with a specific element on the current webpage, export a function called `getInlineAnchor` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
+
+```tsx
+export const getInlineAnchor: PlasmoGetInlineAnchor = () =>
+  document.querySelector("#supercharge > h2 > span")
+```
+
+Inline anchor function must be synchronous.
+
+## getShadowHostId
+
+There are cases when we might want to make run-time change to the shadow host. By exporting a `getShadowHostId` function (optionally async), we can assign the shadow host's DOM ID, which will allow us to select and modify it:
+
+```ts
+export const getShadowHostId = () => "custom-shadow-host"
+```
+
+## mountShadowHost
+
+## createShadowRoot
 
 ## getStyle
 
-To inject stylesheets into your content script UI's Shadow DOM or anywhere in the current webpage, export a `getStyle` function that returns a valid [`HTMLElement.style`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) element:
+To inject stylesheets into your content script UI's Shadow DOM, export a `getStyle` function that returns a valid [`HTMLElement.style`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) element:
 
 ```ts
 import cssText from "data-text:~/contents/plasmo-overlay.css"
@@ -68,14 +103,6 @@ Use the ids `#plasmo-mount-container` and `#plasmo-shadow-container` to tweak th
 }
 ```
 
-## getShadowHostId
-
-There are cases when we might want to make run-time change to the shadow host. By exporting a `getShadowHostId` function (optionally async), we can assign the shadow host's DOM ID, which will allow us to select and modify it:
-
-```ts
-export const getShadowHostId = () => "custom-shadow-host"
-```
-
 ## getRootContainer
 
 To replace the Shadow DOM, export a `getRootContainer` function that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement).
@@ -94,3 +121,5 @@ export const getRootContainer = () => {
 > **NOTE:** If you export a `getRootContainer` function, Plasmo ignores the `getStyle` function since only the provided Shadow DOM container uses it. `getMountPoint`'s behavior might also be affected as the component's position will be relative to your provided container.
 
 Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-root-container.tsx) for an example.
+
+## render
