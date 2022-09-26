@@ -13,6 +13,3 @@ jobs:
     steps:
       - name: Broken Web Link Checker
         uses: hashicorp/gh-action-check-broken-links@v1
-        with:
-          baseUrl: "https://docs.plasmo.com"
-          files: "pages/*.mdx"
