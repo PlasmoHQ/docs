@@ -1,6 +1,6 @@
 # Content Scripts
 
-Content scripts run in the context of web pages under an "isolated world." This allows multiple content scripts from various extensions to co-exist without conflicting with each other's execution.
+Content scripts run in the context of web pages in an "isolated world." This allows multiple content scripts from various extensions to coexist without conflicting with each other's execution.
 
 ### Use cases:
 
@@ -26,7 +26,7 @@ Refresh your browser and open any webpage, then open its inspector:
 
 ![content-script-spock-quote](/screenshots/2022-09-26-11-01-08.png)
 
-See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for another example.
+See [with-content-script](https://github.com/PlasmoHQ/examples/tree/main/with-content-script) for a full example.
 
 ## Adding multiple content scripts
 
@@ -36,7 +36,7 @@ See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/w
 
 ## Config
 
-Content scripts created with Plasmo are statically declared scripts by default. To provide a custom content script configuration, export a config object from your content script:
+Sometimes, you'll want to run a content script on a specific page or only on certain pages. You can provide a custom content script configuration by exporting a config object from your content script:
 
 ```ts
 import type { PlasmoContentScript } from "plasmo"
@@ -49,13 +49,13 @@ export const config: PlasmoContentScript = {
 
 Working with this configuration object is a breeze thanks to the exported `PlasmoContentScript` type 🥳.
 
-The main usecase for this config is to tell the browser how to load this specific content-script, i.e which site should it run on, should it run on `about:blank` page, and which page should be included or excluded. To learn more about the config and what each property does, [click here](https://developer.chrome.com/docs/extensions/mv3/content_scripts/#static-declarative).
+To learn more about the config and each property, [check out Chrome's official documentation](https://developer.chrome.com/docs/extensions/mv3/content_scripts/#static-declarative).
 
 ## Injecting into the main world
 
 You must inject code into the main world if you'd like to access the `window` object from your content script. It's not currently possible to declaratively inject content scripts into the main world via the `content_scripts` manifest field.
 
-Instead, Chrome offers a `chrome.scripting.executeScript` API that lets you inject content scripts into the main world. First add the scripting permission into your manifest:
+Instead, Chrome offers a `chrome.scripting.executeScript` API that lets you inject content scripts into the main world. First, add the scripting permission into your manifest:
 
 ```json
 {
@@ -63,7 +63,7 @@ Instead, Chrome offers a `chrome.scripting.executeScript` API that lets you inje
 }
 ```
 
-Then, you can inject your content script into the main world by calling `chrome.scripting.executeScript` from your background service worker:
+Then, inject your content script into the main world by calling `chrome.scripting.executeScript` from your background service worker:
 
 ```ts
 chrome.scripting.executeScript(

@@ -1,6 +1,6 @@
 # Overriding the Manifest
 
-The following fields from the `package.json` will be passed over to the generated extension manifest:
+Plasmo will pass over the following fields from the `package.json` to the generated extension manifest:
 
 - `packageJson.version` -> `manifest.version`
 - `packageJson.displayName` -> `manifest.name`
@@ -21,7 +21,7 @@ For instance, the Plasmo Framework might not understand that you need to have an
 }
 ```
 
-## Using environment variable
+## Using environment variables
 
 You can use environment variables inside the manifest overrides. For instance in the [with-storage example](https://github.com/PlasmoHQ/examples/blob/main/with-storage/package.json):
 
@@ -37,7 +37,7 @@ You can use environment variables inside the manifest overrides. For instance in
 
 ## Using locale template string
 
-Locale template string can be used in the manifest overrides:
+You can use locale template strings in the manifest overrides:
 
 ```json
 "manifest": {
