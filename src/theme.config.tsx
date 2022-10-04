@@ -25,7 +25,7 @@ const theme: DocsThemeConfig = {
   chat: {
     link: "https://www.plasmo.com/s/d" // Plasmo discord server,
   },
-  docsRepositoryBase: "https://github.com/PlasmoHQ/docs/blob/main/src/pages", // base URL for the docs repository
+  docsRepositoryBase: "https://github.com/PlasmoHQ/docs/blob/main/", // base URL for the docs repository
   titleSuffix: " - Plasmo",
   navigation: {
     next: true,

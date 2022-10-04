@@ -10,8 +10,8 @@ export default function MyApp({ Component, pageProps, router }) {
   return getLayout(
     <PlausibleProvider domain="docs.plasmo.com">
       <DefaultSeo
-        description="Plasmo Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions."
         openGraph={{
+          description: "Plasmo Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions.",
           type: "website",
           locale: "en_US",
           site_name: "Plasmo Docs",
