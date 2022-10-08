@@ -4,7 +4,7 @@ Plasmo framework ships with its own code/asset bundler tailored specifically for
 
 ## Paths
 
-Plasmo has built-in support for most common import path such as relative import, `node_module` package import, `ESM exports` import. It also provides project-relative paths via tilde and absolute imports. To further customize your import path, checkout the [Alias Imports Section](/customization/alias).
+Plasmo has built-in support for most common import paths such as relative import, `node_module` package import, and `ESM exports` import. It also provides project-relative paths via tilde and absolute imports. To customize your import path further, check out the [Alias Imports Section](/customization/alias).
 
 ### Tilde (`~/`)
 
@@ -37,7 +37,7 @@ Unlike tilde, the absolute import path will always resolve to the project root (
 
 ### Relative (`./`, `../`)
 
-To import files using paths relative to the current file, use the `./` prefix. For example, to import a file from the same directory as the existing file, use `./file-name`. To import a file from a subdirectory, use `./subdirectory/file-name`. To import a file from a parent directory, use `../file-name`.
+Use the `./` prefix to import files using paths relative to the current file. For example, to import a file from the same directory as the existing file, use `./file-name`. To import a file from a subdirectory, use `./subdirectory/file-name`. To import a file from a parent directory, use `../file-name`.
 
 ## Schemes
 
@@ -76,7 +76,7 @@ And you declared an environment variable `PLASMO_PUBLIC_URL` with the value `htt
 }
 ```
 
-> NOTE: `raw-env` is mostly useful for text-based assets.
+> NOTE: `raw-env` is primarily helpful for text-based assets.
 
 ### url
 
@@ -99,7 +99,7 @@ console.log(styleBUrl) // chrome-extension://<extension-id>/style.<hashB>.css
 console.log(codeUrl) // chrome-extension://<extension-id>/file.<hashB>.js
 ```
 
-> Using the `url` with image assets will optimize them for size and browser loading.
+> Using `url` with image assets will optimize them for size and browser loading.
 
 ### data-text
 
@@ -125,7 +125,7 @@ The `data-text` scheme instructs Plasmo to:
 1. Read the file's content
 2. Inject public environment variables
 3. Transform/bundle/optimize the file for browser consumption (html/js/css/images)
-4. Inline the content as string
+4. Inline the content as `string`
 
 `.env`
 

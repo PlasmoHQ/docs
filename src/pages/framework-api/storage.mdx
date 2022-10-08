@@ -32,7 +32,7 @@
   </a>
 </span>
 
-`@plasmohq/storage` is a utility library from [plasmo](https://www.plasmo.com/) that abstracts the persistent storage API available to browser extensions. It falls back to localstorage when the extension storage API is not available, allowing for state sync between popup - options - contents - background.
+`@plasmohq/storage` is a utility library from [plasmo](https://www.plasmo.com/) that abstracts the persistent storage API available to browser extensions. It falls back to localstorage when the extension storage API is unavailable, allowing for state sync between popup - options - contents - background.
 
 > This library will enable the `storage` permission automatically if used with the [Plasmo framework](https://docs.plasmo.com)
 
@@ -136,7 +136,7 @@ const [hailingFrequency] = useStorage({
 
 "Persisting" means writing into the internal memory. By not persisting the value, only this specific instance of the hook will render the given initial value when there is no value in storage. Other instances can either show `undefined` OR specify their own initial value. To elaborate on this:
 
-Given a `popup.tsx` that set a static initial value:
+Given a `popup.tsx` that sets a static initial value:
 
 ```tsx
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")

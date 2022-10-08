@@ -6,7 +6,7 @@ Instead of having your source codes in the root directory, you can put them in a
 
 ## --with-src
 
-Creating a Plasmo project with a `src` directory setup is as simple as:
+Creating a Plasmo project with an `src` directory setup is as simple as:
 
 ```bash
 pnpm create plasmo --with-src
@@ -16,7 +16,7 @@ The command above utilizes Plasmo's [example template feature](/workflows#with-a
 
 <Callout>
 
-Please ensure that **ALL source files** including Plasmo's entry files such as `popup.tsx`, `options.tsx`, `background.ts`, `contents/*` etc. are in the `src` directory. Otherwise, Plasmo **WILL NOT** know where to find the entry files, which will result in an empty extension!
+Please ensure that **ALL source files** including Plasmo's entry files such as `popup.tsx`, `options.tsx`, `background.ts`, `contents/*` etc. are in the `src` directory. Otherwise, Plasmo **WILL NOT** know where to find the entry files, resulting in an empty extension!
 
 This customization only resolves `~` to `/src` for source code
 modules. Please see this note about [tilde import
@@ -44,4 +44,4 @@ The new configuration looks like this:
 }
 ```
 
-See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src).
+See [with-src](https://github.com/PlasmoHQ/examples/tree/main/with-src) for a full example.
