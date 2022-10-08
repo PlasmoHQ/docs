@@ -24,6 +24,11 @@ module.exports = withPlausibleProxy()(
           permanent: true
         },
         {
+          source: "/workflows/env",
+          destination: "/browser-extension/env",
+          permanent: true
+        },
+        {
           source: "/cs",
           destination: "/browser-extension/content-scripts",
           permanent: true

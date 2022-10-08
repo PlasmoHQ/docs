@@ -11,7 +11,7 @@ Since Plasmo uses [parcel](https://parceljs.org), which uses [swc](https://swc.r
 ```json
 {
   "alias": {
-    "@Component/*": "./src/components/*"
+    "@Components": "./src/components/index.tsx"
   }
 }
 ```
@@ -26,7 +26,7 @@ Since Plasmo uses [parcel](https://parceljs.org), which uses [swc](https://swc.r
   "compilerOptions": {
     "paths": {
       "~*": ["./src/*"],
-      "@Component/*": ["./src/components/*"]
+      "@Components": ["./src/components/index"]
     },
     "baseUrl": "."
   }
@@ -36,8 +36,34 @@ Since Plasmo uses [parcel](https://parceljs.org), which uses [swc](https://swc.r
 3. Use it in your code:
 
 ```tsx
-import { Hello } from "@Component/hello"
+import { Button, Checkbox, Input } from "@Components"
 ```
+
+See the example in [bug-244-alias-local-imports](https://github.com/PlasmoHQ/plasmo-test/tree/main/bug/bug-244-alias-local-imports)
+
+Note that the alias config for local import is a **one-to-one mapping** between an import specifier and a local source code module. It does not support glob aliasing. Thus you must declare each alias individually if you want to split your import:
+
+```json
+  "alias": {
+    "@Components/button": "./src/components/button.tsx",
+    "@Components/input": "./src/components/input.tsx",
+    "@Components/checkbox": "./src/components/checkbox.tsx",
+  }
+```
+
+This is cumbersome and not recommended. The recommended use of `alias` is to point `@Components` at a sibling package module with a `package.json` file, which declares all the sub-components as its exports. For example:
+
+```json
+{
+  "alias": {
+    "@Components": "../../components"
+  }
+}
+```
+
+This would allow sub-path imports such as `@Components/button` to work as long as you declared them in the `components` package's entry file. Since Parcel does [tree shaking](https://parceljs.org/features/production/#tree-shaking), any `import` that's not used will be removed from the final bundle - just make sure your components are statically exported/imported.
+
+For more info, see [#244](https://github.com/PlasmoHQ/plasmo/issues/244).
 
 ## Alias External Files
 
