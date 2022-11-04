@@ -1,4 +1,5 @@
-import type { DocsThemeConfig } from "nextra-theme-docs/."
+import { useRouter } from "next/router"
+import { DocsThemeConfig, useConfig } from "nextra-theme-docs"
 
 import { Head } from "~components/head"
 import { Logo } from "~components/logo"
@@ -26,12 +27,13 @@ const theme: DocsThemeConfig = {
     link: "https://www.plasmo.com/s/d" // Plasmo discord server,
   },
   docsRepositoryBase: "https://github.com/PlasmoHQ/docs/blob/main/", // base URL for the docs repository
-  titleSuffix: " - Plasmo",
   navigation: {
     next: true,
     prev: true
   },
 
+  head: <Head />,
+  logo: <Logo />,
   // search: {
   //   component: null
   // },
@@ -58,8 +60,84 @@ const theme: DocsThemeConfig = {
     text: "Edit this page on GitHub"
   },
 
-  logo: <Logo />,
-  head: <Head />
+  getNextSeoProps() {
+    const { frontMatter } = useConfig()
+    const router = useRouter()
+    return {
+      additionalLinkTags: [
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/favicons/apple-touch-icon.png"
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicons/favicon-32x32.png"
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicons/favicon-16x16.png"
+        },
+        {
+          rel: "manifest",
+          href: "/favicons/site.webmanifest"
+        },
+        {
+          rel: "mask-icon",
+          href: "/favicons/safari-pinned-tab.svg",
+          color: "#ffffff"
+        },
+        {
+          rel: "shortcut icon",
+          href: "/favicons/favicon.ico"
+        }
+      ],
+      additionalMetaTags: [
+        {
+          name: "msapplication-TileColor",
+          content: "#ffffff"
+        },
+        {
+          name: "msapplication-config",
+          content: "/favicons/browserconfig.xml"
+        },
+        {
+          name: "theme-color",
+          content: "#ffffff"
+        },
+        { content: "en", httpEquiv: "Content-Language" },
+        { content: "Plasmo Docs", name: "apple-mobile-web-app-title" }
+        // { content: '/ms-icon-144x144.png', name: 'msapplication-TileImage' }
+      ],
+      description: frontMatter.description || "The Browser Extension Platform",
+      openGraph: {
+        type: "website",
+        locale: "en_US",
+        siteName: "Plasmo Docs",
+        url: `https://docs.plasmo.com${router.asPath}`,
+        images: [
+          {
+            url:
+              frontMatter.image ||
+              "https://docs.plasmo.com/images/seo-1200-700.png",
+            width: 1200,
+            height: 700,
+            alt: "Plasmo Docs"
+          }
+        ]
+      },
+      titleTemplate: "%s – Plasmo",
+      twitter: {
+        handle: "@plasmohq",
+        cardType: "summary_large_image",
+        site: "https://docs.plasmo.com"
+      }
+    }
+  }
 }
 
 export default theme
