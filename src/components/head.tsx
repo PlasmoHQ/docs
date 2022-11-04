@@ -6,7 +6,7 @@ export const Head = () => {
   const frontMatter = config.frontMatter as NextSeoProps
   return (
     <>
-      <NextSeo {...frontMatter} {...config.getNextSeoProps?.()}>
+      <NextSeo {...frontMatter}>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link

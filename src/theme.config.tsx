@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { DocsThemeConfig, useConfig } from "nextra-theme-docs"
 
 import { Head } from "~components/head"
@@ -58,57 +59,80 @@ const theme: DocsThemeConfig = {
   editLink: {
     text: "Edit this page on GitHub"
   },
+
   getNextSeoProps() {
     const { frontMatter } = useConfig()
-    // logo: <Logo />,
-    // head: <Head />,
+    const router = useRouter()
     return {
-      // additionalLinkTags: [
-      //   {
-      //     href: '/apple-icon-180x180.png',
-      //     rel: 'apple-touch-icon',
-      //     sizes: '180x180'
-      //   },
-      //   {
-      //     href: '/android-icon-192x192.png',
-      //     rel: 'icon',
-      //     sizes: '192x192',
-      //     type: 'image/png'
-      //   },
-      //   {
-      //     href: '/favicon-96x96.png',
-      //     rel: 'icon',
-      //     sizes: '96x96',
-      //     type: 'image/png'
-      //   },
-      //   {
-      //     href: '/favicon-32x32.png',
-      //     rel: 'icon',
-      //     sizes: '32x32',
-      //     type: 'image/png'
-      //   },
-      //   {
-      //     href: '/favicon-16x16.png',
-      //     rel: 'icon',
-      //     sizes: '16x16',
-      //     type: 'image/png'
-      //   }
-      // ],
+      additionalLinkTags: [
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/favicons/apple-touch-icon.png"
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicons/favicon-32x32.png"
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicons/favicon-16x16.png"
+        },
+        {
+          rel: "manifest",
+          href: "/favicons/site.webmanifest"
+        },
+        {
+          rel: "mask-icon",
+          href: "/favicons/safari-pinned-tab.svg",
+          color: "#ffffff"
+        },
+        {
+          rel: "shortcut icon",
+          href: "/favicons/favicon.ico"
+        }
+      ],
       additionalMetaTags: [
+        {
+          name: "msapplication-TileColor",
+          content: "#ffffff"
+        },
+        {
+          name: "msapplication-config",
+          content: "/favicons/browserconfig.xml"
+        },
+        {
+          name: "theme-color",
+          content: "#ffffff"
+        },
         { content: "en", httpEquiv: "Content-Language" },
-        { content: "Plasmo Docs", name: "apple-mobile-web-app-title" },
-        { content: "#8800FF", name: "msapplication-TileColor" }
+        { content: "Plasmo Docs", name: "apple-mobile-web-app-title" }
         // { content: '/ms-icon-144x144.png', name: 'msapplication-TileImage' }
       ],
-      description:
-        frontMatter.description || "Plasmo: the Browser Extension Framework",
+      description: frontMatter.description || "The Browser Extension Platform",
       openGraph: {
+        type: "website",
+        locale: "en_US",
+        siteName: "Plasmo Docs",
+        url: `https://docs.plasmo.com${router.asPath}`,
         images: [
-          { url: frontMatter.image || "https://nextra.vercel.app/og.png" }
+          {
+            url:
+              frontMatter.image ||
+              "https://docs.plasmo.com/images/seo-1200-700.png",
+            width: 1200,
+            height: 700,
+            alt: "Plasmo Docs"
+          }
         ]
       },
-      titleTemplate: "%s - Plasmo Framework",
+      titleTemplate: "%s – Plasmo",
       twitter: {
+        handle: "@plasmohq",
         cardType: "summary_large_image",
         site: "https://docs.plasmo.com"
       }
