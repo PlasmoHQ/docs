@@ -50,7 +50,7 @@ See [the plasmo-overlay.tsx file in with-content-scripts-ui](https://github.com/
 
 ### Note about `data-text` schemes
 
-In the example above, we use the [`data-text`](/browser-extension/import#data-text) scheme to load our stylesheet as plain text into the `cssText` variable, which we then assign to our style element's `textContent`. 
+In the example above, we use the [`data-text`](/browser-extension/import#data-text) scheme to load our stylesheet as plain text into the `cssText` variable, which we then assign to our style element's `textContent`.
 
 > NOTE: Be cautious with this scheme's import path if you use the `src` directory, as noted [here](/browser-extension/import#tilde-).
 
@@ -122,7 +122,7 @@ export const getOverlayAnchor: PlasmoGetOverlayAnchor = async () =>
 
 Plasmo overlays your exported component onto the returned element.
 
-Since the `getOverlayAnchor` function is async, you also have the power to control *when* Plasmo mounts your component. For example, you can wait for a specific element to appear on the page before mounting your component.
+Since the `getOverlayAnchor` function is async, you also have the power to control _when_ Plasmo mounts your component. For example, you can wait for a specific element to appear on the page before mounting your component.
 
 Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-mount.tsx) for an example.
 
@@ -239,8 +239,7 @@ Use cases:
 
 - Extension needs to [absorb the styling of the host webpage](https://github.com/PlasmoHQ/plasmo/issues/10#issuecomment-1149499252)
 - Extension needs to mount the component directly into the webpage instead of using a shadow DOM
-- Extension needs to use an [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe](iframe), instead
-
+- Extension needs to use an [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe), instead
 
 > **NOTE:** If you export a `getRootContainer` function, Plasmo ignores the `getStyle` function since only the provided Shadow DOM container uses it. `getMountPoint`'s behavior might also be affected as the component's position will be relative to your provided container.
 
