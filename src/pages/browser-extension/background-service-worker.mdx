@@ -1,3 +1,8 @@
+---
+title: Background Service Workers with Plasmo
+description: Documentation on how to use background service workers with Plasmo.
+---
+
 # Background Service Worker
 
 An extension's background service worker is powerful because it runs in the [service worker context](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers). For example, when in this context, you no longer need to worry about CORS and can fetch resources from any origin. It is also common to offload heavy computation to the background service worker.
@@ -24,10 +29,9 @@ You should see what we've logged in the inspector:
 
 See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background) for a complete example.
 
-
 ## Persisting states
 
-The worker becomes idle after a few seconds of inactivity, and the browser will kill its process entirely after 5 minutes. This means all state (variables, etc.) is lost unless you use a storage engine. 
+The worker becomes idle after a few seconds of inactivity, and the browser will kill its process entirely after 5 minutes. This means all state (variables, etc.) is lost unless you use a storage engine.
 
 The simplest way to persist your background service worker's state is to use the [storage API](/framework-api/storage).
 

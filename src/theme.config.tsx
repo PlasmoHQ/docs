@@ -1,4 +1,4 @@
-import type { DocsThemeConfig } from "nextra-theme-docs/."
+import { DocsThemeConfig, useConfig } from "nextra-theme-docs"
 
 import { Head } from "~components/head"
 import { Logo } from "~components/logo"
@@ -26,12 +26,13 @@ const theme: DocsThemeConfig = {
     link: "https://www.plasmo.com/s/d" // Plasmo discord server,
   },
   docsRepositoryBase: "https://github.com/PlasmoHQ/docs/blob/main/", // base URL for the docs repository
-  titleSuffix: " - Plasmo",
   navigation: {
     next: true,
     prev: true
   },
 
+  head: <Head />,
+  logo: <Logo />,
   // search: {
   //   component: null
   // },
@@ -57,9 +58,62 @@ const theme: DocsThemeConfig = {
   editLink: {
     text: "Edit this page on GitHub"
   },
-
-  logo: <Logo />,
-  head: <Head />
+  getNextSeoProps() {
+    const { frontMatter } = useConfig()
+    // logo: <Logo />,
+    // head: <Head />,
+    return {
+      // additionalLinkTags: [
+      //   {
+      //     href: '/apple-icon-180x180.png',
+      //     rel: 'apple-touch-icon',
+      //     sizes: '180x180'
+      //   },
+      //   {
+      //     href: '/android-icon-192x192.png',
+      //     rel: 'icon',
+      //     sizes: '192x192',
+      //     type: 'image/png'
+      //   },
+      //   {
+      //     href: '/favicon-96x96.png',
+      //     rel: 'icon',
+      //     sizes: '96x96',
+      //     type: 'image/png'
+      //   },
+      //   {
+      //     href: '/favicon-32x32.png',
+      //     rel: 'icon',
+      //     sizes: '32x32',
+      //     type: 'image/png'
+      //   },
+      //   {
+      //     href: '/favicon-16x16.png',
+      //     rel: 'icon',
+      //     sizes: '16x16',
+      //     type: 'image/png'
+      //   }
+      // ],
+      additionalMetaTags: [
+        { content: "en", httpEquiv: "Content-Language" },
+        { content: "Plasmo Docs", name: "apple-mobile-web-app-title" },
+        { content: "#8800FF", name: "msapplication-TileColor" }
+        // { content: '/ms-icon-144x144.png', name: 'msapplication-TileImage' }
+      ],
+      description:
+        frontMatter.description || "Plasmo: the Browser Extension Framework",
+      openGraph: {
+        images: [
+          { url: frontMatter.image || "https://nextra.vercel.app/og.png" }
+        ]
+      },
+      titleTemplate: "%s - Plasmo Framework",
+      twitter: {
+        cardType: "summary_large_image",
+        site: "https://docs.plasmo.com"
+      }
+    }
+  }
 }
 
 export default theme
