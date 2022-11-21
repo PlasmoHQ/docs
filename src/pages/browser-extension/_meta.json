@@ -4,6 +4,7 @@
   "content-scripts": "Content Scripts",
   "content-scripts-ui": "Content Scripts UI",
   "background-service-worker": "Background SW",
+  "sandbox-pages": "Sandbox Pages",
   "env": "Environment Variables",
   "import": "Import Resolution",
   "assets": "Assets",
