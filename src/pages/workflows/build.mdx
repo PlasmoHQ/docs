@@ -14,7 +14,15 @@ npm run build
 
 ## Generating a zip bundle
 
-Optionally supply a `--zip` flag to the build command to create a zip bundle ready to be uploaded to the web stores:
+To create a production zip bundle ready to be uploaded to the web stores, use the `package` subcommand:
+
+```sh
+pnpm package
+# OR
+npm run package
+```
+
+If you would like to combine the building and packaging process, use the `--zip` flag with the `build` command instead:
 
 ```sh
 pnpm build --zip
@@ -32,7 +40,7 @@ plasmo build --target=firefox-mv2
 
 The final bundle will be available in the `build/firefox-mv2-prod` directory.
 
-For a list of officially supported targets, [view our officially supported browser targets section](./faq#what-are-the-officially-supported-browser-targets).
+For a list of officially supported targets, [visit this link](./faq#what-are-the-officially-supported-browser-targets).
 
 ## With source maps
 

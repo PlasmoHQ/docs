@@ -2,7 +2,7 @@
 description: How to localize your browser extension with Plasmo
 ---
 
-# Localization
+# Localization and Internationalization
 
 Plasmo has built-in support for localization. These concepts should feel familiar to you if you've ever done this in any other Chrome extension.
 
@@ -16,26 +16,26 @@ You will need to pick one and stick to it!
 
 ## English Example
 
-Add the following to `locales/en/messages.json`:
+Create a `locales/en/messages.json` file with a JSON mapping between a unique `key` and a locale object:
 
 ```json
 {
   "extensionName": {
-    "message": "with-18n",
+    "message": "with-locales-i18n-en",
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "Example using i18n!",
+    "message": "Example using locales + i18n!",
     "description": "Description of the extension."
   },
   "popup": {
-    "message": "This is showing the power of i18n!",
+    "message": "Logic is the beginning of wisdom, not the end.",
     "description": "Popup message."
   }
 }
 ```
 
-By default, plasmo picks the first locale alphabetically available as default. However, you can specify a `default_locale` in your manifest like so:
+By default, Plasmo picks the first locale alphabetically available as default. However, you can specify a `default_locale` in your manifest like so:
 
 ```json
 {
@@ -45,9 +45,33 @@ By default, plasmo picks the first locale alphabetically available as default. H
 }
 ```
 
-Now you should be able to use all the i18n features Chrome provides.
+Even more powerful, you can use environment variables inside your locale files:
 
-For example, we can fetch i18n strings like so:
+```json
+{
+  ...
+  "popup": {
+    "message": "Logic is the beginning of wisdom, not the end. - $PLASMO_PUBLIC_QUOTE_AUTHOR",
+    "description": "Popup message."
+  }
+}
+```
+
+`.env`:
+
+```ini
+PLASMO_PUBLIC_QUOTE_AUTHOR=Spock
+```
+
+The locales file are monitored by Plasmo if they existed before the dev server started. Thus, you can change the locales file and see the changes in the browser without restarting the dev server.
+
+## Usage
+
+With the locale files in place, you can use the `i18n` API to localize your extension.
+
+### Inside source code modules
+
+To get the locale string inside your components, use the `i18n` API to get the locale message by its `key`:
 
 ```jsx
 import { useState } from "react"
@@ -74,38 +98,22 @@ function IndexPopup() {
 export default IndexPopup
 ```
 
-In the package.json, fetching i18n strings would look something like this:
+### Inside package.json and manifest overrides
+
+To reference a locale string inside your manifest overrides, wrap the key inside `__MSG_<key>__`:
 
 ```json
 {
-  "name": "with-i18n",
+  "name": "with-locales-i18n",
   "displayName": "__MSG_extensionName__",
   "version": "0.0.0",
   "description": "__MSG_extensionDescription__",
-  "author": "coldsauce",
-  "scripts": {
-    "dev": "plasmo dev",
-    "build": "plasmo build"
-  },
   "manifest": {
     "name": "__MSG_extensionName__"
   }
 }
 ```
 
-Even more powerful, you can use environment variables inside your locale files:
-
-```json
-{
-  "extensionName": {
-    "message": "with-18n",
-    "description": "Name of the $PLASMO_PUBLIC_EXT_NAME."
-  }
-}
-```
-
-The locales file are also monitored by plasmo if they existed before the dev server started. Thus, you can change the locales file and see the changes in the browser without restarting the dev server.
-
 Please refer to the [Chrome i18n documentation](https://developer.chrome.com/extensions/i18n) for more information.
 
-If you'd like to see an example showcasing locale, check out [with-locales](https://github.com/PlasmoHQ/examples/blob/main/with-locales) in the [Plasmo examples](https://github.com/PlasmoHQ/examples) repository.
+If you'd like to see an example showcasing locale, check out [with-locales-i18n](https://github.com/PlasmoHQ/examples/blob/main/with-locales-i18n) in the [Plasmo examples](https://github.com/PlasmoHQ/examples) repository.
