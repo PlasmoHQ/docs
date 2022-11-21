@@ -2,7 +2,15 @@
 description: How to inject your own components into an existing web page with Plasmo's Content Scripts UI features.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Content Scripts UI
+
+<Callout emoji="⚠️">
+
+**WARNING:** This doc is heavily outdated (note sections that were marked "OUTDATED"). Please inspect the types exported by Plasmo for more information, and go through the CSUI mounting logic in the framework to study how it works. We have been swarmed by work lately and haven't had the time to update this doc. If you have some time, please consider contributing by opening a PR 😄
+
+</Callout>
 
 Plasmo has first-class support for mounting React, Svelte3, or Vue3 components into the current webpage. This feature is called content scripts UI (CSUI).
 
@@ -113,7 +121,7 @@ Once the browser registers the font, you can reference it inside your CSS style:
 
 See [with-content-scripts-ui/contents/plasmo-overlay.tsx](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-overlay.tsx) for a full example.
 
-## getOverlayAnchor
+## getOverlayAnchor - OUTDATED
 
 To anchor a React component on top of a specific element on the current webpage, export a function called `getOverlayAnchor` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
 
@@ -150,7 +158,7 @@ export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (
 }
 ```
 
-## getInlineAnchor
+## getInlineAnchor - OUTDATED
 
 To anchor a React component next to another element on the webpage, export a function called `getInlineAnchor` that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
 
@@ -181,7 +189,7 @@ export const getShadowHostId: PlasmoGetShadowHostId = () => "custom-shadow-host"
 
 This will also optimize the performance of the inline anchor function since it will no longer need to traverse the DOM tree upwards to find the root node.
 
-## mountShadowHost
+## mountShadowHost - OUTDATED
 
 Your component lives inside a container called a `shadowHost`.
 
@@ -194,9 +202,9 @@ import type { PlasmoMountShadowHost } from "plasmo"
 
 export const mountShadowHost: PlasmoMountShadowHost = ({
   shadowHost,
-  inlineAnchor
+  anchor
 }) => {
-  inlineAnchor.appendChild(shadowHost)
+  anchor.element.appendChild(shadowHost)
 }
 ```
 
@@ -207,16 +215,16 @@ import type { PlasmoMountShadowHost } from "plasmo"
 
 export const mountShadowHost: PlasmoMountShadowHost = ({
   shadowHost,
-  inlineAnchor,
+  anchor,
   observer
 }) => {
   // Do you custom mount...
-  inlineAnchor.appendChild(shadowHost)
+  anchor.element.appendChild(shadowHost)
   observer.disconnect()
 }
 ```
 
-## createShadowRoot
+## createShadowRoot - OUTDATED
 
 By default, Plasmo creates an "open" `shadowRoot` and attaches it to the `shadowHost`. To override this behavior and customize your `shadowRoot`, export a `createShadowRoot` function. The first parameter is the generated `shadowHost`.
 
@@ -229,7 +237,7 @@ export const createShadowRoot: PlasmoCreateShadowRoot = (shadowHost) =>
   shadowHost.attachShadow({ mode: "closed" })
 ```
 
-## getRootContainer
+## getRootContainer - OUTDATED
 
 Sometimes, you'll want to completely replace Plasmo's Shadow DOM container implementation to fit your needs better. To do so, export a `getRootContainer` function that returns a valid [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement):
 
@@ -249,7 +257,7 @@ Use cases:
 
 Check [this file in with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-root-container.tsx) for an example.
 
-## render
+## render - OUTDATED
 
 The `render` function allows you to customize how Plasmo renders everything. Use it to override our implementation of the MutationObserver, our MountContainer, or both:
 
