@@ -25,7 +25,7 @@ window.addEventListener("message", async function (event) {
 })
 ```
 
-The script above listens to a `message` event from the window scope, and eval the code sent by the caller via the data property. The sandbox page is now available under `sandbox.html` OR `sandboxes/<name>.html` in the extension bundle. To send messages to this page, we will need to mount it inside an iframe, and invoke the postMessage API. Let's do so in a `popup.tsx` [extension page](./index):
+The script above listens to a `message` event from the window scope, and eval the code sent by the caller via the data property. The sandbox page is now available under `sandbox.html` OR `sandboxes/<name>.html` in the extension bundle. To send messages to this page, we will need to mount it inside an iframe, and invoke the postMessage API. Let's do so in a `popup.tsx` [extension page](./):
 
 ```tsx
 import { useEffect, useRef, useState } from "react"
