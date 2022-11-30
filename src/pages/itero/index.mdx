@@ -10,13 +10,15 @@ The all-in-one browser extension platform that helps you iterate faster.
 
 Testing browser extensions is hard. You either have to wait for draconian review times, or you have to ask your testers to manually install the extension every time you make a change. With Itero TestBed, you can instantly push your browser extension to your beta testers without having to wait for review or manually install the extension.
 
+For a more in-depth view into Itero, check out the [Testbed page](./itero/testbed)
+
 ### Prerequisites
 
 You must have an account on [Itero](https://itero.plasmo.com). If you don't have an account, you can sign up [here](https://itero.plasmo.com).
 
 ### Steps
 
-#### 1. Zip your extension files
+#### Zip your extension files
 
 > Note: You can skip this step if you already have a zip file of your extension.
 
@@ -24,12 +26,38 @@ If you're using the Plasmo Framework, check out the [documentation](./workflows/
 
 If you're manually zipping, make sure your manifest.json file is at the root of the zip file.
 
-#### 2. Upload your browser extension's zip file on Itero
+#### Upload your browser extension's zip file on Itero
 
 Take the zip file that you created in the previous step and upload it to Itero. You can do this by going to the [TestBed](https://itero.plasmo.com) page and clicking the "Upload new Extension" button.
 
-#### 3. Share your extension's link with your beta testers
+#### Share your extension's link with your beta testers
 
-Your beta testers will have to install Plasmo's software, and then install your extension with a single click.
+Your beta testers will have to install Plasmo's software, and then install your extension with a single click. Updates will automatically be pushed to them as you make changes.
 
-## Mv2-Mv3 Converter
+## Manifest Version 2 to 3 Converter
+
+Converting your browser extension from Manifest V2 to Manifest V3 is a big task. With Itero's Mv2-Mv3 Converter, you can convert your extension to Manifest V3 with a single click. You can then use the TestBed to test your extension and make sure it works as expected.
+
+Expand your extension on the Itero dashboard and click on MV2 to MV3.
+
+![](/screenshots/2022-11-30-16-03-15.png)
+
+You'll see an entire page dedicated to converting your extension.
+
+Starter-tier users can only convert their manifest.json file. Pro-tier users can also have their code scanned!
+
+If you haven't already, click "Run Code Scanning" to scan your code for any issues. This will help you identify any issues that you might have with your extension.
+
+![](/screenshots/2022-11-30-16-05-02.png)
+
+### Manifest Converter
+
+Plasmo will look through your manifest.json file and let you know what you need to change in order to be MV3 ready. You can also click "Download MV3 Manifest" to download a manifest.json file that's ready for MV3.
+
+![](/screenshots/2022-11-30-16-05-30.png)
+
+### Code Scanning
+
+Pro users get the added benefit of having their code scanned. This will identify if your extension uses any MV2-only features that are not supported in MV3.
+
+![](/screenshots/2022-11-30-16-06-15.png)
