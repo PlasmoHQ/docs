@@ -18,7 +18,7 @@ You must have an account on [Itero](https://itero.plasmo.com). If you don't have
 
 ### Steps
 
-#### Zip your extension files
+#### 1. Prepare your extension's zip bundle
 
 > Note: You can skip this step if you already have a zip file of your extension.
 
@@ -26,11 +26,25 @@ If you're using the Plasmo Framework, check out the [documentation](./workflows/
 
 If you're manually zipping, make sure your manifest.json file is at the root of the zip file.
 
-#### Upload your browser extension's zip file on Itero
+##### macOS & Linux
+
+```bash
+cd /path/to/extension
+zip -r ../extension.zip *
+```
+
+##### Windows
+
+```powershell
+cd /path/to/extension
+Compress-Archive -Path * -DestinationPath ../extension.zip
+```
+
+#### 2. Upload your browser extension's zip file on Itero
 
 Take the zip file that you created in the previous step and upload it to Itero. You can do this by going to the [TestBed](https://itero.plasmo.com) page and clicking the "Upload new Extension" button.
 
-#### Share your extension's link with your beta testers
+#### 3. Share your extension's link with your beta testers
 
 Your beta testers will have to install Plasmo's software, and then install your extension with a single click. Updates will automatically be pushed to them as you make changes.
 
