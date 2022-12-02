@@ -60,7 +60,7 @@ const theme: DocsThemeConfig = {
     text: "Edit this page on GitHub"
   },
 
-  getNextSeoProps() {
+  useNextSeoProps() {
     const { frontMatter } = useConfig()
     const router = useRouter()
     return {

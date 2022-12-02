@@ -25,7 +25,8 @@
     "resolveJsonModule": true,
     "jsx": "preserve",
     "paths": {
-      "~*": ["./src/*"]
+      "~*": ["./src/*"],
+      "@*": ["./public/*"],
     },
     "baseUrl": "."
   },

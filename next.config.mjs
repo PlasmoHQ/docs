@@ -1,14 +1,18 @@
-const withNextra = require("nextra")({
+import { withPlausibleProxy } from "next-plausible"
+import nextra from "nextra"
+
+const withNextra = nextra({
   theme: "nextra-theme-docs",
   themeConfig: "./src/theme.config.tsx",
-  unstable_defaultShowCopyCode: true,
   unstable_flexsearch: {
     codeblocks: true
-  }
+  },
+  unstable_readingTime: true,
+  unstable_staticImage: true,
+  unstable_defaultShowCopyCode: true
 })
-const { withPlausibleProxy } = require("next-plausible")
 
-module.exports = withPlausibleProxy()(
+export default withPlausibleProxy()(
   withNextra({
     reactStrictMode: true,
     // i18n: {

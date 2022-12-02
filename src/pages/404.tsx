@@ -17,8 +17,8 @@ export default function NotFoundPage() {
           only thing that's truly yours is the rest of humanity.
         </p>
       </blockquote>
-      <Link href="/">
-        <a className={style.back}>👈 Back to base</a>
+      <Link href="/" className={style.back}>
+        👈 Back to base
       </Link>
     </article>
   )

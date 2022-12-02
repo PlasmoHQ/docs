@@ -22,15 +22,15 @@ Due to [Manifest v3's restriction with remote code execution](https://developer.
 
 To set up a Stripe Product Link, you must create a Stripe product. Head to [Stripe Product Dashboard](https://dashboard.stripe.com/test/products?active=true) page, and press Add Product, then fill out the information:
 
-![Stripe add Product](/screenshots/stripe-add-product.png)
+![Stripe add Product](@screenshots/stripe-add-product.png)
 
 Then, go to the product page and click the `Create payment link` button:
 
-![Stripe create payment](/screenshots/stripe-create-payment.png)
+![Stripe create payment](@screenshots/stripe-create-payment.png)
 
 Above should get you the Stripe Payment Link. For backend authorization, head to the [Stripe Dashboard Home Page](https://dashboard.stripe.com/test/dashboard) for the Secret Key:
 
-![Stripe dev keys](/screenshots/stripe-dev-keys.png)
+![Stripe dev keys](@screenshots/stripe-dev-keys.png)
 
 ## Using env variable
 
@@ -73,15 +73,15 @@ To enable the permission required for this feature, add the following to the `ma
 
 Then, we will need to set up an OAuth2 client ID using Google Cloud Platform (GCP). Quickly create a new project in GCP following [this guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects), then navigate to the Credentials page: `https://console.cloud.google.com/apis/credentials?referrer=search&project=<YOUR_PROJECT_ID>`. It'll show you something like this:
 
-![GCP Credential Page](/screenshots/2022-06-10-14-10-33.png)
+![GCP Credential Page](@screenshots/2022-06-10-14-10-33.png)
 
 Click `CREATE CREDENTIALS`, then select `OAuth client ID`:
 
-![Create OAuth ClientID](/screenshots/2022-06-10-14-11-50.png)
+![Create OAuth ClientID](@screenshots/2022-06-10-14-11-50.png)
 
 On the next page, pick `Chrome app`. The form will then ask for an `Application ID`:
 
-![Create Chrome App ClientID](/screenshots/2022-06-10-14-13-21.png)
+![Create Chrome App ClientID](@screenshots/2022-06-10-14-13-21.png)
 
 This will be your Extension ID - the next section is about how to obtain it.
 
@@ -125,11 +125,11 @@ CRX_PUBLIC_KEY=v47xxx
 
 [Run the development server](/workflows#run-the-development-server) then [load the extension into your browser](/workflows#loading-the-extension). Then, copy the extension ID:
 
-![Copy extension ID](/screenshots/2022-06-10-14-19-49.png)
+![Copy extension ID](@screenshots/2022-06-10-14-19-49.png)
 
 Paste the ID into the OAuth form's Application ID field, then submit. You will then receive your OAuth2 client ID:
 
-![OAuth Client ID](/screenshots/2022-06-10-14-36-19.png)
+![OAuth Client ID](@screenshots/2022-06-10-14-36-19.png)
 
 Add it to your environment variables:
 
