@@ -2,23 +2,16 @@
 description: How to inject your own components into an existing web page with Plasmo's Content Scripts UI features.
 ---
 
-import { Callout } from "nextra-theme-docs"
-
 # Content Scripts UI
-
-<Callout emoji="⚠️">
-
-**WARNING:** This doc is heavily outdated (note sections that were marked "OUTDATED"). Please inspect the types exported by Plasmo for more information, and go through the CSUI mounting logic in the framework to study how it works. We have been swarmed by work lately and haven't had the time to update this doc. If you have some time, please consider contributing by opening a PR 😄
-
-</Callout>
 
 Plasmo has first-class support for mounting React, Svelte3, or Vue3 components into the current webpage. This feature is called content scripts UI (CSUI).
 
 An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/browser-extension/content-scripts#config). To start injecting UI using React:
 
-0. Create a `contents` directory if you don't have one already.
+1. Create a `contents` directory if you don't have one already.
 1. Create a new file inside the `contents` directory with a `.tsx` extension: `contents/inline.tsx`
-2. Export a default React component:
+1. Export a default React component
+1. Profit 🎉
 
 ```tsx
 const PlasmoInline = () => {
@@ -28,15 +21,15 @@ const PlasmoInline = () => {
 export default PlasmoInline
 ```
 
-3. Profit 🎉
-
 > NOTE: If you'd only like to have one content script UI, instead of creating a contents/ directory, you can have a file named `content.tsx` in your project's root directory.
 
 See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/with-content-scripts-ui) for a full example.
 
 ### How does Plasmo mount the UI component?
 
-Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) and mounts your exported component onto it. This isolation technique prevents the web page's style from affecting the component's styling.
+By default, Plasmo creates a [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) and mounts your exported component onto it. This isolation technique prevents the web page's style from affecting your component's styling.
+
+For more details, please see the [Life Cycle of Plasmo CSUI](./content-scripts-ui/life-cycle).
 
 ### Config
 

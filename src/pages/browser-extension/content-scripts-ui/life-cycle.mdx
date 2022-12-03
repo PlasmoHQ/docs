@@ -1,0 +1,116 @@
+# Life Cycle of Plasmo CSUI
+
+Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your React, Vue, or Svelte components in a content script. Although each UI library/framework has a slightly different mounting API, the top-level lifecycle is largely the same:
+
+1. Get an `anchor`
+1. Create or locate a `root container`
+1. Mount the component onto the `root container`
+
+## Anchor
+
+![CSUI Life Cycle](@screenshots/2022-12-02-23-53-02.png)
+
+A Plasmo CSUI anchor is defined by the following type:
+
+```ts
+export type PlasmoCSUIAnchor = {
+  type: "overlay" | "inline"
+  element: Element
+}
+```
+
+By default, the CSUI lifecycle creates an overlay anchor using the `document.body` element:
+
+```ts
+{
+  type: "overlay",
+  element: document.body
+}
+```
+
+If any anchor-getter function is defined and exported, the CSUI lifecycle will use the returned element and the relevant anchor type instead.
+
+### Overlay
+
+Overlay anchors spawn `CSUI Overlay Containers` which are batch-mounted onto a single `Root Container` element per CSUI. The `Overlay Containers` are absolutely positioned relative to each anchor's element with maxed out z-index. Then, your exported `CSUI Component` is mounted onto each `Overlay Container`:
+
+![Overlay Anchor Mounting](@screenshots/2022-12-02-22-45-32.png)
+
+To specify a single overlay anchor, export a `getOverlayAnchor` function:
+
+```ts
+import type { PlasmoGetOverlayAnchor } from "plasmo"
+
+export const getOverlayAnchor: PlasmoGetOverlayAnchor = async () =>
+  document.querySelector("#pricing")
+```
+
+To specify a list of overlay anchors, export a `getOverlayAnchorList` function:
+
+```ts
+import type { PlasmoGetOverlayAnchorList } from "plasmo"
+
+export const getOverlayAnchorList: PlasmoGetOverlayAnchorList = async () =>
+  document.querySelectorAll("a")
+```
+
+> NOTE: `getOverlayAnchorList` does not cover dynamic case at the moment. For example, if new anchors are added to the web page after the initial rendering, the CSUI lifecycle will not be able to detect it. PR is welcome to improve this feature!
+
+### Inline
+
+Inline anchor embeds your `CSUI Component` directly into the web page. Each anchor spawns a `Root Container` appended next to its target element. Within each `Root Container`, an `Inline Container` is created which is then used to mount the exported `CSUI Component`:
+
+![CSUI Inline Anchor](@screenshots/2022-12-02-23-32-21.png)
+
+To specify a single inline anchor, export a `getInlineAnchor` function:
+
+```ts
+import type { PlasmoGetInlineAnchor } from "plasmo"
+
+export const getInlineAnchor: PlasmoGetInlineAnchor = async () =>
+  document.querySelector("#pricing")
+```
+
+To specify a list of inline anchors, export a `getInlineAnchorList` function:
+
+```ts
+import type { PlasmoGetInlineAnchorList } from "plasmo"
+
+export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () =>
+  document.querySelectorAll("a")
+```
+
+## Root Container
+
+![Root container creation](@screenshots/2022-12-03-04-06-51.png)
+
+The `Root Container` is where your `CSUI Component` is mounted. The built-in `Root Container` is a ShadowDOM element with the `plasmo-csui` custom tag. This allows developers to style the `Root Container` without being affected by the web page's styles.
+
+### Closed Shadow Root
+
+By default, the shadow root is "open," allowing any user to inspect the hierarchy of the ShadowDOM. To override this behavior, export a `createShadowRoot` function:
+
+```ts
+import type { PlasmoCreateShadowRoot } from "plasmo"
+
+export const createShadowRoot: PlasmoCreateShadowRoot = (shadowHost) =>
+  shadowHost.attachShadow({ mode: "closed" })
+```
+
+### Custom Styles
+
+### Custom Root Container
+
+To override the default `Root Container` creation, export a `createRootContainer` function:
+
+```ts
+import type { PlasmoCreateShadowRoot } from "plasmo"
+
+export const getRootContainer = () => document.getElementById("itero")
+```
+
+## Renderer
+
+```
+
+```
