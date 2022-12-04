@@ -1,0 +1,43 @@
+---
+description: Guide on how to customize the internal working path used within the Plasmo bundler.
+---
+
+# Customizing Internal Paths
+
+Plasmo constructs several paths to be used in the bundling process. These paths are used to locate the source code and the output directory for example. This section describes how to customize some of these paths.
+
+## Build path
+
+The default bundle build path is `./build`. To change this behavior, either:
+
+- Specify the `--build-path` flag:
+
+```sh
+plasmo build --build-path=./dist
+```
+
+- Or use the `PLASMO_BUILD_PATH` top-level environment variable:
+
+```sh
+cross-env PLASMO_BUILD_PATH=dist plasmo build
+```
+
+This applies to the `dev`, `build` and `package` commands.
+
+## Source path
+
+The default source path is `./src`. To change this behavior, either:
+
+- Specify the `--source-path` flag:
+
+```sh
+plasmo build --source-path=src/extension
+```
+
+- Or use the `PLASMO_SOURCE_PATH` top-level environment variable:
+
+```sh
+cross-env PLASMO_SOURCE_PATH=src/extension plasmo build
+```
+
+This applies to the `dev`, `build` and `package` commands.

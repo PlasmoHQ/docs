@@ -6,7 +6,7 @@ description: Plasmo offers several ways to easily bundle assets into your browse
 
 Extension bundles can include assets such as images, fonts, binary WASM bundles, and other files. Plasmo provides several methods to work with these assets.
 
-## Importing Image Assets Inline
+## Inline Image
 
 The easiest way to load images inside your extension is to use the `data-base64` scheme. This will inline the image as base64 encoded data in the built bundle of your extension:
 
@@ -20,7 +20,7 @@ import someCoolImage from "data-base64:~assets/some-cool-image.png"
 
 > NOTE: Please see this [note about `~` import resolution](/browser-extension/import#tilde-)
 
-## Importing Web Accessible Resources
+## Web Accessible Resources
 
 Plasmo automatically copies any web-accessible resources declared in [the manifest override](/customization/manifest). For example, by specifying the following config in `package.json`:
 
@@ -52,7 +52,7 @@ The files below will be copied into the extension bundle and be available to [`c
 
 See [with-web-accessible-resources](https://github.com/PlasmoHQ/examples/tree/main/with-web-accessible-resources)
 
-## Importing Assets from `node_modules`
+## Assets from `node_modules`
 
 Sometimes, a node package exposes static assets files you must include in your bundle as web-accessible resources. To do so, specify those assets in the `web_accessible_resources` field of the manifest override in `package.json`:
 

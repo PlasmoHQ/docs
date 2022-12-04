@@ -1,10 +1,14 @@
+---
+description: Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your React, Vue, or Svelte components in a content script.
+---
+
 # Life Cycle of Plasmo CSUI
 
 Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your React, Vue, or Svelte components in a content script. Although each UI library/framework has a slightly different mounting API, the top-level lifecycle is largely the same:
 
-1. Get an `anchor`
-1. Create or locate a `root container`
-1. Mount the component onto the `root container`
+1. Get an [`Anchor`](#anchor)
+1. Create or locate a [`Root Container`](#root-container)
+1. [Render](#renderer) the component onto the `Root Container`
 
 ## Anchor
 
@@ -193,7 +197,7 @@ Developers may export a `render` function to override the default renderer. You 
 
 - Provide custom `Inline container` or `Overlay container`
 - Customize the mounting logic
-- Provide a custom `MutationObserver`k
+- Provide a custom `MutationObserver`
 
 For example, to use a custom container:
 

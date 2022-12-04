@@ -39,6 +39,8 @@ You can use environment variables inside the manifest overrides. For instance in
 }
 ```
 
+If the environment variable could not be found, the field will be removed completely from the manifest. This enables working with multiple browser targets by specifying [target-specific environment variables](/browser-extension/env#bundle-specific-env).
+
 ## Using locale template string
 
 You can use locale template strings in the manifest overrides:

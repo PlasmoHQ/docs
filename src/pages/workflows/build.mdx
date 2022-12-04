@@ -42,14 +42,6 @@ The final bundle will be available in the `build/firefox-mv2-prod` directory.
 
 For a list of officially supported targets, [visit this link](./faq#what-are-the-officially-supported-browser-targets).
 
-## With source maps
-
-By default, Plasmo does not generate source maps for your production bundle. However, you can use the `--source-maps` flag to change this behavior:
-
-```sh
-plasmo build --source-maps
-```
-
 ## With a custom tag
 
 Plasmo uses the `prod` tag for your production build. You can use the `--tag` flag to change this behavior:
@@ -63,3 +55,11 @@ The command above will:
 - Create the bundle in the `build/chrome-mv3-staging` directory
 - Set the `process.env.PLASMO_TAG` environment variables to `staging`
 - Parse and prioritize [`.env.staging` or `.env.staging.local`](/browser-extension/env#bundle-specific-env) if any exists
+
+## With source maps
+
+By default, Plasmo does not generate source maps for your production bundle. However, you can use the `--source-maps` flag to change this behavior:
+
+```sh
+plasmo build --source-maps
+```

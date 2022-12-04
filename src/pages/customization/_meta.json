@@ -3,5 +3,6 @@
   "manifest": "Manifest Override",
   "src": "Use src Directory",
   "html": "Replace the HTML",
-  "alias": "Alias Imports"
+  "alias": "Alias Imports",
+  "internal-path": "Internal Paths"
 }
