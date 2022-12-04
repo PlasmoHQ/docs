@@ -103,7 +103,7 @@ openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
 openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A
 ```
 
-We can then use this key by leveraging [env variable in our manifest override](/browser-extension/env#using-env-in-manifest-overrides):
+We can then use this key by leveraging [env variable in our manifest override](/browser-extension/env#in-manifest-overrides):
 
 `.env.development`
 
