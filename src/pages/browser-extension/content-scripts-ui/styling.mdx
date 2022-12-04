@@ -1,0 +1,135 @@
+# Styling Plasmo CSUI
+
+[Plasmo CSUI's built-in `Root Container`](./life-cycle/#root-container) allows extension developers to safely style their components. It ensures that:
+
+- The exported style does not leak to the web page
+- The web page's style does not influence the component's styling
+
+## Raw CSS Text
+
+To style the `Root Container`, export a `getStyle` function:
+
+```ts
+import type { PlasmoGetStyle } from "plasmo"
+
+export const getStyle: PlasmoGetStyle = () => {
+  const style = document.createElement("style")
+  style.textContent = `
+    p {
+      background-color: yellow;
+    }
+  `
+  return style
+}
+```
+
+## Import Stylesheet
+
+To import CSS/LESS/SASS files, combine the `getStyle` API with the [`data-text` import scheme](browser-extension/import#data-text):
+
+```ts
+import styleText from "data-text:./style.scss"
+import type { PlasmoGetStyle } from "plasmo"
+
+export const getStyle: PlasmoGetStyle = () => {
+  const style = document.createElement("style")
+  style.textContent = styleText
+  return style
+}
+```
+
+## CSS-in-JS
+
+The `getStyle` API can also be used to hydrate CSS-in-JS style cache, for example when using [`with emotion`](https://github.com/PlasmoHQ/examples/tree/main/with-emotion):
+
+```ts
+import createCache from "@emotion/cache"
+import { CacheProvider } from "@emotion/react"
+import type { PlasmoGetStyle } from "plasmo"
+
+const styleElement = document.createElement("style")
+
+const styleCache = createCache({
+  key: "plasmo-emotion-cache",
+  prepend: true,
+  container: styleElement
+})
+
+export const getStyle: PlasmoGetStyle = () => styleElement
+```
+
+## CSS Modules
+
+To utilize CSS modules, import the stylesheet twice:
+
+```tsx
+import styleText from "data-text:./style.module.pcss"
+import type { PlasmoContentScript } from "plasmo"
+
+import * as style from "./style.module.pcss"
+
+export const getStyle = () => {
+  const style = document.createElement("style")
+  style.textContent = styleText
+  return style
+}
+
+const Overlay = () => <h1 className={style.header}>Captain Log</h1>
+
+export default Overlay
+```
+
+## Custom Font
+
+To use a custom font in your CSUI, you must import the font inside a CSS file and declare it in the `css` property of the [config object](/browser-extension/content-scripts#config). The browser does not recognize Font assets if declared inside a shadowDOM. You have to load them in the global scope.
+
+1. Add your font in the `assets` directory (e.g `/assets/Fascinate.woff2`)
+2. Create a `font.css` file, importing the font inline using the [`data-base64`](/browser-extension/import#data-base64) scheme:
+
+```css
+@font-face {
+  font-family: "Fascinate";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(data-base64:~assets/Fascinate.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+```
+
+3. Declare the file in the `css` property of the config:
+
+```tsx
+export const config: PlasmoContentScript = {
+  matches: ["https://www.plasmo.com/*"],
+  css: ["font.css"]
+}
+```
+
+Once the browser registers the font, you can reference it inside your CSS style:
+
+```css
+.hw-top {
+  background: red;
+  color: white;
+  font-family: "Fascinate";
+}
+```
+
+See [with-content-scripts-ui/contents/plasmo-overlay.tsx](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-overlay.tsx) for a full example.
+
+## Styling the Shadow DOM
+
+Use the IDs `#plasmo-mount-container` and `#plasmo-shadow-container` to alter the `Root Container` styles in your CSS:
+
+```css
+#plasmo-shadow-container {
+  z-index: 99999;
+}
+
+#plasmo-mount-container {
+  background: blue;
+}
+```
