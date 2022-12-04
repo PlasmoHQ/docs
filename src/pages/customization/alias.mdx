@@ -4,74 +4,69 @@ description: Learn how to use Alias source code imports with your browser extens
 
 # Alias Source Code Import
 
-Plasmo supports an `alias` property in the `package.json` file to map an import specifier to a local directory or another node package.
+There are two methods to override the import path:
 
-## Alias Local Imports
+- Using the `paths` property in `tsconfig.json`
+- Using the `alias` property in `package.json`
 
-Since Plasmo uses [parcel](https://parceljs.org), which uses [swc](https://swc.rs/) underneath, it does not do type-checking with TypeScript, effectively skipping the `tsconfig` path mapping. Thus, when working with custom paths in Typescript, you must specify the mapping twice:
+## Alias Local TypeScript Imports
 
-1. In `package.json`'s `alias` field for the bundling process:
-
-```json
-{
-  "alias": {
-    "@Components": "./src/components/index.tsx"
-  }
-}
-```
-
-2. In `tsconfig.json`'s paths field for editor type-checking:
+To alias local imports, use the `paths` mapping in `tsconfig.json`:
 
 ```json
 {
   "extends": "plasmo/templates/tsconfig.base",
   "exclude": ["node_modules"],
-  "include": [".plasmo/**/*", "./**/*.ts", "./**/*.tsx"],
+  "include": ["./**/*.ts", "./**/*.tsx"],
   "compilerOptions": {
     "paths": {
       "~*": ["./src/*"],
-      "@Components": ["./src/components/index"]
+      "@Components": ["./src/components/*"]
     },
     "baseUrl": "."
   }
 }
 ```
 
-3. Use it in your code:
+You can then use it as follow:
 
 ```tsx
-import { Button, Checkbox, Input } from "@Components"
+import { Button } from "@Components/button"
+import { Checkbox } from "@Components/checkbox"
+import { Header } from "@Components/header"
+import { Input } from "@Components/input"
 ```
 
-See the example in [bug-244-alias-local-imports](https://github.com/PlasmoHQ/plasmo-test/tree/main/bug/bug-244-alias-local-imports)
+See the example in [bug-244-alias-local-imports](https://github.com/PlasmoHQ/
+plasmo-test/tree/main/bug/bug-244-alias-local-imports)
 
-Note that the alias config for local import is a **one-to-one mapping** between an import specifier and a local source code module. It does not support glob aliasing. Thus you must declare each alias individually if you want to split your import:
+## Alias External TypeScript Modules
 
-```json
-  "alias": {
-    "@Components/button": "./src/components/button.tsx",
-    "@Components/input": "./src/components/input.tsx",
-    "@Components/checkbox": "./src/components/checkbox.tsx",
-  }
-```
-
-This is cumbersome and not recommended. The recommended use of `alias` is to point `@Components` at a sibling package module with a `package.json` file, which declares all the sub-components as its exports. For example:
+To alias external typescript modules, you may use the `paths` mapping pointing to an external directory in `tsconfig.json`:
 
 ```json
 {
-  "alias": {
-    "@Components": "../../components"
+  "extends": "plasmo/templates/tsconfig.base",
+  "exclude": ["node_modules"],
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "compilerOptions": {
+    "paths": {
+      "coolio/*": ["../../../some-cool-package/*"]
+    },
+    "baseUrl": "."
   }
 }
 ```
 
-This would allow sub-path imports such as `@Components/button` to work as long as you declared them in the `components` package's entry file. Since Parcel does [tree shaking](https://parceljs.org/features/production/#tree-shaking), any `import` that's not used will be removed from the final bundle - just make sure your components are statically exported/imported.
+The import becomes:
 
-For more info, see [#244](https://github.com/PlasmoHQ/plasmo/issues/244).
+```tsx
+import { hello } from "coolio/hello"
+```
 
-## Alias External Files
+## Alias External Imports
 
-You can use the alias field to map an import to a file external to your project:
+You can use the `alias` field to map an import path to a file external to your project:
 
 ```json
 {
@@ -81,7 +76,7 @@ You can use the alias field to map an import to a file external to your project:
 }
 ```
 
-Make sure to also declare that import in a typescript `cool-file.d.ts` file:
+Make sure to also declare that import in a typescript declaration `cool-file.d.ts` file:
 
 ```ts
 declare module "some-cool-identifier/hello" {
@@ -89,12 +84,12 @@ declare module "some-cool-identifier/hello" {
 }
 ```
 
-And include that file in your tsconfig:
+And include that file in your `tsconfig.json`:
 
 ```json
 {
   ...
-  "include": [".plasmo/**/*", "./**/*.ts", "./**/*.tsx", "./cool-file.d.ts"]
+  "include": ["./**/*.ts", "./**/*.tsx", "./cool-file.d.ts"]
 }
 ```
 
@@ -104,7 +99,11 @@ Then you can use it in your code:
 import { hello } from "some-cool-identifier/hello"
 ```
 
-## Using Preact instead of React
+## Alias API-Compatible Modules
+
+Use the `alias` field in `package.json` to alias API-compatible modules. You can map to a local file or a dependency package.
+
+### Using Preact instead of React
 
 Since Preact's API is compatible with React, you can alias it like so:
 
