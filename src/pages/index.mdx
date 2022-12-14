@@ -4,31 +4,46 @@ description: Plasmo is the end-to-end platform for browser extension developers 
 
 # Introduction to Plasmo
 
-Plasmo is an all-in-one platform that empowers browser extension developers to create amazing extensions quickly and seamlessly. Its framework runtime API eliminates tedious boilerplate code, while the filesystem API makes it easy to manage static configuration. It also offers a hosted cloud service for end-to-end CI/CD, and much more! With Plasmo, extension development is faster and easier than ever before.
+Welcome to Plasmo, the all-in-one platform that makes it easy for browser extension developers to create, test, and publish amazing extensions. With Plasmo, you can say goodbye to tedious boilerplate code and hello to a faster, more seamless development experience.
 
-The current offering consists of three products:
+Our flagship product, the [Plasmo Framework](#plasmo-framework), is the ultimate Browser Extension SDK. It's designed to help you write extension code quickly and easily, without worrying about the intricacies of browser extensions.
 
-- [Plasmo Framework](#plasmo-framework) - The Browser Extension SDK
-- [Itero TestBed](#itero-testbed) - The Browser Extension Staging Environment
-- [Plasmo BPP](#plasmo-browser-platform-publisher) - The Browser Extension Automated Publishing Tool
+Once you've built your extension, you can use our [Itero TestBed](#itero-testbed) to test it in a real-world environment. This powerful staging environment lets you see how your extension will perform in the wild, and make any necessary changes before you launch. Ship directly to your beta testers without a review process holding you back.
+
+Finally, when you're ready to go live, our [Plasmo BPP tool](#plasmo-browser-platform-publisher) makes it easy to automate the publishing process. With just a few clicks, you can publish your extension to the world and start gaining users.
+
+Thanks to Plasmo, developing extensions has never been easier. Try it out today and see the difference for yourself!
 
 ## Plasmo Framework
 
-The Plasmo framework is an open-source, actively maintained browser extension SDK that offers many features to simplify the creation of powerful extensions. The framework consists of a bundler, a CLI, and a runtime code generator all tuned for extensions.
+Imagine a world where building browser extensions is easy and fun. Gone are the days of tedious development processes and struggling with complex frameworks and configurations.
 
-The framework addresses issues specific to browser extension development by tuning everything, from the bundler to the dev-server, to runtime, and even code-editor autocompletion.
+With Plasmo, declarative development is a breeze - just write a file, export a component, and Plasmo does the rest, automatically bundling and mounting it for you. Plus, our active community of over 400 developers is always there to help out and share their expertise.
 
-The following table lists some key problems that Plasmo Framework solves:
+Plasmo offers first-class support for Typescript, React, Preact, Svelte, and Vue, making it easy to build beautiful and performant extensions. And with live reload and React HMR built-in, you can see your changes instantly, without having to manually refresh your extension.
 
-| Problem                       | Solution                                    |
-| :---------------------------- | :------------------------------------------ |
-| Using React/Preact/Svelte/Vue | Reconciler that extract and mount component |
-| Live Reload and HMR           | Dedicated extension runtimes for            |
+Plasmo also comes with powerful libraries for storage and messaging, as well as built-in support for .env files. Plus, with Plasmo's "learn once, write everywhere" approach, you can build an extension once and easily target it to multiple browsers and manifest versions.
+
+And finally, with Plasmo's remote code bundling feature, you can rest easy knowing that your extension will be free of remote code violations on the web store.
 
 To get started: [Click Here](/framework#getting-started)
 
 ## Itero TestBed
 
-Test your browser extensions instantly without dragging and dropping zip files or waiting for browser stores to approve your updates.
+Testing browser extensions can be a tedious and time-consuming process. Traditional methods often require waiting for approval from browser stores or having your beta testers manually install updates. Itero TestBed offers a solution to this problem by allowing you to instantly push updates to your beta testers.
+
+Our platform also integrates with GitHub and includes automatic versioning. With Itero TestBed, you can streamline the testing process and focus on iterating quickly.
+
+Features include:
+
+- Instant updates to your beta testers
+- GitHub integration for easy deployment
+- Automatic versioning
+
+To get started: [Click Here](/itero)
 
 ## Plasmo Browser Platform Publisher
+
+Open-source GitHub action that makes it easy to publish your browser extension to the Chrome, Firefox Add-ons, and Microsoft Edge Add-ons stores. With Plasmo BPP, you can automate the publishing process and spend more time building your extension.
+
+To get started: [Click Here](/framework/workflows/submit)
