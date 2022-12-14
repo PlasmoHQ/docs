@@ -1,0 +1,132 @@
+---
+description: Plasmo Framework enables building the modern browser extension a breeze. Get started in less than a minute getting your extension up and running!
+---
+
+import { Callout } from "nextra-theme-docs"
+
+import { ShieldBanners } from "~components/shield-banners"
+
+# Plasmo Framework
+
+<ShieldBanners />
+
+The [Plasmo](https://www.plasmo.com/) Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions.
+
+> It's like [Next.js](https://nextjs.org/) for browser extensions!
+
+![CLI Demo](https://www.plasmo.com/assets/plasmo-cli-demo.gif)
+
+## Features
+
+- First-class [React](https://reactjs.org/) + [Typescript](https://www.typescriptlang.org/) Support
+- [Declarative Development](/framework#where-is-the-manifestjson-file)
+- [Content Scripts UI](/csui)
+- [Tab Pages](/framework/tab-pages)
+- Live-reloading + React HMR
+- [`.env*` files](/framework/env)
+- Targeting [multiple browser and manifest pairs](/framework/workflows/build#with-specific-target)
+- [Remote code bundling](/framework/remote-code) (e.g., for gtag4)
+- [Automated deployment via BPP](/framework/workflows/submit)
+- Optional support for [Svelte](https://github.com/PlasmoHQ/with-svelte) and [Vue](https://github.com/PlasmoHQ/with-vue)
+- And many, many more! 🚀
+
+## System Requirements
+
+- Node.js 16.14.x or later
+- macOS, Windows, or Linux
+- (Strongly Recommended) [pnpm](https://pnpm.io/)
+
+## Getting Started
+
+```sh
+pnpm create plasmo
+# OR
+yarn create plasmo
+# OR
+npm create plasmo
+```
+
+![Plasmo project files](@screenshots/file_structure.png)
+
+This command will set up the simplest Plasmo browser extension project for you. The structure is straightforward:
+
+| File name         | Description                                                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `popup.tsx`       | This file exports default a React component, which gets rendered into your popup page. _This is all you need to work on your extension popup!_    |
+| `assets`          | Plasmo [automatically generates the smaller icons](/framework/icon) and applies them in the manifest for you from the "icon.png" file             |
+| `package.json`    | Your usual Node.js project descriptor, with [an optional "manifest" property to customize Plasmo to your need](/framework/customization/manifest) |
+| `.prettierrc.cjs` | For code styling consistency                                                                                                                      |
+| `.gitignore`      | Your friendly neighborhood git ignore file                                                                                                        |
+| `README.md`       | Basic documentation                                                                                                                               |
+| `tsconfig.json`   | TypeScript configuration                                                                                                                          |
+
+<Callout emoji="📢">
+
+**NOTE:** To use the `src` directory for source code module, please follow this
+[guide](/framework/customization/src).
+
+</Callout>
+
+### Development Server
+
+For live-reloading support, you can start the development server with:
+
+```sh
+pnpm dev
+```
+
+The above command will watch for file changes and regenerate a bundle of your extension in `build/chrome-mv3-dev`.
+
+### Production Build
+
+For a production build, run:
+
+```sh
+pnpm build
+```
+
+This will create a production version of the extension in `build/chrome-mv3-prod`
+
+### Loading the Extension in Chrome
+
+We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
+
+Head over to `chrome://extensions` and enable Developer Mode.
+
+![](@screenshots/developer_mode.png)
+
+Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
+
+To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
+
+<Callout>
+
+**Pro tip:** pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+
+</Callout>
+
+![](@screenshots/popup_example.png)
+
+## Where is the manifest.json file?
+
+Plasmo abstracts away the manifest file. The framework generates the manifest under the hood based on your source files and configurations you export from your code, similar to [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
+
+We will further abstract with auto-permissions and a needs-based permission scheme, removing the need to specify permissions manually! _(Coming soon)_
+
+## Next Steps
+
+Check out the rest of the [Framework section](/framework/ext-pages) for a deep dive into how to work with Plasmo. A modular example accompanies each workflow, showcasing the framework's simplicity. View examples on [our GitHub repo](https://github.com/PlasmoHQ/examples).
+
+Check out the [Customization section](/framework/customization) for documentation on making Plasmo adapt to your needs.
+
+To see how to integrate Plasmo with other tools (such as TailwindCSS or Firebase), check out the list of examples in the [Quickstarts section](/quickstarts).
+
+## Community
+
+Find the Plasmo community on [Discord](https://www.plasmo.com/s/d). This is the appropriate channel to get help with using the Plasmo Framework.
+
+Our [Code of Conduct](https://github.com/PlasmoHQ/plasmo/blob/main/.github/CODE_OF_CONDUCT.md) applies to all Plasmo community channels.
+
+## Projects using Plasmo Framework
+
+- [MICE](https://github.com/PlasmoHQ/mice)

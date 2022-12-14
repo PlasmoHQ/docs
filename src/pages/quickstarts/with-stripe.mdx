@@ -34,7 +34,7 @@ Above should get you the Stripe Payment Link. For backend authorization, head to
 
 ## Using env variable
 
-Assuming you have set up a basic Plasmo project, the first thing to do is to set up our [environment variables](/browser-extension/env):
+Assuming you have set up a basic Plasmo project, the first thing to do is to set up our [environment variables](/framework/env):
 
 `.env.development`
 
@@ -89,7 +89,7 @@ This will be your Extension ID - the next section is about how to obtain it.
 
 You will want to pin your extension ID for development. If you accidentally remove your development extension from your browser, the extension ID will be lost, and your OAuth2 client will be invalidated.
 
-Since Chromium derives the extension ID from a public key, you can pin it by generating your own `key` instead. You can specify it in the [`manifest` override of your `package.json`](/customization#overriding-the-manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
+Since Chromium derives the extension ID from a public key, you can pin it by generating your own `key` instead. You can specify it in the [`manifest` override of your `package.json`](/framework/customization/manifest). We can generate this key by following this [Stack Overflow answer](https://stackoverflow.com/a/46739698):
 
 1. Generate the private key:
 
@@ -103,7 +103,7 @@ openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
 openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A
 ```
 
-We can then use this key by leveraging [env variable in our manifest override](/browser-extension/env#in-manifest-overrides):
+We can then use this key by leveraging [env variable in our manifest override](/framework/env#in-manifest-overrides):
 
 `.env.development`
 
@@ -123,7 +123,7 @@ CRX_PUBLIC_KEY=v47xxx
 }
 ```
 
-[Run the development server](/workflows#run-the-development-server) then [load the extension into your browser](/workflows#loading-the-extension). Then, copy the extension ID:
+[Run the development server](/framework/workflows#run-the-development-server) then [load the extension into your browser](/framework/workflows#loading-the-extension). Then, copy the extension ID:
 
 ![Copy extension ID](@screenshots/2022-06-10-14-19-49.png)
 

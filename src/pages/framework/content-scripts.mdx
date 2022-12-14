@@ -10,7 +10,7 @@ Content scripts run in the context of web pages in an "isolated world." This all
 
 - Scraping data from the current web page
 - Selecting, finding, and styling elements from the current web page
-- [Injecting UI elements into the current web page](/browser-extension/content-scripts-ui)
+- [Injecting UI elements into the current web page](/framework/content-scripts-ui)
 - [Injecting code into the "main world" context](#injecting-into-the-main-world)
 
 ## Adding a single content script
@@ -90,7 +90,7 @@ See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examp
 
 ## Importing resources
 
-To import external assets into your content script, you can use the [`url:` scheme](/browser-extension/import#url):
+To import external assets into your content script, you can use the [`url:` scheme](/framework/import#url):
 
 ```ts
 import myFile from "url:./path/to/my/file/something.js"
@@ -104,6 +104,6 @@ The `url:` scheme will automatically resolve the `something.js` asset and add it
 chrome-extension://<your chrome ext id>/something.eb20bc99.js?1656000646313
 ```
 
-Alternatively, you can use the [`data-base64`](/browser-extension/import#data-base64) or the [`data-text`](/browser-extension/import#data-text) scheme to import and embed the asset directly into your code. For small assets, these schemes should work well.
+Alternatively, you can use the [`data-base64`](/framework/import#data-base64) or the [`data-text`](/framework/import#data-text) scheme to import and embed the asset directly into your code. For small assets, these schemes should work well.
 
-> NOTE: Please see this [note about `~` import resolution](/workflows/faq#tilde-import-resolution)
+> NOTE: Please see this [note about `~` import resolution](/framework/workflows/faq#tilde-import-resolution)

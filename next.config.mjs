@@ -23,23 +23,13 @@ export default withPlausibleProxy()(
     async redirects() {
       return [
         {
-          source: "/framework/:slug",
-          destination: "/framework-api/:slug",
-          permanent: true
-        },
-        {
-          source: "/workflows/env",
-          destination: "/browser-extension/env",
-          permanent: true
-        },
-        {
           source: "/cs",
-          destination: "/browser-extension/content-scripts",
+          destination: "/framework/content-scripts",
           permanent: true
         },
         {
           source: "/csui",
-          destination: "/browser-extension/content-scripts-ui",
+          destination: "/framework/content-scripts-ui",
           permanent: true
         },
         {

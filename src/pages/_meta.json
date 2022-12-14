@@ -1,9 +1,6 @@
 {
-  "index": "Framework",
+  "index": "Welcome",
+  "framework": "Framework",
   "itero": "Itero",
-  "workflows": "Workflows",
-  "browser-extension": "Browser Extension SDK",
-  "framework-api": "Browser Extension API",
-  "customization": "Customization",
   "quickstarts": "Quickstarts"
 }

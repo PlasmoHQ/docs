@@ -25,7 +25,7 @@ export const getStyle: PlasmoGetStyle = () => {
 
 ## Import Stylesheet
 
-To import CSS/LESS/SASS files, combine the `getStyle` API with the [`data-text` import scheme](browser-extension/import#data-text):
+To import CSS/LESS/SASS files, combine the `getStyle` API with the [`data-text` import scheme](/framework/import#data-text):
 
 ```ts
 import styleText from "data-text:./style.scss"
@@ -81,10 +81,10 @@ export default Overlay
 
 ## Custom Font
 
-To use a custom font in your CSUI, you must import the font inside a CSS file and declare it in the `css` property of the [config object](/browser-extension/content-scripts#config). The browser does not recognize Font assets if declared inside a shadowDOM. You have to load them in the global scope.
+To use a custom font in your CSUI, you must import the font inside a CSS file and declare it in the `css` property of the [config object](/framework/content-scripts#config). The browser does not recognize Font assets if declared inside a shadowDOM. You have to load them in the global scope.
 
 1. Add your font in the `assets` directory (e.g `/assets/Fascinate.woff2`)
-2. Create a `font.css` file, importing the font inline using the [`data-base64`](/browser-extension/import#data-base64) scheme:
+2. Create a `font.css` file, importing the font inline using the [`data-base64`](/framework/import#data-base64) scheme:
 
 ```css
 @font-face {
@@ -136,4 +136,4 @@ Use the IDs `#plasmo-mount-container` and `#plasmo-shadow-container` to alter th
 
 ## Inherits the Web Page's Style
 
-To inherit the web page's style, override the built-in `Root Container` to mount your component directly into the web page's DOM. [Click here for more details](/browser-extension/content-scripts-ui/life-cycle#custom-root-container).
+To inherit the web page's style, override the built-in `Root Container` to mount your component directly into the web page's DOM. [Click here for more details](/framework/content-scripts-ui/life-cycle#custom-root-container).
