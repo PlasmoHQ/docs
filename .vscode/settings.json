@@ -16,6 +16,7 @@
   "[svg]": {
     "editor.defaultFormatter": "jock.svg"
   },
+  "editor.wordWrap": "off",
   "editor.formatOnSave": true,
   "pasteImage.basePath": "${projectRoot}/public/",
   "pasteImage.path": "${projectRoot}/public/screenshots",

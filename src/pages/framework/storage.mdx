@@ -2,39 +2,11 @@
 description: A library that makes it easy to store data in your browser extension's storage.
 ---
 
-# @plasmohq/storage
+import { ShieldBanners } from "~components/shield-banners"
 
-<span className="flex flex-1 gap-1">
-  <a
-    aria-label="License"
-    href="https://github.com/PlasmoHQ/storage/blob/main/LICENSE">
-    <img alt="See License" src="https://img.shields.io/npm/l/plasmo" />
-  </a>
-  <a aria-label="NPM" href="https://www.npmjs.com/package/@plasmohq/storage">
-    <img
-      alt="NPM Install"
-      src="https://img.shields.io/npm/v/@plasmohq/storage?logo=npm"
-    />
-  </a>
-  <a aria-label="Twitter" href="https://www.twitter.com/plasmohq">
-    <img
-      alt="Follow PlasmoHQ on Twitter"
-      src="https://img.shields.io/twitter/follow/plasmohq?logo=twitter"
-    />
-  </a>
-  <a aria-label="Twitch Stream" href="https://www.twitch.tv/plasmohq">
-    <img
-      alt="Watch our Live DEMO every Friday"
-      src="https://img.shields.io/twitch/status/plasmohq?logo=twitch&logoColor=white"
-    />
-  </a>
-  <a aria-label="Discord" href="https://www.plasmo.com/s/d">
-    <img
-      alt="Join our Discord for support and chat about our projects"
-      src="https://img.shields.io/discord/946290204443025438?logo=discord&logoColor=white"
-    />
-  </a>
-</span>
+# Storage API
+
+<ShieldBanners packageName="@plasmohq/storage" />
 
 `@plasmohq/storage` is a utility library from [plasmo](https://www.plasmo.com/) that abstracts the persistent storage API available to browser extensions. It falls back to localstorage when the extension storage API is unavailable, allowing for state sync between popup - options - contents - background.
 

@@ -88,6 +88,10 @@ For the `func` key, you can pass in a Typescript function from your project, whi
 
 See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examples/tree/main/with-main-world-content-script-injection) for an example.
 
+## Fetching external API and CORS
+
+Because content scripts run within the context of a web page, they are subject to the same-origin policy. To bypass CORS restrictions, you can use the [Plasmo Messaging API](/framework/messaging#message-flow) to proxy the request via your background service worker.
+
 ## Importing resources
 
 To import external assets into your content script, you can use the [`url:` scheme](/framework/import#url):
