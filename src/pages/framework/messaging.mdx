@@ -12,13 +12,22 @@ import { ShieldBanners } from "~components/shield-banners"
 
 Plasmo Messaging API makes communication between different parts of your extension easy. It leverages the file system to automatically supercharge the background service worker runtime for you, as well as providing a type-safe, functional, promise-based API for sending, relaying, and receiving messages.
 
+## Installation
+
+```
+pnpm install @plasmohq/messaging
+```
+
 ## TL;DR
 
-| Messaging API                 | From         | To      | Onetime | Long-lived |
-| :---------------------------- | :----------- | :------ | :------ | :--------- |
-| [Message Flow](#message-flow) | Ext-Pages/CS | BGSW    | Yes     | No         |
-| [Relay Flow](#relay-flow)     | Website      | CS/BGSW | Yes     | No         |
-| [Ports](#ports)               | Ext-Pages/CS | BGSW    | No      | Yes        |
+| Messaging API                 | From         | To        | Onetime | Long-lived |
+| :---------------------------- | :----------- | :-------- | :------ | :--------- |
+| [Message Flow](#message-flow) | Ext-Pages/CS | BGSW      | Yes     | No         |
+| [Relay Flow](#relay-flow)     | Website      | CS/BGSW   | Yes     | No         |
+| [Ports](#ports)               | Ext-Pages/CS | BGSW      | No      | Yes        |
+| TBA ???                       | BGSW         | Ext-Pages | ?       | ?          |
+| TBA ???                       | BGSW         | CS        | ?       | ?          |
+| TBA ???                       | BGSW         | WebPage   | ?       | ?          |
 
 ## Message Flow
 
@@ -56,7 +65,13 @@ console.log(resp)
 
 ## Relay Flow
 
-Use the Message Relay Flow to communicate between a target webpage and an extension. A relay is a lightweight message handler registered using a [content script](/framework/content-scripts). It listens for messages from the target webpage and pipes them down to the [Message Flow's handlers](#message-flow).
+<Callout emoji="⚠️">
+
+**NOTE:** The Relay messaging API is in public alpha preview: expects bugs, incomplete/leaky abstractions, and future API changes. Please report any issues you encountered [to us via this link](/bug).
+
+</Callout>
+
+Use the Relay Flow to communicate between a target webpage and an extension. A relay is a lightweight message handler registered using a [content script](/framework/content-scripts). It listens for messages from the target webpage and pipes them down to the [Message Flow's handlers](#message-flow).
 
 - Create a relay inside a content script. The `relay` function takes a message name and an optional handler function. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
 
@@ -97,7 +112,7 @@ console.log(resp)
 
 <Callout emoji="⚠️">
 
-**NOTE:** The Port messaging API is in public alpha preview: expects bugs, incomplete/leaky abstractions, and future API changes. Please report any issues you encountered [via this link](/bug).
+**NOTE:** The Port messaging API is in public alpha preview: expects bugs, incomplete/leaky abstractions, and future API changes. Please report any issues you encountered [to us via this link](/bug).
 
 </Callout>
 
@@ -119,7 +134,7 @@ export const handler: PlasmoMessaging.PortHandler = async (req, res) => {
 }
 ```
 
-- In your extension page, get the port using the `getPort` utility under the `@plasmohq/messaging/port`, OR use the `usePort` hook:
+- In your extension page, get the port using the `getPort` utility under the `@plasmohq/messaging/port`, OR use the `usePort` hook. The data will always reflect the latest response from the port handler:
 
 ```tsx filename="tabs/delta.tsx"
 import { usePort } from "@plasmohq/messaging/hook"

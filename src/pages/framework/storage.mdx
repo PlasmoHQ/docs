@@ -24,7 +24,7 @@ pnpm install @plasmohq/storage
 - See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for an example of how to use this library as your Redux persistent layer (crucial for MV3).
 - See [MICE](https://github.com/PlasmoHQ/mice) for an experimental use case of this library integrated with WebRTC to pipe messages between browsers via an extension.
 
-### Storage API (for content scripts or background workers)
+## Storage API (for content scripts or background workers)
 
 ```ts
 import { Storage } from "@plasmohq/storage"
@@ -36,7 +36,7 @@ await storage.set("key", "value")
 const data = await storage.get("key") // value
 ```
 
-#### Customizing the storage area
+### Customizing the storage area
 
 ```ts
 const storage = new Storage({
@@ -44,7 +44,7 @@ const storage = new Storage({
 })
 ```
 
-#### Preventing data from being mirrored into localStorage
+### Preventing data from being mirrored into localStorage
 
 ```ts
 const storage = new Storage({
@@ -54,7 +54,7 @@ const storage = new Storage({
 
 The code above prevents data from being leaked into localStorage when used with content scripts. This setting is recommended if you are storing JWT access token to invoke your server-side API.
 
-### Watch API (for state sync)
+### Watch (for state sync)
 
 The Hook API automatically watches for new changes.
 
@@ -83,7 +83,7 @@ await storage.set("make", "PlasmoHQ")
 
 This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
 
-### Hook API (for react components - i.e popup, options, content-script-ui)
+## Hook API (for react components)
 
 The hook API is designed to streamline state-syncing workflow between the different pieces of an extension. There are many ways it can be used, but first and fore-most you will want to import the hook into your react component:
 
@@ -91,7 +91,7 @@ The hook API is designed to streamline state-syncing workflow between the differ
 import { useStorage } from "@plasmohq/storage/hook"
 ```
 
-#### Watch and render a value in storage:
+### Watch and render a value in storage:
 
 ```tsx
 const [hailingFrequency] = useStorage("hailing")
@@ -99,7 +99,7 @@ const [hailingFrequency] = useStorage("hailing")
 {hailingFrequency}
 ```
 
-#### Specifying the storage area:
+### Specifying the storage area:
 
 ```tsx
 const [hailingFrequency] = useStorage({
@@ -108,7 +108,7 @@ const [hailingFrequency] = useStorage({
 })
 ```
 
-#### Specifying an initial value for rendering WITHOUT persisting
+### Specifying an initial value for rendering WITHOUT persisting
 
 "Persisting" means writing into the internal memory. By not persisting the value, only this specific instance of the hook will render the given initial value when there is no value in storage. Other instances can either show `undefined` OR specify their own initial value. To elaborate on this:
 
@@ -138,7 +138,7 @@ return <p>{hailingFrequency}</p> // "147"
 
 With the above setup, suppose we call `setHailingFrequency("8472")` in any of the instances above, we will see that all instance will now show "8472" and will now track the value in storage instead of initial value.
 
-#### Specifying an initial value AND persisting it:
+### Specifying an initial value AND persisting it:
 
 By using a function instead of a static value, the initial value will be persisted into storage memory. The initialize function has one parameter which is the existing value in storage. If there is no value, it is `undefined`.
 
@@ -158,7 +158,7 @@ const [hailingFrequency] = useStorage("hailing")
 return <p>{hailingFrequency}</p> // "42"
 ```
 
-#### Advanced Hook API usage
+## Advanced Hook API usage
 
 When dealing with form input or real-time input, you might need the following:
 
