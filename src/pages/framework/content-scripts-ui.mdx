@@ -6,7 +6,7 @@ description: How to inject your own components into an existing web page with Pl
 
 Plasmo has first-class support for mounting React, Svelte3, or Vue3 components into the current webpage. This feature is called content scripts UI (CSUI).
 
-An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/browser-extension/content-scripts#config). To start injecting UI using React:
+An extension can have as many CSUI as needed, with each CSUI targeting a group of webpages or a specific webpage by [exporting the config object](/framework/content-scripts#config). To start injecting UI using React:
 
 1. Create a `content.tsx`
 1. Export a default React component
@@ -26,7 +26,7 @@ See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/wit
 
 ### Config
 
-Content scripts UI are a subset of content scripts. Thus, you can [export a config object](/browser-extension/content-scripts#config) just as you would a regular Plasmo content script.
+Content scripts UI are a subset of content scripts. Thus, you can [export a config object](/framework/content-scripts#config) just as you would a regular Plasmo content script.
 
 ## How does Plasmo CSUI work?
 

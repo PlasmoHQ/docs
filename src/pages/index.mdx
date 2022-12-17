@@ -1,132 +1,51 @@
 ---
-description: Plasmo is a framework for building modern browser extensions optimized for speed and ease of use.
+description: Plasmo is the end-to-end platform for browser extension developers - the easiest way to Build, Test and Ship browser extensions.
 ---
-
-import { Callout } from "nextra-theme-docs"
 
 import { ShieldBanners } from "~components/shield-banners"
 
-# Plasmo Framework
+# Introduction to Plasmo
 
-<ShieldBanners />
+<ShieldBanners socialOnly />
 
-The [Plasmo](https://www.plasmo.com/) Framework is a battery-packed browser extension SDK made by hackers for hackers. Build your product and stop worrying about config files and the odd peculiarities of building browser extensions.
+Welcome to Plasmo, the all-in-one platform that makes it easy for browser extension developers to create, test, and publish amazing extensions. With Plasmo, you can say goodbye to tedious boilerplate code and hello to a faster, more seamless development experience.
 
-> It's like [Next.js](https://nextjs.org/) for browser extensions!
+Our flagship product, the [Plasmo Framework](#plasmo-framework), is the ultimate Browser Extension SDK. It's designed to help you write extension code quickly and easily, without worrying about the intricacies of browser extensions.
 
-![CLI Demo](https://www.plasmo.com/assets/plasmo-cli-demo.gif)
+Once you've built your extension, use [Itero TestBed](#itero-testbed) to test it in a real-world environment. This powerful staging environment lets you see how your extension will perform in the wild, and make any necessary changes before you launch. Ship directly to your beta testers without a review process holding you back.
 
-## Features
+Finally, when you're ready to go live, our [Plasmo BPP tool](#plasmo-browser-platform-publisher) makes it easy to automate the publishing process. With just a few clicks, you can publish your extension to the world and start gaining users.
 
-- First-class [React](https://reactjs.org/) + [Typescript](https://www.typescriptlang.org/) Support
-- [Declarative Development](/#where-is-the-manifestjson-file)
-- [Content Scripts UI](/csui)
-- [Tab Pages](/browser-extension/tab-pages)
-- Live-reloading + React HMR
-- [`.env*` files](/browser-extension/env)
-- Targeting [multiple browser and manifest pairs](/workflows/build#with-specific-target)
-- [Remote code bundling](/browser-extension/remote-code) (e.g., for gtag4)
-- [Automated deployment via BPP](/workflows/submit)
-- Optional support for [Svelte](https://github.com/PlasmoHQ/with-svelte) and [Vue](https://github.com/PlasmoHQ/with-vue)
-- And many, many more! 🚀
+Thanks to Plasmo, developing extensions has never been easier. Try it out today and see the difference for yourself!
 
-## System Requirements
+## Plasmo Framework
 
-- Node.js 16.14.x or later
-- macOS, Windows, or Linux
-- (Strongly Recommended) [pnpm](https://pnpm.io/)
+Imagine a world where building browser extensions is easy and fun. Gone are the days of tedious development processes and struggling with complex APIs and configurations.
 
-## Getting Started
+With Plasmo, declarative development is a breeze - just write a file, export a component, and Plasmo does the rest, automatically bundling and mounting it for you. Plus, [our active community](https://www.plasmo.com/s/d) of over 400 developers is always there to help out and share their expertise.
 
-```sh
-pnpm create plasmo
-# OR
-yarn create plasmo
-# OR
-npm create plasmo
-```
+Plasmo offers first-class support for Typescript, React, Preact, Svelte, and Vue, making it easy to build complex, beautiful and scalable extensions. And with live-reload and React HMR built-in, you can see your changes instantly, without having to manually refresh your extension.
 
-![Plasmo project files](@screenshots/file_structure.png)
+Plasmo also comes with powerful libraries for [storage](/framework/storage) and [messaging](/framework/messaging), as well as built-in support for [.env files](/framework/env). Plus, with Plasmo's "learn once, write everywhere" approach, you can build an extension once and easily [target it to multiple browsers and manifest versions](/framework/workflows/build#with-a-specific-target).
 
-This command will set up the simplest Plasmo browser extension project for you. The structure is straightforward:
+To get started: [Click Here](/framework#getting-started)
 
-| File name         | Description                                                                                                                                    |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `popup.tsx`       | This file exports default a React component, which gets rendered into your popup page. _This is all you need to work on your extension popup!_ |
-| `assets`          | Plasmo [automatically generates the smaller icons](/browser-extension/icon) and applies them in the manifest for you from the "icon.png" file  |
-| `package.json`    | Your usual Node.js project descriptor, with [an optional "manifest" property to customize Plasmo to your need](/customization/manifest)        |
-| `.prettierrc.cjs` | For code styling consistency                                                                                                                   |
-| `.gitignore`      | Your friendly neighborhood git ignore file                                                                                                     |
-| `README.md`       | Basic documentation                                                                                                                            |
-| `tsconfig.json`   | TypeScript configuration                                                                                                                       |
+## Itero TestBed
 
-<Callout emoji="📢">
+Testing browser extensions can be a tedious and time-consuming process. Traditional methods often require waiting for approval from browser stores or having your beta testers manually install updates. Itero TestBed offers a solution to this problem by allowing you to instantly push updates to your beta testers.
 
-**NOTE:** To use the `src` directory for source code module, please follow this
-[guide](/customization/src).
+Our SaaS platform also integrates with GitHub and includes automatic versioning. With Itero TestBed, you can streamline the testing process and focus on iterating quickly.
 
-</Callout>
+Features include:
 
-### Development Server
+- Instant updates to your beta testers
+- GitHub integration for easy deployment
+- Automatic versioning
 
-For live-reloading support, you can start the development server with:
+To get started: [Click Here](/itero)
 
-```sh
-pnpm dev
-```
+## Plasmo Browser Platform Publisher
 
-The above command will watch for file changes and regenerate a bundle of your extension in `build/chrome-mv3-dev`.
+Open-source GitHub action that makes it easy to publish your browser extension to the Chrome, Firefox Add-ons, and Microsoft Edge Add-ons stores. With Plasmo BPP, you can automate the publishing process and spend more time building your extension.
 
-### Production Build
-
-For a production build, run:
-
-```sh
-pnpm build
-```
-
-This will create a production version of the extension in `build/chrome-mv3-prod`
-
-### Loading the Extension in Chrome
-
-We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
-
-Head over to `chrome://extensions` and enable Developer Mode.
-
-![](@screenshots/developer_mode.png)
-
-Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
-
-To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
-
-<Callout>
-
-**Pro tip:** pin your extension to the Chrome toolbar for easy access by clicking the pin button.
-
-</Callout>
-
-![](@screenshots/popup_example.png)
-
-## Where is the manifest.json file?
-
-Plasmo abstracts away the manifest file. The framework generates the manifest under the hood based on your source files and configurations you export from your code, similar to [Next.js](https://nextjs.org/) abstracts page routing and SSG with the file system and page components.
-
-We will further abstract with auto-permissions and a needs-based permission scheme, removing the need to specify permissions manually! _(Coming soon)_
-
-## Next Steps
-
-Check out the [Workflows section](./workflows) for a deep dive on how to work with Plasmo. A modular example accompanies each workflow, showcasing the framework's simplicity. View examples on [our GitHub repo](https://github.com/PlasmoHQ/examples).
-
-Check out the [Customization section](./customization) for documentation on making Plasmo adapt to your needs.
-
-To see how to integrate Plasmo with other tools (such as TailwindCSS or Firebase), check out the list of examples in the [Quickstarts section](./quickstarts).
-
-## Community
-
-Find the Plasmo community on [Discord](https://www.plasmo.com/s/d). This is the appropriate channel to get help with using the Plasmo Framework.
-
-Our [Code of Conduct](https://github.com/PlasmoHQ/plasmo/blob/main/.github/CODE_OF_CONDUCT.md) applies to all Plasmo community channels.
-
-## Projects using Plasmo Framework
-
-- [MICE](https://github.com/PlasmoHQ/mice)
+To get started: [Click Here](/framework/workflows/submit)

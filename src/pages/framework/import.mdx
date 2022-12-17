@@ -8,7 +8,7 @@ Plasmo framework ships with its own code/asset bundler tailored specifically for
 
 ## Paths
 
-Plasmo has built-in support for most common import paths such as relative import, `node_module` package import, and `ESM exports` import. It also provides project-relative paths via tilde and absolute imports. To customize your import path further, check out the [Alias Imports Section](/customization/alias).
+Plasmo has built-in support for most common import paths such as relative import, `node_module` package import, and `ESM exports` import. It also provides project-relative paths via tilde and absolute imports. To customize your import path further, check out the [Alias Imports Section](/framework/customization/alias).
 
 ### Tilde (`~/`)
 
@@ -26,11 +26,11 @@ export const relevantExtensionList = [
 
 When used outside a source code module or with an asset [scheme](#schemes) such as `data-base64`, `data-text`, or `url`, the tilde (`~`) **always** resolves to the project's root directory where the `package.json` resides. Thus:
 
-- `~rulesets/test.json` used in the [manifest override inside `package.json`](/customization/manifest) resolves to `/rulesets/test.json`
+- `~rulesets/test.json` used in the [manifest override inside `package.json`](/framework/customization/manifest) resolves to `/rulesets/test.json`
 - `data-base64:~assets/image.png` resolves to `/assets/image.png`
 - `url:~src/code.js` resolves to `/src/code.js.`
 
-Suppose the tilde is by itself without a scheme and is being used to import a source code module from another source code module. In that case, it has two behaviors depending on whether you are using the default setup or the [the `src` directory setup](/customization/src):
+Suppose the tilde is by itself without a scheme and is being used to import a source code module from another source code module. In that case, it has two behaviors depending on whether you are using the default setup or the [the `src` directory setup](/framework/customization/src):
 
 - With the default setup, `~` points to the project root.
 - With the `src` directory setup, `~` points to the `src` directory. Thus `~core/code-module.tsx`, resolves to `/src/core/code-module.tsx`.

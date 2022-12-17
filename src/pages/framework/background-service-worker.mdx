@@ -32,6 +32,6 @@ See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-backgr
 
 The worker becomes idle after a few seconds of inactivity, and the browser will kill its process entirely after 5 minutes. This means all state (variables, etc.) is lost unless you use a storage engine.
 
-The simplest way to persist your background service worker's state is to use the [storage API](/framework-api/storage).
+The simplest way to persist your background service worker's state is to use the [storage API](/framework/storage).
 
 The more advanced way is to send the state to a remote database via a fetch call or WebSocket.

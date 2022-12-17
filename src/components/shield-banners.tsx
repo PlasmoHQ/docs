@@ -1,16 +1,25 @@
-export const ShieldBanners = () => (
+export const ShieldBanners = ({
+  socialOnly = false,
+  packageName = "plasmo"
+}) => (
   <span className="flex flex-1 gap-1">
-    <a
-      aria-label="License"
-      href="https://github.com/PlasmoHQ/plasmo/blob/main/LICENSE">
-      <img alt="See License" src="https://img.shields.io/npm/l/plasmo" />
-    </a>
-    <a aria-label="NPM" href="https://www.npmjs.com/package/plasmo">
-      <img
-        alt="NPM Install"
-        src="https://img.shields.io/npm/v/plasmo?logo=npm"
-      />
-    </a>
+    {!socialOnly && (
+      <>
+        <a
+          aria-label="License"
+          href="https://github.com/PlasmoHQ/plasmo/blob/main/LICENSE">
+          <img alt="See License" src="https://img.shields.io/npm/l/plasmo" />
+        </a>
+        <a
+          aria-label="NPM"
+          href={`https://www.npmjs.com/package/${packageName}`}>
+          <img
+            alt="NPM Install"
+            src={`https://img.shields.io/npm/v/${packageName}?logo=npm`}
+          />
+        </a>
+      </>
+    )}
     <a aria-label="Twitter" href="https://www.twitter.com/plasmohq">
       <img
         alt="Follow PlasmoHQ on Twitter"

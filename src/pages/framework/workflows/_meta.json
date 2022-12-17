@@ -1,7 +1,7 @@
 {
-  "index": "Create a New Extension",
+  "new": "New Extension",
   "dev": "Development Server",
   "build": "Production Build",
-  "submit": "Automated Submission",
+  "submit": "Submission",
   "faq": "FAQ"
 }

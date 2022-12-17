@@ -1,0 +1,209 @@
+---
+description: The Plasmo messaging API is a powerful tool for sending real-time messages between different parts of your extension.
+---
+
+import { Callout } from "nextra-theme-docs"
+
+import { ShieldBanners } from "~components/shield-banners"
+
+# Messaging API
+
+<ShieldBanners packageName="@plasmohq/messaging" />
+
+Plasmo Messaging API makes communication between different parts of your extension easy. It leverages the file system to automatically supercharge the background service worker runtime for you, as well as providing a type-safe, functional, promise-based API for sending, relaying, and receiving messages.
+
+## Installation
+
+```
+pnpm install @plasmohq/messaging
+```
+
+## TL;DR
+
+| Messaging API                 | From         | To        | Onetime | Long-lived |
+| :---------------------------- | :----------- | :-------- | :------ | :--------- |
+| [Message Flow](#message-flow) | Ext-Pages/CS | BGSW      | Yes     | No         |
+| [Relay Flow](#relay-flow)     | Website      | CS/BGSW   | Yes     | No         |
+| [Ports](#ports)               | Ext-Pages/CS | BGSW      | No      | Yes        |
+| TBA ???                       | BGSW         | Ext-Pages | ?       | ?          |
+| TBA ???                       | BGSW         | CS        | ?       | ?          |
+| TBA ???                       | BGSW         | WebPage   | ?       | ?          |
+
+## Message Flow
+
+Use the Message Flow to initiate one-time messages between extension pages, tab pages or content scripts with the background service worker. This flow is useful to offload heavy computation to the background service worker or to bypass CORS.
+
+- The background service worker is a message hub with REST-style API handlers. To create a message handler, create a ts module in the `background/messages` directory. The file name will be the message name, and the default export will be the handler function:
+
+```ts filename="background/messages/ping.ts"
+import type { PlasmoMessaging } from "@plasmohq/messaging"
+
+export const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+  const message = await querySomeApi(req.body.id)
+
+  res.send({
+    message
+  })
+}
+```
+
+- Extension pages, content scripts, or tab pages can send messages to these handlers using the `@plasmohq/messaging` library. Since Plasmo Framework orchestrates your handlers to enhance the background service worker runtime, the message name are typed and will enable IntelliSense in your editor:
+
+```tsx filename="popup.tsx"
+import { sendToBackground } from "@plasmohq/messaging"
+
+...
+const resp = await sendToBackground({
+  name: "ping",
+  body: {
+    id: 123
+  }
+})
+
+console.log(resp)
+```
+
+## Relay Flow
+
+<Callout emoji="⚠️">
+
+**NOTE:** The Relay messaging API is in public alpha preview: expects bugs, incomplete/leaky abstractions, and future API changes. Please report any issues you encountered [to us via this link](/bug).
+
+</Callout>
+
+Use the Relay Flow to communicate between a target webpage and an extension. A relay is a lightweight message handler registered using a [content script](/framework/content-scripts). It listens for messages from the target webpage and pipes them down to the [Message Flow's handlers](#message-flow).
+
+- Create a relay inside a content script. The `relay` function takes a message name and an optional handler function. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
+
+```ts filename="contents/plasmo.ts"
+import type { PlasmoContentScript } from "plasmo"
+
+import { relay } from "@plasmohq/messaging"
+
+export const config: PlasmoContentScript = {
+  matches: ["http://www.plasmo.com/*"] // Only relay messages from this domain
+}
+
+relay(
+  {
+    name: "ping"
+  },
+  async (payload) => {
+    console.log(payload)
+  }
+)
+```
+
+- On the `plasmo.com` web page, you can send messages via the relay:
+
+```tsx filename="pages/index.tsx"
+
+import { sendViaRelay } from "@plasmohq/messaging"
+...
+
+const resp = await sendViaRelay({
+  name: "ping"
+})
+
+console.log(resp)
+```
+
+## Ports
+
+<Callout emoji="⚠️">
+
+**NOTE:** The Port messaging API is in public alpha preview: expects bugs, incomplete/leaky abstractions, and future API changes. Please report any issues you encountered [to us via this link](/bug).
+
+</Callout>
+
+The Messaging Ports API is a high-level abstraction over the chrome runtime's [port API](https://developer.chrome.com/docs/extensions/mv3/messaging/#connect) to establish long-lived connections between extension pages or content scripts with the background service worker.
+
+The current implementation focuses on establishing connections to a port listener in the background service worker:
+
+- To create a BGSW port handler, create a ts module in the `background/ports` directory. The file name will be the port name, and the default export will be the handler function:
+
+```ts filename="background/ports/mail.ts"
+import type { PlasmoMessaging } from "@plasmohq/messaging"
+
+export const handler: PlasmoMessaging.PortHandler = async (req, res) => {
+  console.log(req)
+
+  res.send({
+    message: "Hello from port handler"
+  })
+}
+```
+
+- In your extension page, get the port using the `getPort` utility under the `@plasmohq/messaging/port`, OR use the `usePort` hook. The data will always reflect the latest response from the port handler:
+
+```tsx filename="tabs/delta.tsx"
+import { usePort } from "@plasmohq/messaging/hook"
+
+function DeltaTab() {
+  const mailPort = usePort("mail")
+
+  return (
+    <div>
+      {mailPort.data?.message}
+      <button
+        onClick={async () => {
+          mailPort.send({
+            hello: "world"
+          })
+        }}>
+        Send Data
+      </button>
+    </div>
+  )
+}
+
+export default DeltaTab
+```
+
+## E2E Type Safety (WIP)
+
+End-to-end request/response body type-safety is in the work at [#334](https://github.com/PlasmoHQ/plasmo/issues/334). In the meantime, you can use the provided generic type:
+
+```ts filename="background/messages/ping.ts"
+import type { PlasmoMessaging } from "@plasmohq/messaging"
+
+export type RequestBody = {
+  id: number
+}
+
+export type ResponseBody = {
+  message: string
+}
+
+export const handler: PlasmoMessaging.MessageHandler<
+  RequestBody,
+  ResponseBody
+> = async (req, res) => {
+  console.log(req.body.id)
+
+  res.send({
+    message: "Hello from background"
+  })
+}
+```
+
+```ts filename="popup.tsx"
+import { sendToBackground } from "@plasmohq/messaging"
+
+import type { RequestBody, ResponseBody } from "~background/messages/ping"
+
+...
+
+const resp = await sendToBackground<RequestBody, ResponseBody>({
+  name: "ping",
+  body: {
+    id: 123
+  }
+})
+
+console.log(resp)
+```
+
+## Examples
+
+https://github.com/PlasmoHQ/examples/tree/main/with-messaging

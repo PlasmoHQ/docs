@@ -1,14 +1,19 @@
 {
-  "index": "Extension Pages",
+  "index": "Getting Started",
+  "workflows": "Workflows",
+  "ext-pages": "Extension Pages",
   "tab-pages": "Tab Pages",
+  "sandbox-pages": "Sandbox Pages",
   "content-scripts": "Content Scripts",
   "content-scripts-ui": "Content Scripts UI",
   "background-service-worker": "Background SW",
-  "sandbox-pages": "Sandbox Pages",
+  "messaging": "Messaging",
+  "storage": "Storage",
   "env": "Environment Variables",
   "import": "Import Resolution",
   "assets": "Assets",
   "icon": "Icon",
   "locales": "Locales",
-  "remote-code": "Remote Code"
+  "remote-code": "Remote Code",
+  "customization": "Customization"
 }
