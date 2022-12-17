@@ -4,12 +4,12 @@ import nextra from "nextra"
 const withNextra = nextra({
   theme: "nextra-theme-docs",
   themeConfig: "./src/theme.config.tsx",
-  unstable_flexsearch: {
+  flexsearch: {
     codeblocks: true
   },
-  unstable_readingTime: true,
-  unstable_staticImage: true,
-  unstable_defaultShowCopyCode: true
+  readingTime: true,
+  staticImage: true,
+  defaultShowCopyCode: true
 })
 
 export default withPlausibleProxy()(
