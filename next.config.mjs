@@ -1,5 +1,3 @@
-import { existsSync } from "fs"
-import { rmSync } from "fs"
 import { withPlausibleProxy } from "next-plausible"
 import nextra from "nextra"
 
@@ -13,11 +11,6 @@ const withNextra = nextra({
   staticImage: true,
   defaultShowCopyCode: true
 })
-
-// Bust that cache if needed
-if (existsSync(".next")) {
-  rmSync(".next", { recursive: true })
-}
 
 export default withPlausibleProxy()(
   withNextra({

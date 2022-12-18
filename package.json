@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "run-s build:*",
+    "build:bust-cache": "rm -rf .next",
     "build:site": "next build",
     "build:sitemap": "next-sitemap --config next-sitemap.js",
     "start": "next start",
