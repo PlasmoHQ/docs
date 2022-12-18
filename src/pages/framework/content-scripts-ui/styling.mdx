@@ -84,7 +84,7 @@ export default Overlay
 To use a custom font in your CSUI, you must import the font inside a CSS file and declare it in the `css` property of the [config object](/framework/content-scripts#config). The browser does not recognize Font assets if declared inside a shadowDOM. You have to load them in the global scope.
 
 1. Add your font in the `assets` directory (e.g `/assets/Fascinate.woff2`)
-2. Create a `font.css` file, importing the font inline using the [`data-base64`](/framework/import#data-base64) scheme:
+2. Create a `font.css` file in your `contents` folder, importing the font inline using the [`data-base64`](/framework/import#data-base64) scheme:
 
 ```css
 @font-face {
