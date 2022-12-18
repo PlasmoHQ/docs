@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "run-s build:*",
-    "build:bust-cache": "rm -rf .next",
+    "build:bust-cache": "rimraf .next",
     "build:site": "next build",
     "build:sitemap": "next-sitemap --config next-sitemap.js",
     "start": "next start",
@@ -35,6 +35,7 @@
     "@types/node": "18.11.17",
     "@types/react": "18.0.26",
     "next-sitemap": "3.1.42",
+    "rimraf": "3.0.2",
     "prettier": "2.8.1",
     "typescript": "4.9.4",
     "webpack": "5.75.0"
