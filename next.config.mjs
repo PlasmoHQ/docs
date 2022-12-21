@@ -23,6 +23,26 @@ export default withPlausibleProxy()(
     async redirects() {
       return [
         {
+          source: "/workflows/:path*",
+          destination: "/framework/workflows/:path*",
+          permanent: true
+        },
+        {
+          source: "/browser-extension/:path*",
+          destination: "/framework/:path*",
+          permanent: true
+        },
+        {
+          source: "/framework-api/:path*",
+          destination: "/framework/:path*",
+          permanent: true
+        },
+        {
+          source: "/customization/:path*",
+          destination: "/framework/customization/:path*",
+          permanent: true
+        },
+        {
           source: "/cs",
           destination: "/framework/content-scripts",
           permanent: true
