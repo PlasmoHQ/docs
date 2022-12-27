@@ -31,6 +31,10 @@ pnpm install @plasmohq/messaging
 | TBA ???                       | BGSW         | CS        | ?       | ?          |
 | TBA ???                       | BGSW         | WebPage   | ?       | ?          |
 
+## Examples
+
+- [with-messaging](https://github.com/PlasmoHQ/examples/tree/main/with-messaging)
+
 ## Message Flow
 
 Use the Message Flow to initiate one-time messages between extension pages, tab pages or content scripts with the background service worker. This flow is useful to offload heavy computation to the background service worker or to bypass CORS.
@@ -205,7 +209,3 @@ const resp = await sendToBackground<RequestBody, ResponseBody>({
 
 console.log(resp)
 ```
-
-## Examples
-
-https://github.com/PlasmoHQ/examples/tree/main/with-messaging

@@ -10,6 +10,16 @@ Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your
 1. Create or locate a [`Root Container`](#root-container)
 1. [Render](#renderer) the component onto the `Root Container`
 
+## Terminologies
+
+| Term           | Description                                                                  |
+| :------------- | :--------------------------------------------------------------------------- |
+| Anchor         | Tell CSUI how and where to mount your component.                             |
+| Overlay        | Mount your component on a top-level (max z-index) overlay element.           |
+| Inline         | Mount your component into the webpage's DOM, next to a target element.       |
+| Root Container | A ShadowDOM element created by CSUI to isolate your component.               |
+| Renderer       | Create the root, observe the webpage, find anchors and mount your component. |
+
 ## Anchor
 
 ![CSUI Life Cycle](@screenshots/2022-12-02-23-53-02.png)
