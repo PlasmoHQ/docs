@@ -2,6 +2,8 @@
 description: Guide on how to use Google Analytics with a Manifest Version 3 browser extension
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Quickstart with Google Analytics
 
 Since Manifest V3 does not support [remote code execution](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview/#remotely-hosted-code), it has been very difficult for developer to integrate google analytics into their extension project, especially with the latest [gtag4 version](https://developers.google.com/analytics/devguides/collection/ga4).
@@ -12,7 +14,10 @@ To overcome this issue, Plasmo [bundles remote code at build time](/framework/re
 
 You will first need to create a property to get the Tracking ID. During this process, Google will ask to provide a website URL - we suggest providing a subdomain of your domain. This ensures the data coming in is only from your properties - website/domain/extension.
 
-> NOTE: You can reuse any property you own (for example, the website property you use to market your extension).
+<Callout emoji="♻️">
+  You can reuse any property you own (for example, the website property you use
+  to market your extension).
+</Callout>
 
 Then, to get the Measurement ID, visit your Google Analytics dashboard, and navigate to the Tagging Instructions section (Admin -> Setup Assistant -> Tag installation -> Data Streams -> Web):
 
@@ -24,17 +29,13 @@ Click the button next to the Measurement ID, which should copy to your clipboard
 
 To properly store the Measurement ID, we recommend using [environment variables](/framework/env). Create an `.env.local` file:
 
-`.env.local`
-
-```ini
+```ini filename=".env.local"
 PLASMO_PUBLIC_GTAG_ID=<paste in your measurement ID>
 ```
 
 To get TypeScript IntelliSense, create an `index.d.ts` file:
 
-`index.d.ts`
-
-```ts
+```ts filename="index.d.ts"
 declare namespace NodeJS {
   interface ProcessEnv {
     PLASMO_PUBLIC_GTAG_ID?: string
@@ -51,7 +52,7 @@ interface Window {
 
 Below is an example of how to implement the google tag tracking script in the popup page:
 
-```tsx
+```tsx filename="popup.tsx"
 import "https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID"
 
 import { useEffect, useState } from "react"

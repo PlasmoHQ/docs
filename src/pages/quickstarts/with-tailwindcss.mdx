@@ -8,9 +8,7 @@ Using Tailwind or any other PostCSS plugin is super easy with Plasmo.
 
 ## Defining Your PostCSS Config
 
-`postcss.config.js`
-
-```js
+```js filename="postcss.config.js"
 /**
  * @type {import('postcss').ProcessOptions}
  */
@@ -23,9 +21,7 @@ module.exports = {
 
 ## Adding Root Styles
 
-`style.css`
-
-```css
+```css filename="style.css"
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
 
 @tailwind base;
@@ -35,9 +31,7 @@ module.exports = {
 
 ## Setting up Tailwind config
 
-`tailwind.config.js`
-
-```js
+```js filename="tailwind.config.js"
 /** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 module.exports = {
   mode: "jit",
@@ -58,7 +52,7 @@ module.exports = {
 
 Once you have all the config in place, start using Tailwind within your React components!
 
-```tsx
+```tsx filename="popup.tsx"
 import { useReducer } from "react"
 
 import "./style.css"
