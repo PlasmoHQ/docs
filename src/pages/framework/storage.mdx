@@ -112,7 +112,7 @@ const [hailingFrequency] = useStorage({
 
 Given a `popup.tsx` that sets a static initial value:
 
-```tsx filename=popup.tsx
+```tsx filename="popup.tsx"
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")
 
 return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.target.value)}/> // "42"
@@ -120,7 +120,7 @@ return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.ta
 
 If we subscribe to this key in a `content.tsx` script, we will see it be `undefined` until `setHailingFrequency` is called with a defined value:
 
-```tsx filename=content.tsx
+```tsx filename="content.tsx"
 const [hailingFrequency] = useStorage("hailing")
 
 return <p>{hailingFrequency}</p> // undefined
@@ -128,7 +128,7 @@ return <p>{hailingFrequency}</p> // undefined
 
 If we subscribe to this key in an `options.tsx`, but with a different static initial value, we will see that value instead:
 
-```tsx filename=options.tsx
+```tsx filename="options.tsx"
 const [hailingFrequency] = useStorage("hailing", "147")
 
 return <p>{hailingFrequency}</p> // "147"
@@ -142,7 +142,7 @@ By using a function instead of a static value, the initial value will be persist
 
 Let's say we have a `popup.tsx` that initialize the state to "42" if there is nothing in storage:
 
-```tsx filename=popup.tsx
+```tsx filename="popup.tsx"
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async (v) => v === undefined ? "42": v)
 ...
 {hailingFrequency} // "42"

@@ -1,19 +1,19 @@
 ---
-description: Using sandbox pages with Plasmo to create secure context pages for extension.
+description: Using sandbox pages with Plasmo to create secure context pages for browser extensions.
 ---
 
 # Sandbox Pages
 
-Sandbox Pages are special extension pages with a different set of CSP restrictions. For example, it is possible to `eval` arbitrary code inside a sandbox page. Use the sandbox page to dynamically run code in a secure context with more privilege compared to a common extension page.
+Sandbox Pages are special extension pages with a different set of CSP restrictions. For example, it is possible to `eval` arbitrary code inside a sandbox page. Use the sandbox page to dynamically run code in a secure context with more privileges compared to an extension page.
 
-A sandbox page can mount a UI component similar to a [CSUI](./content-scripts-ui) or execute simple scripts. The following example showcases the ability to `eval` arbitrary code from a sandbox page and communicate the result back to the caller via message passing.
+A sandbox page can mount UI components similar to a [CSUI](./content-scripts-ui) or execute simple scripts. The following example showcases the ability to `eval` arbitrary code from a sandbox page and communicate the result back to the caller via message passing.
 
 First, we want to add a sandbox page:
 
 1. Create a `sandbox.ts` file or a `sandboxes/<name>.ts` file in the source directory (project root or `src`)
 1. Export the following script:
 
-```tsx
+```tsx filename="sandbox.ts"
 export const life = 42
 
 window.addEventListener("message", async function (event) {
@@ -25,9 +25,9 @@ window.addEventListener("message", async function (event) {
 })
 ```
 
-The script above listens to a `message` event from the window scope, and eval the code sent by the caller via the data property. The sandbox page is now available under `sandbox.html` OR `sandboxes/<name>.html` in the extension bundle. To send messages to this page, we will need to mount it inside an iframe, and invoke the postMessage API. Let's do so in a `popup.tsx` [extension page](./):
+The script above listens to a `message` event from the window scope, and evals the code sent by the caller via the data property. The sandbox page is now available under `sandbox.html` OR `sandboxes/<name>.html` in the extension bundle. To send messages to this page, we will need to mount it inside an iframe, and invoke the postMessage API. Let's do so in a `popup.tsx` [extension page](./):
 
-```tsx
+```tsx filename="popup.tsx"
 import { useEffect, useRef, useState } from "react"
 
 function IndexPopup() {
@@ -60,6 +60,6 @@ function IndexPopup() {
 export default IndexPopup
 ```
 
-When the user press the `trigger iframe eval`, they will see the result of the calculation eval done inside the sandbox page.
+When a user clicks the `trigger iframe eval`, they will see the result of the eval done inside the sandbox page.
 
 See [rfc-263](https://github.com/PlasmoHQ/plasmo-test/blob/main/rfc/rfc-263-sandbox-pages) for more details.
