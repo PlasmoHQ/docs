@@ -4,9 +4,9 @@ description: How to use the Browser Platform Publish GitHub action to deploy you
 
 # Submit Your Extension
 
-The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension markets. It runs on a manual trigger by default, but changing its config can make it run on every push.
+The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension stores. It runs on a manual trigger by default, but changing its config can make it run on every push.
 
-To start publishing your Plasmo extension, set up a `keys.json` file with the schema:
+To start publishing your Plasmo extension, set up a `keys.json` file with the following schema:
 
 ```json
 {
@@ -14,11 +14,16 @@ To start publishing your Plasmo extension, set up a `keys.json` file with the sc
 }
 ```
 
-This schema is helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure only to declare valid submission credentials. Otherwise, the action will fail.
+This schema is helpful if your editor supports [`JSON schema`](https://json-schema.org/). Make sure to only declare valid submission credentials. Otherwise, the action will fail.
 
-> NOTE: git ignores this file thanks to our friendly neighborhood `.gitignore`
+<Callout emoji="🙆‍♀️">
+  NOTE: git ignores this file thanks to our friendly neighborhood
+  `.gitignore`{" "}
+</Callout>
 
-Please see this [token guide](https://github.com/PlasmoHQ/bms/blob/main/tokens.md) to learn more about the tokens required to submit. The final key might look like this:
+Check out our [token guide](https://github.com/PlasmoHQ/bms/blob/main/tokens.md) to learn more about the tokens required to submit.
+
+The final key might look like this:
 
 ```json
 {
