@@ -2,25 +2,29 @@
 description: How to customize icons in your Plasmo browser extension.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Extension Icon
 
 The Plasmo framework automatically generates smaller resolution versions of icons for the built bundle. Thus, all you need to work on is the high-fidelity version!
 
 By default, Plasmo reads the `assets/icon.png` file for the extension icon. Optionally, you can use these names instead of `icon`:
 
-| icon512  | icon-512  | icon-512x512   |
-| :------- | :-------- | :------------- |
-| icon1024 | icon-1024 | icon-1024x1024 |
+| icon512 | icon-512 | icon-512x512 | icon1024 | icon-1024 | icon-1024x1024 |
+| :------ | :------- | :----------- | -------- | --------- | -------------- |
 
 The alternative names are helpful to clarify the size of the original icon. However, Plasmo will only pick one file.
 
-> NOTE: Ensure your icon file is inside the `assets` directory and is a PNG file with `.png` extension.
+<Callout emoji="👉">
+  Ensure your icon file is inside the `assets` directory and is a PNG file with
+  the `.png` extension.
+</Callout>
 
 ## Development Icon
 
 In [development mode](/framework/workflows/dev), Plasmo converts the icon to grayscale to help distinguish it from the production bundle:
 
-![gray-scaled icon](@screenshots/2022-09-26-01-52-08.png)
+![gray-scaled icon](@screenshots/extension-icon-example.png)
 
 ### Custom Development Icon
 
@@ -28,7 +32,7 @@ If you don't want the default grayscale behavior, you can place an `icon.develop
 
 ## Tag Specific Icons
 
-To use a different icon for a specific [build tag](/framework/workflows/build#with-a-custom-tag), use the following files:
+To use a different icon for a specific [build tag](/framework/workflows/build#with-a-custom-tag), name your icon file as follows:
 
 - `icon.<tag>.png`
 - `icon.<tag>.<NODE_ENV>.png`

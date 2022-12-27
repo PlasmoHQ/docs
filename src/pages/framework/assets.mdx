@@ -2,6 +2,8 @@
 description: Plasmo offers several ways to easily bundle assets into your browser extension.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Assets
 
 Extension bundles can include assets such as images, fonts, binary WASM bundles, and other files. Plasmo provides several methods to work with these assets.
@@ -18,7 +20,9 @@ import someCoolImage from "data-base64:~assets/some-cool-image.png"
 <img src={someCoolImage} alt="Some pretty cool image" />
 ```
 
-> NOTE: Please see this [note about `~` import resolution](/framework/import#tilde-)
+<Callout emoji="📦">
+  Please see this [note about `~` import resolution](/framework/import#tilde-)
+</Callout>
 
 ## Web Accessible Resources
 
