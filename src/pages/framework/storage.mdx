@@ -24,7 +24,7 @@ pnpm install @plasmohq/storage
 - See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for an example of how to use this library as your Redux persistent layer (crucial for MV3).
 - See [MICE](https://github.com/PlasmoHQ/mice) for an experimental use case of this library integrated with WebRTC to pipe messages between browsers via an extension.
 
-## Storage API (for content scripts or background workers)
+## Storage API (for Non-React Components)
 
 ```ts
 import { Storage } from "@plasmohq/storage"
@@ -56,8 +56,6 @@ The code above prevents data from being leaked into localStorage when used with 
 
 ### Watch (for state sync)
 
-The Hook API automatically watches for new changes.
-
 To watch for changes when using the Storage API:
 
 ```ts
@@ -83,9 +81,9 @@ await storage.set("make", "PlasmoHQ")
 
 This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
 
-## Hook API (for react components)
+## Hook API (for React components)
 
-The hook API is designed to streamline state-syncing workflow between the different pieces of an extension. There are many ways it can be used, but first and fore-most you will want to import the hook into your react component:
+The hook API is designed to streamline the state-syncing workflow between the different pieces of an extension. There are many ways it can be used, but first and foremost you will want to import the hook into your React component:
 
 ```tsx
 import { useStorage } from "@plasmohq/storage/hook"
@@ -114,7 +112,7 @@ const [hailingFrequency] = useStorage({
 
 Given a `popup.tsx` that sets a static initial value:
 
-```tsx
+```tsx filename=popup.tsx
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")
 
 return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.target.value)}/> // "42"
@@ -122,7 +120,7 @@ return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.ta
 
 If we subscribe to this key in a `content.tsx` script, we will see it be `undefined` until `setHailingFrequency` is called with a defined value:
 
-```tsx
+```tsx filename=content.tsx
 const [hailingFrequency] = useStorage("hailing")
 
 return <p>{hailingFrequency}</p> // undefined
@@ -130,7 +128,7 @@ return <p>{hailingFrequency}</p> // undefined
 
 If we subscribe to this key in an `options.tsx`, but with a different static initial value, we will see that value instead:
 
-```tsx
+```tsx filename=options.tsx
 const [hailingFrequency] = useStorage("hailing", "147")
 
 return <p>{hailingFrequency}</p> // "147"
@@ -144,7 +142,7 @@ By using a function instead of a static value, the initial value will be persist
 
 Let's say we have a `popup.tsx` that initialize the state to "42" if there is nothing in storage:
 
-```jsx
+```tsx filename=popup.tsx
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async (v) => v === undefined ? "42": v)
 ...
 {hailingFrequency} // "42"
@@ -162,8 +160,8 @@ return <p>{hailingFrequency}</p> // "42"
 
 When dealing with form input or real-time input, you might need the following:
 
-```jsx
-const [hailingFrequency, , {
+```tsx
+const [hailingFrequency, {
   setRenderValue,
   setStoreValue,
   remove
