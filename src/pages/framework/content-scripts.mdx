@@ -49,7 +49,7 @@ See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/w
 
 Sometimes, you'll want to run a content script on certain pages. You can provide a custom content script configuration by exporting a config object from your content script:
 
-```ts
+```ts filename="content.ts"
 import type { PlasmoContentScript } from "plasmo"
 
 export const config: PlasmoContentScript = {

@@ -7,9 +7,9 @@
 
 ## Raw CSS Text
 
-To style the `Root Container`, export a `getStyle` function:
+To style your CSUI, export a `getStyle` function:
 
-```ts
+```ts filename="content.tsx"
 import type { PlasmoGetStyle } from "plasmo"
 
 export const getStyle: PlasmoGetStyle = () => {
@@ -27,7 +27,7 @@ export const getStyle: PlasmoGetStyle = () => {
 
 To import CSS/LESS/SASS files, combine the `getStyle` API with the [`data-text` import scheme](/framework/import#data-text):
 
-```ts
+```ts filename="content.tsx"
 import styleText from "data-text:./style.scss"
 import type { PlasmoGetStyle } from "plasmo"
 
@@ -42,7 +42,7 @@ export const getStyle: PlasmoGetStyle = () => {
 
 The `getStyle` API can also be used to hydrate CSS-in-JS style cache, for example when using [`with emotion`](https://github.com/PlasmoHQ/examples/tree/main/with-emotion):
 
-```ts
+```ts filename="content.tsx"
 import createCache from "@emotion/cache"
 import { CacheProvider } from "@emotion/react"
 import type { PlasmoGetStyle } from "plasmo"
@@ -62,7 +62,7 @@ export const getStyle: PlasmoGetStyle = () => styleElement
 
 To utilize CSS modules, import the stylesheet twice:
 
-```tsx
+```tsx filename="content.tsx"
 import styleText from "data-text:./style.module.pcss"
 import type { PlasmoContentScript } from "plasmo"
 
@@ -86,7 +86,7 @@ To use a custom font in your CSUI, you must import the font inside a CSS file an
 1. Add your font in the `assets` directory (e.g `/assets/Fascinate.woff2`)
 2. Create a `font.css` file next to your content script, importing the font inline using the [`data-base64`](/framework/import#data-base64) scheme:
 
-```css
+```css filename="font.css"
 @font-face {
   font-family: "Fascinate";
   font-style: normal;
@@ -101,7 +101,7 @@ To use a custom font in your CSUI, you must import the font inside a CSS file an
 
 3. Declare the file in the `css` property of the content script config:
 
-```tsx
+```tsx filename="content.tsx"
 export const config: PlasmoContentScript = {
   matches: ["https://www.plasmo.com/*"],
   css: ["font.css"]
@@ -110,7 +110,7 @@ export const config: PlasmoContentScript = {
 
 4. Once the browser registers the font, you can reference it inside your CSS style:
 
-```css
+```css filename="style.css"
 .hw-top {
   background: red;
   color: white;
@@ -124,7 +124,7 @@ See [with-content-scripts-ui/contents/plasmo-overlay.tsx](https://github.com/Pla
 
 Use the IDs `#plasmo-mount-container` and `#plasmo-shadow-container` to alter the `Root Container` styles in your CSS:
 
-```css
+```css filename="style.css"
 #plasmo-shadow-container {
   z-index: 99999;
 }
@@ -134,6 +134,6 @@ Use the IDs `#plasmo-mount-container` and `#plasmo-shadow-container` to alter th
 }
 ```
 
-## Inherits the Web Page's Style
+## Inherit the Web Page's Style
 
 To inherit the web page's style, override the built-in `Root Container` to mount your component directly into the web page's DOM. [Click here for more details](/framework/content-scripts-ui/life-cycle#custom-root-container).
