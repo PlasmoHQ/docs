@@ -12,7 +12,7 @@ An extension can have as many CSUI as needed, with each CSUI targeting a group o
 1. Export a default React component
 1. Profit 🎉
 
-```tsx
+```tsx filename="content.tsx"
 const CustomButton = () => {
   return <button>Custom button</button>
 }
@@ -20,7 +20,10 @@ const CustomButton = () => {
 export default CustomButton
 ```
 
-> **NOTE**: To have multiple content scripts, create a `contents/` directory and have your CSUI entries there.
+<Callout emoji="👀" title="Note">
+  **NOTE**: To have multiple content scripts, create a `contents/` directory and
+  have your CSUI entries there.
+</Callout>
 
 See [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/tree/main/with-content-scripts-ui) for a full example.
 
