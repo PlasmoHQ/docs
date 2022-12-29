@@ -36,6 +36,19 @@ await storage.set("key", "value")
 const data = await storage.get("key") // value
 ```
 
+### Storing other data types
+
+```ts
+const storage = new Storage()
+
+await storage.set("key", { value: "value" })
+
+const data = await storage.get("key") // { value: "value" }
+
+```
+
+The values stored can be any JSON-ifiable value, including objects and arrays.
+
 ### Customizing the storage area
 
 ```ts
