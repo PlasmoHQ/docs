@@ -14,7 +14,7 @@ import { ShieldBanners } from "~components/shield-banners"
 
 ## Installation
 
-```
+```bash
 pnpm install @plasmohq/storage
 ```
 
@@ -26,6 +26,8 @@ pnpm install @plasmohq/storage
 
 ## Storage API (for Non-React Components)
 
+The base Storage API is designed to be easy to use. Get/set data without the need to JSON.stringify/parse. As long as the data you are storing is a plain object or a primitive type, it can be stored:
+
 ```ts
 import { Storage } from "@plasmohq/storage"
 
@@ -33,21 +35,12 @@ const storage = new Storage()
 
 await storage.set("key", "value")
 
-const data = await storage.get("key") // value
+const data = await storage.get("key") // "value"
+
+await storage.set("capt", { color: "red" })
+
+const data2 = await storage.get("capt") // { color: "red" }
 ```
-
-### Storing other data types
-
-```ts
-const storage = new Storage()
-
-await storage.set("key", { value: "value" })
-
-const data = await storage.get("key") // { value: "value" }
-
-```
-
-The values stored can be any JSON-ifiable value, including objects and arrays.
 
 ### Customizing the storage area
 
@@ -71,7 +64,7 @@ The code above prevents data from being leaked into localStorage when used with 
 
 To watch for changes when using the Storage API:
 
-```ts
+```ts filename="background.ts"
 import { Storage } from "@plasmohq/storage"
 
 const storage = new Storage()
@@ -156,14 +149,14 @@ By using a function instead of a static value, the initial value will be persist
 Let's say we have a `popup.tsx` that initialize the state to "42" if there is nothing in storage:
 
 ```tsx filename="popup.tsx"
-const [hailingFrequency, setHailingFrequency] = useStorage("hailing", async (v) => v === undefined ? "42": v)
+const [hailingFrequency, setHailingFrequency] = useStorage("hailing", (v) => v === undefined ? "42": v)
 ...
 {hailingFrequency} // "42"
 ```
 
 Then, if we make a new hook instance in our `content.tsx` or `options.tsx`, we will see the initial value that was persisted, without calling `setHailingFrequency`:
 
-```tsx
+```tsx filename="content.tsx"
 const [hailingFrequency] = useStorage("hailing")
 
 return <p>{hailingFrequency}</p> // "42"

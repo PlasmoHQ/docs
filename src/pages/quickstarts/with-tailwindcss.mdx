@@ -2,11 +2,29 @@
 description: A quick guide on how to use Tailwind CSS in your browser extension.
 ---
 
-# Quickstart with Tailwind CSS
+import { Callout } from "nextra-theme-docs"
 
-Using Tailwind or any other PostCSS plugin is super easy with Plasmo.
+# Quickstart with TailwindCSS
 
-## Defining Your PostCSS Config
+Using Tailwind CSS is super easy with Plasmo thanks to the built-in integration with PostCSS. The setup is identical to the [official Tailwind CSS docs guide](https://tailwindcss.com/docs/installation/using-postcss).
+
+You can use any PostCSS plugins as well such as Autoprefixer, PurgeCSS, and more. This guide will walk you through the steps to get started with Tailwind CSS.
+
+<Callout emoji="🎉">Easy Tailwind CSS in Chrome Extension!</Callout>
+
+## Example
+
+- To see a complete example of this quickstart, go to the [with-tailwindcss example](https://github.com/PlasmoHQ/examples/tree/main/with-tailwindcss).
+
+## Installation
+
+### Add Dependencies
+
+```bash
+pnpm i -D tailwindcss postcss autoprefixer
+```
+
+### Defining Your PostCSS Config
 
 ```js filename="postcss.config.js"
 /**
@@ -14,43 +32,37 @@ Using Tailwind or any other PostCSS plugin is super easy with Plasmo.
  */
 module.exports = {
   plugins: {
-    tailwindcss: {}
+    tailwindcss: {},
+    autoprefixer: {}
   }
 }
 ```
 
-## Adding Root Styles
+### Setting up Tailwind config
+
+```js filename="tailwind.config.js"
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  mode: "jit",
+  darkMode: "class",
+  content: ["./**/*.tsx"],
+  plugins: []
+}
+```
+
+### Adding Root Styles
 
 ```css filename="style.css"
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-## Setting up Tailwind config
+## Usage
 
-```js filename="tailwind.config.js"
-/** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
-module.exports = {
-  mode: "jit",
-  darkMode: "class",
-  content: ["./**/*.{ts,tsx}"],
-  theme: {
-    fontFamily: {
-      sans: ["Inter", "sans-serif"],
-      serif: ["Georgia", "serif"]
-    }
-  },
-  variants: { extend: { typography: ["dark"] } },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")]
-}
-```
+### In Extension Pages
 
-## Using Within React
-
-Once you have all the config in place, start using Tailwind within your React components!
+Once you have all the configs in place, start using Tailwind within your React components! Below is an example of how to use Tailwind on the popup page:
 
 ```tsx filename="popup.tsx"
 import { useReducer } from "react"
@@ -61,28 +73,50 @@ function IndexPopup() {
   const [count, increase] = useReducer((c) => c + 1, 0)
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 16
-      }}>
-      <button
-        onClick={() => increase()}
-        type="button"
-        className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Count:
-        <span className="inline-flex items-center justify-center w-8 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
-          {count}
-        </span>
-      </button>
-    </div>
+    <button
+      onClick={() => increase()}
+      type="button"
+      className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      Count:
+      <span className="inline-flex items-center justify-center w-8 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+        {count}
+      </span>
+    </button>
   )
 }
 
 export default IndexPopup
 ```
 
-## Full Example
+### In Content Scripts UI
 
-To see a complete example of this quickstart, go to the [with-tailwind example](https://github.com/PlasmoHQ/examples/tree/main/with-tailwindcss).
+To use Tailwind in a [Content Scripts UI](/csui), you will need to import the `style.css` file as text data, and expose it to the CSUI lifecycle via the `getStyle` method to inject the style into the CSUI shadowDOM:
+
+```tsx filename="content.tsx"
+import cssText from "data-text:~style.css"
+import { useReducer } from "react"
+
+export const getStyle = () => {
+  const style = document.createElement("style")
+  style.textContent = cssText
+  return style
+}
+
+const PlasmoOverlay = () => {
+  const [count, increase] = useReducer((c) => c + 1, 0)
+
+  return (
+    <button
+      onClick={() => increase()}
+      type="button"
+      className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      Count:
+      <span className="inline-flex items-center justify-center w-8 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+        {count}
+      </span>
+    </button>
+  )
+}
+
+export default PlasmoOverlay
+```
