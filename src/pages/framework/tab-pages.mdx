@@ -4,7 +4,7 @@ description: Learn how to use tab pages with Plasmo to create new tab views in y
 
 # Tab Pages
 
-Tab Pages is a feature unique to the Plasmo framework. Unlike [Extension Pages](/framework/ext-pages), Tab Pages are just regular web pages shipped with your extension bundle. Extensions generally redirect to or open these pages programmatically from extension pages. Use tab pages when you want to have a more elaborate routing setup or a dedicated page for authentication.
+Tab Pages is a feature unique to the Plasmo framework. Unlike [Extension Pages](/framework/ext-pages), Tab Pages are just regular web pages shipped with your extension bundle. Extensions generally redirect to or open these pages programmatically, but you can link to them as well. Use tab pages when you want to have a more elaborate routing setup, a dedicated page for authentication, or a page to show when a user first installs your extension.
 
 ## Examples
 
@@ -17,9 +17,9 @@ To add a tab:
 
 1. Create a `tabs` folder in the source directory (project root or `src`)
 2. Add a `.tsx` file such as `delta-flyer.tsx`
-3. Exporting a default React component:
+3. Export a default React component:
 
-```tsx
+```tsx filename="tabs/delta-flyer.tsx"
 function DeltaFlyerPage() {
   return (
     <div
@@ -44,4 +44,4 @@ Your tab page will be available under the `/tabs` path in the extension bundle. 
 chrome-extension://<extension-id>/tabs/delta-flyer.html
 ```
 
-![tab-pages](@screenshots/2022-09-25-22-18-58.png)
+![tab-pages](@screenshots/new-tab-example.png)

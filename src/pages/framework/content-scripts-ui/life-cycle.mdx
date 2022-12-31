@@ -2,6 +2,8 @@
 description: Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your React, Vue, or Svelte components in a content script.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Life Cycle of Plasmo CSUI
 
 Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your React, Vue, or Svelte components in a content script. Although each UI library/framework has a slightly different mounting API, the top-level lifecycle is largely the same:
@@ -12,13 +14,14 @@ Plasmo's CSUI orchestrates a lifecycle dedicated to mounting and unmounting your
 
 ## Terminologies
 
-| Term           | Description                                                                  |
-| :------------- | :--------------------------------------------------------------------------- |
-| Anchor         | Tell CSUI how and where to mount your component.                             |
-| Overlay        | Mount your component on a top-level (max z-index) overlay element.           |
-| Inline         | Mount your component into the webpage's DOM, next to a target element.       |
-| Root Container | A ShadowDOM element created by CSUI to isolate your component.               |
-| Renderer       | Create the root, observe the webpage, find anchors and mount your component. |
+| Term           | Description                                                           |
+| :------------- | :-------------------------------------------------------------------- |
+| Anchor         | Tell CSUI how and where to mount your component                       |
+| Anchor-getter  | Tell CSUI how to find your anchor(s)                                  |
+| Overlay        | Mount your component on a top-level (max z-index) overlay element     |
+| Inline         | Mount your component into the webpage's DOM, next to a target element |
+| Root Container | A ShadowDOM element created by CSUI to isolate your component         |
+| Renderer       | The top-level life-cycle runner (it does everything)                  |
 
 ## Anchor
 
@@ -68,11 +71,16 @@ export const getOverlayAnchorList: PlasmoGetOverlayAnchorList = async () =>
   document.querySelectorAll("a")
 ```
 
-> NOTE: `getOverlayAnchorList` does not cover dynamic case at the moment. For example, if new anchors are added to the web page after the initial rendering, the CSUI lifecycle will not be able to detect it. PR is welcome to improve this feature!
+<Callout emoji="⚠️">
+  `getOverlayAnchorList` does not cover dynamic case at the moment. For example,
+  if new anchors are added to the web page after the initial rendering, the CSUI
+  lifecycle will not be able to detect it. PR is welcome to improve this
+  feature!
+</Callout>
 
 #### Update Position
 
-The default `Overlay Container` listens to the window scroll event to align itself with the anchor element. Developers can customize how the `Overlay Container` refreshes its absolute positioning by exporting a `watchOverlayAnchor` function. The example below refreshes the position every 8472ms:
+The default `Overlay Container` listens to the window scroll event to align itself with the anchor element. You can customize how the `Overlay Container` refreshes its absolute positioning by exporting a `watchOverlayAnchor` function. The example below refreshes the position every 8472ms:
 
 ```ts
 import type { PlasmoWatchOverlayAnchor } from "plasmo"
@@ -118,7 +126,7 @@ Check [with-content-scripts-ui/contents/plasmo-inline.tsx](https://github.com/Pl
 
 ![Root container creation](@screenshots/2022-12-03-04-06-51.png)
 
-The `Root Container` is where your `CSUI Component` is mounted. The built-in `Root Container` is a ShadowDOM element with the `plasmo-csui` custom tag. This allows developers to style the `Root Container` and their exported components without being affected by the web page's styles.
+The `Root Container` is where your `CSUI Component` is mounted. The built-in `Root Container` is a ShadowDOM element with the `plasmo-csui` custom tag. This allows you to style the `Root Container` and their exported components without being impacted by the web page's styles.
 
 ### Custom DOM Mounting
 
@@ -139,7 +147,7 @@ export const mountShadowHost: PlasmoMountShadowHost = ({
 
 ### Closed Shadow Root
 
-By default, the shadow root is "open," allowing any user to inspect the hierarchy of the ShadowDOM. To override this behavior, export a `createShadowRoot` function:
+By default, the shadow root is "open," allowing anyone (developer and extension user) to inspect the hierarchy of the ShadowDOM. To override this behavior, export a `createShadowRoot` function:
 
 ```ts
 import type { PlasmoCreateShadowRoot } from "plasmo"
@@ -156,7 +164,7 @@ For further guidance on styling CSUI, please read [Styling Plasmo CSUI](./stylin
 
 ### Custom Root Container
 
-Sometimes, you'll want to completely replace Plasmo's Shadow DOM container implementation to fit your needs better. For example, you might want to directly use an element within the web page itself instead of creating a new DOM element. To do so, export a `getRootContainer` function:
+Sometimes, you'll want to completely replace Plasmo's Shadow DOM container implementation to fit your needs. For example, you might want to piggyback on an element within the web page itself instead of creating a new DOM element. To do so, export a `getRootContainer` function:
 
 ```ts
 import type { PlasmoGetRootContainer } from "plasmo"
@@ -164,13 +172,17 @@ import type { PlasmoGetRootContainer } from "plasmo"
 export const getRootContainer = () => document.getElementById("itero")
 ```
 
-A couple example use cases include:
+Some reasons you'd want to do this:
 
 - The extension needs to [absorb the styling of the host webpage](https://github.com/PlasmoHQ/plasmo/issues/10#issuecomment-1149499252)
 - The extension needs to mount the component directly into the webpage instead of using a shadow DOM
 - The extension needs to use an [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe), instead
 
-> **NOTE:** If you export a `getRootContainer` function, any function that extends the built-in ShadowDOM such as `getStyle` or `getShadowHostId` will be ignored. Call those functions within your custom `getRootContainer` logic as needed!
+<Callout emoji="⚠️">
+  If you export a `getRootContainer` function, any function that extends the
+  built-in ShadowDOM such as `getStyle` or `getShadowHostId` will be ignored.
+  Call those functions within your custom `getRootContainer` logic as needed!
+</Callout>
 
 Check [with-content-scripts-ui](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-root-container.tsx) for an example.
 
@@ -205,7 +217,7 @@ export const getShadowHostId: PlasmoGetShadowHostId = ({ anchor }) =>
 
 Developers may export a `render` function to override the default renderer. You might need this ability to:
 
-- Provide custom `Inline container` or `Overlay container`
+- Provide a custom `Inline container` or `Overlay container`
 - Customize the mounting logic
 - Provide a custom `MutationObserver`
 

@@ -18,7 +18,7 @@ You will need to pick one and stick to it!
 
 Create a `locales/en/messages.json` file with a JSON mapping between a unique `key` and a locale object:
 
-```json
+```json filename="locales/en/messages.json"
 {
   "extensionName": {
     "message": "with-locales-i18n-en",
@@ -37,7 +37,7 @@ Create a `locales/en/messages.json` file with a JSON mapping between a unique `k
 
 By default, Plasmo picks the first locale alphabetically available as default. However, you can specify a `default_locale` in your manifest like so:
 
-```json
+```json filename="package.json"
 {
   "manifest": {
     "default_locale": "en"
@@ -47,7 +47,7 @@ By default, Plasmo picks the first locale alphabetically available as default. H
 
 Even more powerful, you can use environment variables inside your locale files:
 
-```json
+```json filename="locales/en/messages.json"
 {
   ...
   "popup": {
@@ -57,13 +57,11 @@ Even more powerful, you can use environment variables inside your locale files:
 }
 ```
 
-`.env`:
-
-```ini
+```ini filename=".env"
 PLASMO_PUBLIC_QUOTE_AUTHOR=Spock
 ```
 
-The locales file are monitored by Plasmo if they existed before the dev server started. Thus, you can change the locales file and see the changes in the browser without restarting the dev server.
+The locale files are monitored by Plasmo if they existed before the dev server started. Thus, you can change the locales file and see the changes in the browser without restarting the dev server.
 
 ## Usage
 
@@ -73,7 +71,7 @@ With the locale files in place, you can use the `i18n` API to localize your exte
 
 To get the locale string inside your components, use the `i18n` API to get the locale message by its `key`:
 
-```jsx
+```tsx filename="popup.tsx"
 import { useState } from "react"
 
 function IndexPopup() {
@@ -102,7 +100,7 @@ export default IndexPopup
 
 To reference a locale string inside your manifest overrides, wrap the key inside `__MSG_<key>__`:
 
-```json
+```json filename="package.json"
 {
   "name": "with-locales-i18n",
   "displayName": "__MSG_extensionName__",

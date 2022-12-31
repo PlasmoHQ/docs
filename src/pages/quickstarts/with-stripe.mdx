@@ -2,6 +2,8 @@
 description: A step-by-step guide on how to integrate Stripe with your browser extension.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Quickstart with Stripe
 
 ## Intro
@@ -36,9 +38,7 @@ Above should get you the Stripe Payment Link. For backend authorization, head to
 
 Assuming you have set up a basic Plasmo project, the first thing to do is to set up our [environment variables](/framework/env):
 
-`.env.development`
-
-```ini
+```ini filename="env.development"
 PLASMO_PUBLIC_STRIPE_LINK=https://buy.stripe.com/test_XXXXXXXX
 
 STRIPE_PRIVATE_API_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxx
@@ -59,7 +59,7 @@ To associate a subscription with a user, we can use their email address. One qui
 
 To enable the permission required for this feature, add the following to the `manifest` field of your `package.json` file:
 
-```json
+```json filename="package.json"
 {
   ...
   "manifest": {
@@ -69,7 +69,10 @@ To enable the permission required for this feature, add the following to the `ma
 }
 ```
 
-> **NOTE:** The `...` means if you already have anything there, preserve it. You will see this in many of our code examples.
+<Callout emoji="🚨">
+  The `...` means if you already have anything there, preserve it. You will see
+  this in many of our code examples.
+</Callout>
 
 Then, we will need to set up an OAuth2 client ID using Google Cloud Platform (GCP). Quickly create a new project in GCP following [this guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects), then navigate to the Credentials page: `https://console.cloud.google.com/apis/credentials?referrer=search&project=<YOUR_PROJECT_ID>`. It'll show you something like this:
 
@@ -105,16 +108,12 @@ openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A
 
 We can then use this key by leveraging [env variable in our manifest override](/framework/env#in-manifest-overrides):
 
-`.env.development`
-
-```ini
+```ini filename=".env.development"
 ...
 CRX_PUBLIC_KEY=v47xxx
 ```
 
-`package.json`
-
-```json
+```json filename="package.json"
 {
   "manifest": {
     ...
@@ -133,18 +132,14 @@ Paste the ID into the OAuth form's Application ID field, then submit. You will t
 
 Add it to your environment variables:
 
-`.env.development`
-
-```ini
+```ini filename=".env.development"
 ...
 OAUTH_CLIENT_ID=<YOUR_OAUTH_CLIENT_ID>
 ```
 
 And use it in our manifest override:
 
-`package.json`
-
-```json
+```json filename="package.json"
 {
   ...
   "manifest": {
@@ -166,9 +161,7 @@ We are now ready to generate an OAuth access token to authorize and process the 
 
 We can use `chrome.identity.getProfileUserInfo` to know who our user is. To cache this data and reuse it across our app, we can create a quick [React context](https://reactjs.org/docs/context.html). The easiest way is using [`puro`](https://www.npmjs.com/package/puro) - Plasmo's context utility library. Install it by adding the library to your `package.json` file and run `pnpm i`:
 
-`package.json`
-
-```json
+```json filename="package.json"
 {
   ...
   "dependencies": {
@@ -182,7 +175,7 @@ Then, we can create our provider:
 
 [`core/user-info.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/core/user-info.tsx)
 
-```tsx
+```tsx filename="core/user-info.tsx"
 import { createProvider } from "puro"
 import { useContext, useEffect, useState } from "react"
 
@@ -210,7 +203,7 @@ And use it in our popup:
 
 [`popup.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/popup.tsx)
 
-```tsx
+```tsx filename="popup.tsx"
 import { UserInfoProvider, useUserInfo } from "~core/user-info"
 
 const EmailShowcase = () => {
@@ -250,7 +243,7 @@ To streamline the Stripe payment link with the identity API, we can pre-fill the
 
 [`popup.tsx`](https://github.com/PlasmoHQ/examples/blob/main/with-stripe/popup.tsx)
 
-```tsx
+```tsx filename="popup.tsx"
 <button
   disabled={!userInfo}
   onClick={async () => {
@@ -278,9 +271,7 @@ To streamline the Stripe payment link with the identity API, we can pre-fill the
 
 We will now set up our backend to verify the user's subscription. We can simplify this process by leveraging [NextJS interoperability with Plasmo](/quickstarts/with-nextjs). We will first install NextJS and some utility libraries:
 
-`package.json`
-
-```json
+```json filename="package.json"
 {
   "scripts": {
     "start": "next start",
@@ -306,7 +297,11 @@ We will now set up our backend to verify the user's subscription. We can simplif
 }
 ```
 
-> `@plasmohq/rps` is a helper library from Plasmo to facilitate running scripts in parallel or sequentially. It is a modernized fork of [npm-run-all](https://github.com/mysticatea/npm-run-all/)
+<Callout emoji="📝">
+  `@plasmohq/rps` is a helper library from Plasmo to facilitate running scripts
+  in parallel or sequentially. It is a modernized fork of
+  [npm-run-all](https://github.com/mysticatea/npm-run-all/)
+</Callout>
 
 Once we've set up our dependencies, let's create some utility functions:
 
@@ -319,16 +314,12 @@ Then, we create our 2 API routes: one to check for the user's subscription and o
 
 To call the dev server from our extension, we can store the API URI using an environment variable and reference it in our manifest host:
 
-`.env.development`
-
-```ini
+```ini filename=".env.development"
 PLASMO_PUBLIC_API_URI=http://localhost:8472
 ...
 ```
 
-`package.json`
-
-```json
+```json filename="package.json"
 {
   ...
   "manifest": {
@@ -348,9 +339,7 @@ Kill and re-run `pnpm dev` to start both the dev server for our backend and our 
 
 Now, we can use `swr` to call and revalidate the `check-subscription` API in our popup:
 
-`popup.tsx`
-
-```tsx
+```tsx filename="popup.tsx"
 import useSWR from "swr"
 import { callAPI } from "~core/premium-api"
 
@@ -370,9 +359,7 @@ import { callAPI } from "~core/premium-api"
 
 Then, to invoke our premium feature:
 
-`popup.tsx`
-
-```tsx
+```tsx filename="popup.tsx"
 <button
   onClick={async () => {
     const data = await callAPI("/api/premium-feature", {

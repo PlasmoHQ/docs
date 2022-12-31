@@ -12,13 +12,17 @@ If you use pnpm, run:
 pnpm up -L plasmo
 ```
 
-For other package managers, you will need to purge the lock file and rerun the install subcommand to get the latest version of Plasmo.
+For other package managers, you will need to purge the lock file and rerun the install command to get the latest version of Plasmo.
 
-Alternatively, you can manually pin Plasmo's version by upgrading its version number in `package.json` and running the install subcommand afterward.
+Alternatively, you can manually pin Plasmo's version by upgrading its version number in `package.json` and running the install command afterward.
 
 ## What should I do if an error occurs?
 
-Please run plasmo with the `--verbose` flag and paste the output in the log section of a [bug report](/bug). That will help us triage the issue 100x faster 🙏
+Please run `plasmo` with the `--verbose` flag and paste the output in the log section of a [bug report](/bug). That will help us triage the issue 100x faster 🙏
+
+```sh
+plasmo --verbose
+```
 
 ## What are the officially supported browser targets?
 
@@ -34,3 +38,5 @@ Any chromium-based browser (e.g. Edge, Brave, Opera, etc.) should work, e.g:
 - `opera-mv3`
 
 We are working to support `safari-mv3` soon. See [this issue](https://github.com/PlasmoHQ/plasmo/issues/233)
+
+For the time being, if you'd like to build for Safari, you can target `firefox-mv2` and use the [safari-web-extension-converter](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) to convert the extension to Safari.

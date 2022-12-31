@@ -2,6 +2,8 @@
 description: How imports work with the Plasmo Framework.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Import Resolution
 
 Plasmo framework ships with its own code/asset bundler tailored specifically for extension development. It supports raw/transformed bundle inlining, asset mirroring, environment injection, and more.
@@ -45,7 +47,7 @@ Use the `./` prefix to import files using paths relative to the current file. Fo
 
 ## Schemes
 
-Plasmo introduces several "import schemes" that developers can use to import asset files into the extension bundle. The scheme is prefixed to the file path and separated by a colon. For example, `data-base64:~/assets/image.png` is a valid import path.
+Plasmo introduces several _import schemes_ that developers can use to import asset files into the extension bundle. Schemes follow the `<scheme>:<file path>` pattern. For example, `data-base64:~/assets/image.png` is a valid import path.
 
 ### raw
 
@@ -80,7 +82,9 @@ And you declared an environment variable `PLASMO_PUBLIC_URL` with the value `htt
 }
 ```
 
-> NOTE: `raw-env` is primarily helpful for text-based assets.
+<Callout emoji="👀">
+  `raw-env` is primarily helpful for text-based assets.
+</Callout>
 
 ### url
 
@@ -103,7 +107,9 @@ console.log(styleBUrl) // chrome-extension://<extension-id>/style.<hashB>.css
 console.log(codeUrl) // chrome-extension://<extension-id>/file.<hashB>.js
 ```
 
-> Using `url` with image assets will optimize them for size and browser loading.
+<Callout emoji="😮">
+  Using `url` with image assets will optimize them for size and browser loading.
+</Callout>
 
 ### data-text
 

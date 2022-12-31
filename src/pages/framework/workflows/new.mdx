@@ -6,13 +6,6 @@ import { Bleed, Callout } from "nextra-theme-docs"
 
 # Create a New Extension
 
-<Callout emoji="📢">
-
-**NOTE:** To use the `src` directory for the source code module, please follow this
-[guide](/framework/customization/src).
-
-</Callout>
-
 To run the interactive initialization wizard, use the following command:
 
 ```sh
@@ -39,13 +32,17 @@ npm create plasmo "My Awesome Extension"
 
 </Callout>
 
+## With src directory
+
+By default, Plasmo expects all source code to be in the root directory. However, you can follow [this guide](/framework/customization/src) to use the `src` directory as the home for your source code.
+
 ## With specific entry files
 
-The default project contains just a [popup](/framework/ext-pages#adding-a-popup-page) entry file. However, you can customize this behavior by using the `entry` parameter with a comma-separated list of entry files to include in your initial project.
+The default project contains just a [popup](/framework/ext-pages#adding-a-popup-page) entry file. However, you can customize this behavior by using the `entry` flag with a comma-separated list of entry files to include in your initial project.
 
-To see every available entry file, check [this directory](https://github.com/PlasmoHQ/plasmo/tree/main/packages/init/entries).
+To use this flag, pick the entry files you would like to see in your project, omit its file extension, and supply it to the `--entry` flag:
 
-To use this flag, pick the entry files you would like to see in your project, omit its extension, and supply it to the `--entry` flag:
+There are many entry files to choose from. Check out [this directory](https://github.com/PlasmoHQ/plasmo/tree/main/packages/init/entries) to see all the different entry files available to you.
 
 ```sh
 pnpm create plasmo --entry=options,newtab,contents/inline
@@ -63,7 +60,7 @@ The command above will create a project with the [options page](/framework/ext-p
 
 ## With an example template
 
-Even more powerful, Plasmo can create a new project based on a project in [our examples](https://github.com/PlasmoHQ/examples/). Pick an example you would like to use, and use it as a flag when running the `create plasmo` command:
+Even more powerful, Plasmo can create a new project based on one of [our examples](https://github.com/PlasmoHQ/examples/). Pick an example, and use its name as a flag when running the `create plasmo` command:
 
 ```sh
 pnpm create plasmo --with-env
@@ -71,7 +68,7 @@ pnpm create plasmo --with-env
 npm create plasmo -- --with-env
 ```
 
-The above will generate a project using the [with-env](https://github.com/PlasmoHQ/examples/tree/main/with-env) example under the name you will provide.
+The above will generate a project using the [with-env](https://github.com/PlasmoHQ/examples/tree/main/with-env) example.
 
 ## Loading the extension
 
