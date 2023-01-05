@@ -14,7 +14,7 @@ npm run build
 
 ## Generating a zip bundle
 
-To create a production zip bundle ready to be uploaded to the web stores, use the `package` subcommand:
+To create a production zip bundle ready to be uploaded to the web stores, use the `package` command:
 
 ```sh
 pnpm package
@@ -54,7 +54,7 @@ The command above will:
 
 - Create the bundle in the `build/chrome-mv3-staging` directory
 - Set the `process.env.PLASMO_TAG` environment variables to `staging`
-- Parse and prioritize [`.env.staging` or `.env.staging.local`](/framework/env#bundle-specific-env) if any exists
+- Parse and prioritize [`.env.staging` or `.env.staging.local`](/framework/env#bundle-specific-env) if any exist
 
 ## With source maps
 
@@ -62,4 +62,12 @@ By default, Plasmo does not generate source maps for your production bundle. How
 
 ```sh
 plasmo build --source-maps
+```
+
+## Bundle Buddy
+
+If you'd like to analyze your bundle, you can use the `--bundle-buddy` flag, combined with `--source-maps` to generate a [Bundle Buddy](https://bundle-buddy.com/) report:
+
+```sh
+plasmo build --source-maps --bundle-buddy
 ```

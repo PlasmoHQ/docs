@@ -4,19 +4,11 @@ description: Plasmo handles most of your manifest for you, but sometimes you'll 
 
 # Overriding the Manifest
 
-Plasmo will pass over the following fields from the `package.json` to the generated extension manifest:
-
-- `packageJson.version` -> `manifest.version`
-- `packageJson.displayName` -> `manifest.name`
-- `packageJson.description` -> `manifest.description`
-- `packageJson.author` -> `manifest.author`
-- `packageJson.homepage` -> `manifest.homepage_url`
-
 The Plasmo Framework extends the `package.json` with a `manifest` field to override the generated extension manifest. The primary use case is to enable features that the Plasmo framework does not _yet_ natively support.
 
 For instance, the Plasmo Framework might not understand that you need to have an `activeTab` permission. You'll need to modify your project's `package.json` like so:
 
-```json
+```json filename="package.json"
 ...
 "manifest": {
     "permissions": [
@@ -25,11 +17,19 @@ For instance, the Plasmo Framework might not understand that you need to have an
 }
 ```
 
+Plasmo will pass over the following fields from the `package.json` to the generated extension manifest:
+
+- `packageJson.version` -> `manifest.version`
+- `packageJson.displayName` -> `manifest.name`
+- `packageJson.description` -> `manifest.description`
+- `packageJson.author` -> `manifest.author`
+- `packageJson.homepage` -> `manifest.homepage_url`
+
 ## Using environment variables
 
 You can use environment variables inside the manifest overrides. For instance in the [with-storage example](https://github.com/PlasmoHQ/examples/blob/main/with-storage/package.json):
 
-```json
+```json filename="package.json"
 "manifest": {
   "browser_specific_settings": {
     "gecko": {
@@ -43,9 +43,9 @@ If the environment variable could not be found, the field will be removed comple
 
 ## Using locale template string
 
-You can use locale template strings in the manifest overrides:
+You can use [locale](/framework/locales) template strings in the manifest overrides:
 
-```json
+```json filename="package.json"
 "manifest": {
   "name": "__MSG_extensionName__"
 }

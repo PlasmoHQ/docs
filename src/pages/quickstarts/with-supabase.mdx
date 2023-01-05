@@ -27,7 +27,7 @@ We need to declare a ProcessEnv namespace for our environment variables so that 
 
 `index.d.ts`
 
-```ts
+```ts filename="index.d.ts"
 declare namespace NodeJS {
   interface ProcessEnv {
     PLASMO_PUBLIC_SUPABASE_URL?: string
@@ -36,9 +36,7 @@ declare namespace NodeJS {
 }
 ```
 
-`.env.local`
-
-```ini
+```ini filename=".env.local"
 PLASMO_PUBLIC_SUPABASE_URL="CHANGE ME"
 PLASMO_PUBLIC_SUPABASE_KEY="CHANGE ME"
 ```
@@ -47,9 +45,7 @@ PLASMO_PUBLIC_SUPABASE_KEY="CHANGE ME"
 
 We need to initialize Supabase, so let's add a file called store.
 
-`core/store.ts`
-
-```ts
+```ts filename="core/store.ts"
 import { createClient } from "@supabase/supabase-js"
 
 export const supabase = createClient(
@@ -64,9 +60,7 @@ Now we can write code in our React components utilizing Supabase!
 
 Here's an example of using Supabase in a React component for the extension's options page.
 
-`options.tsx`
-
-```tsx
+```tsx filename="options.tsx"
 import type { User } from "@supabase/supabase-js"
 import { useState } from "react"
 

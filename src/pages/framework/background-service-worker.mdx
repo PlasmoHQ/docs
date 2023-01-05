@@ -2,13 +2,15 @@
 description: Documentation on how to use background service workers with Plasmo.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Background Service Worker
 
 An extension's background service worker is powerful because it runs in the [service worker context](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers). For example, when in this context, you no longer need to worry about CORS and can fetch resources from any origin. It is also common to offload heavy computation to the background service worker.
 
 To build your first background service worker, create a `background.ts` file in the root directory, and start hacking 💪
 
-```ts
+```ts filename="background.ts"
 export {}
 
 console.log(
@@ -16,19 +18,24 @@ console.log(
 )
 ```
 
-> **NOTE:** Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an `export {}` line at the start of your file. (You will see this warning when creating your first content script!)
+<Callout emoji="⚠️">
+  Since Plasmo's default Typescript configuration treats all source files as
+  modules, if you don't have any imports or exports in your code, you'll have to
+  add an `export {}` line at the start of your file. You will see this warning
+  when creating your first content script!
+</Callout>
 
 Reload the extension, then open its "Service Worker inspector":
 
-![Service Worker Inspector](@screenshots/2022-09-26-11-05-15.png)
+![Service Worker Inspector](@screenshots/inspect-background-service-worker.png)
 
 You should see what we've logged in the inspector:
 
-![background sw picard log](@screenshots/2022-09-26-11-06-00.png)
+![background sw picard log](@screenshots/bgsw-console-message.png)
 
 See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-background) for a complete example.
 
-## Persisting states
+## Persisting state
 
 The worker becomes idle after a few seconds of inactivity, and the browser will kill its process entirely after 5 minutes. This means all state (variables, etc.) is lost unless you use a storage engine.
 

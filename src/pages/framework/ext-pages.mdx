@@ -2,23 +2,29 @@
 description: Learn how Plasmo works with the various browser extension pages.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Browser Extension Pages
 
 Extension pages are built-in pages recognized by the browser. They include the extension's popup, options, and newtab pages.
 
-Heads up! Make sure to refresh your extension manually when creating a new browser extension page as our runtime might not be listening and might not update in certain cases.
+<Callout emoji="👀">
+  Heads up! Make sure to refresh your extension manually when creating a new
+  browser extension page as our runtime might not be listening and might not
+  update in certain cases.
+</Callout>
 
 ## Adding a Popup Page
 
-The Popup Page is a small dialog window that opens when the user clicks on the extension's icon in the browser toolbar. It is the most common type of extension page.
+The popup page is a small dialog window that opens when a user clicks on the extension's icon in the browser toolbar. It is the most common type of extension page.
 
 Create a `popup.tsx` file or a `popup/index.tsx` file that exports a default React component. With that, your popup is ready to be used 🚀!
 
 See [with-popup](https://github.com/PlasmoHQ/examples/tree/main/with-popup)
 
-## Adding the Options UI
+## Adding the Options Page
 
-The Option UI page aims to provide a dedicated place for the extension's setting and configuration.
+The options page is meant to be a dedicated place for the extension's settings and configuration.
 
 Create either an `options.tsx` or `options/index.tsx` file to render the options_ui 👌
 
@@ -31,3 +37,11 @@ The New Tab page overrides the default tab and is generally how the browser gree
 Create a `newtab.tsx` file or a `newtab/index.tsx` file, and Plasmo will take care of the rest to render your new tab page 🤘!
 
 See [with-newtab](https://github.com/PlasmoHQ/examples/tree/main/with-newtab)
+
+## Adding a Dev Tools Page
+
+The Dev Tools page is a dedicated page that opens when a user opens the Dev Tools for the extension.
+
+Create a `devtools.tsx` file or a `devtools/index.tsx` file, and Plasmo will take care of the rest!
+
+See [with-devtools](https://github.com/PlasmoHQ/examples/tree/main/with-devtools)

@@ -14,7 +14,7 @@ npm run dev
 plasmo dev
 ```
 
-Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes. It also prefixes the extension name with `DEV |` and makes the icon grayscale to distinguish between development and production bundles.
+Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes. It also prefixes the extension name with `DEV |` and makes the icon grayscale to distinguish between development and production extension bundles.
 
 ## Loading the extension
 
@@ -34,7 +34,7 @@ To see your popup, click on the puzzle piece icon on the Chrome toolbar, and cli
 
 ## With a specific target
 
-The `dev` command accepts a `--target` flag. Use it to specify a browser and manifest version combination to develop for:
+When you're building with Plasmo, you're building a Plasmo extension, rather than a Chrome or Firefox extension. This means that you can build a single extension that works across all supported browsers, with minor tweaks. You can direct Plasmo to build an extension for a specific browser and manifest version by using the `--target` flag:
 
 ```sh
 plasmo dev --target=firefox-mv2

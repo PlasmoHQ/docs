@@ -16,9 +16,7 @@ Let's make a basic extension that increments and decrements a counter.
 
 ### Create Your Slice
 
-`counter-slice.ts`
-
-```ts
+```ts filename="counter-slice.ts"
 import { createSlice } from "@reduxjs/toolkit"
 
 export interface CounterState {
@@ -45,9 +43,10 @@ export default counterSlice.reducer
 
 ### Create Your Store
 
-`store.ts`
+```ts filename="store.ts"
+import { configureStore } from "@reduxjs/toolkit"
+import { localStorage } from "redux-persist-webextension-storage"
 
-```ts
 import {
   FLUSH,
   PAUSE,
@@ -60,8 +59,6 @@ import {
   persistStore
 } from "@plasmohq/redux-persist"
 import { Storage } from "@plasmohq/storage"
-import { configureStore } from "@reduxjs/toolkit"
-import { localStorage } from "redux-persist-webextension-storage"
 
 import counterSlice from "~counter-slice"
 
@@ -107,11 +104,10 @@ The thing to note is the `new Storage().watch()` call. This will automatically r
 
 ### Using in React
 
-`options.tsx`
-
-```tsx
-import { PersistGate } from "@plasmohq/redux-persist/integration/react"
+```tsx filename="options.tsx"
 import { Provider } from "react-redux"
+
+import { PersistGate } from "@plasmohq/redux-persist/integration/react"
 
 import { CounterView } from "~counter"
 import { persistor, store } from "~store"
@@ -133,7 +129,7 @@ Using the `PersistGate` will ensure the child components don't render until the 
 
 ### Using in a Background Service Worker
 
-```ts
+```ts filename="background.ts"
 import { persistor, store } from "~store"
 
 persistor.subscribe(() => {
