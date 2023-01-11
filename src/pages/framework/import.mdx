@@ -12,21 +12,21 @@ Plasmo framework ships with its own code/asset bundler tailored specifically for
 
 The following files can be imported into Source Code modules and will be transformed accordingly:
 
-| File Extension                               | Examples                                      |
-| :------------------------------------------- | :-------------------------------------------- |
-| .{css,pcss,sass,scss,less}                   | import "./style.css"                          |
-|                                              | import styleCss from "data-text:./style.css"  |
-|                                              |                                               |
-| .svg                                         | import iconSrc from "data-text:./icon.svg"    |
-|                                              | import Icon from "react:./icon.svg"           |
-|                                              |                                               |
-| .{png,jpg,jpeg,webp,gif,tiff,avif,heic,heif} | import imageUrl from "data-url:./image.png"   |
-|                                              | import image64 from "data-base64:./image.png" |
-|                                              |                                               |
-| .{json,json5}                                | import stuff from "./stuff.json"              |
-|                                              | import stuff from "data-env:./stuff.json"     |
-|                                              |                                               |
-| .{graphql,gql}                               | import query from "~query.gql"                |
+| File Extension                                 | Examples                                        |
+| :--------------------------------------------- | :---------------------------------------------- |
+| `.{css,pcss,sass,scss,less}`                   | `import "./style.css"`                          |
+|                                                | `import styleCss from "data-text:./style.css"`  |
+|                                                |                                                 |
+| `.svg`                                         | `import iconSrc from "data-text:./icon.svg"`    |
+|                                                | `import Icon from "react:./icon.svg"`           |
+|                                                |                                                 |
+| `.{png,jpg,jpeg,webp,gif,tiff,avif,heic,heif}` | `import imageUrl from "data-url:./image.png"`   |
+|                                                | `import image64 from "data-base64:./image.png"` |
+|                                                |                                                 |
+| `.{json,json5}`                                | `import stuff from "./stuff.json"`              |
+|                                                | `import stuff from "data-env:./stuff.json"`     |
+|                                                |                                                 |
+| `.{graphql,gql}`                               | `import query from "~query.gql"`                |
 
 ## Paths
 
