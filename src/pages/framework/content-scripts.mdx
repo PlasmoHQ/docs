@@ -79,7 +79,7 @@ Instead, Chrome offers a `chrome.scripting.executeScript` API that lets you inje
 
 Then, inject your content script into the main world by calling `chrome.scripting.executeScript` from your background service worker:
 
-```ts
+```ts filename="background.ts"
 chrome.scripting.executeScript(
   {
     target: {
@@ -94,11 +94,11 @@ chrome.scripting.executeScript(
 )
 ```
 
-For the `func` key, you can pass in a Typescript function from your project, which will automatically convert to a JavaScript function when your extension bundles.
+For the `func` key, you can pass in a TS function from your project. It will be transpiled into JS when your extension bundles.
 
 <Callout emoji="🚨">
 
-Any `import` inside the injected `func` will not be resolved at the moment. This is because the entire function must be scoped entirely within the `executeScript` call.
+Any `import` inside the injected `func` will not be resolved and bundled at the moment. This is because the entire function must be self-contained and scoped entirely within the `executeScript` call, and we have yet to figure out a good bundling strategy to support this.
 
 </Callout>
 
