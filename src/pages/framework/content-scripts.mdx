@@ -97,11 +97,12 @@ chrome.scripting.executeScript(
 For the `func` key, you can pass in a Typescript function from your project, which will automatically convert to a JavaScript function when your extension bundles.
 
 <Callout emoji="🚨">
-  If you have imports in your injected code, they won't automatically be bundled
-  in with it.
+
+Any `import` inside the injected `func` will not be resolved at the moment. This is because the entire function must be scoped entirely within the `executeScript` call.
+
 </Callout>
 
-See [with-main-world-content-script-injection](https://github.com/PlasmoHQ/examples/tree/main/with-main-world-content-script-injection) for an example.
+See [with-scripting](https://github.com/PlasmoHQ/examples/tree/main/with-scripting) for an example.
 
 ## Fetching external API and CORS
 
