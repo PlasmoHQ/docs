@@ -8,6 +8,26 @@ import { Callout } from "nextra-theme-docs"
 
 Plasmo framework ships with its own code/asset bundler tailored specifically for extension development. It supports raw/transformed bundle inlining, asset mirroring, environment injection, and more.
 
+## Supported File Types
+
+The following files can be imported into Source Code modules and will be transformed accordingly:
+
+| File Extension                               | Examples                                        |
+| :------------------------------------------- | :---------------------------------------------- |
+| .{css,pcss,sass,scss,less}                   | `import "./style.css"`                          |
+|                                              | `import styleCss from "data-text:./style.css"`  |
+|                                              |                                                 |
+| .svg                                         | `import iconSrc from "data-text:./icon.svg"`    |
+|                                              | `import Icon from "react:./icon.svg"`           |
+|                                              |                                                 |
+| .{png,jpg,jpeg,webp,gif,tiff,avif,heic,heif} | `import imageUrl from "data-url:./image.png"`   |
+|                                              | `import image64 from "data-base64:./image.png"` |
+|                                              |                                                 |
+| .{json,json5}                                | `import stuff from "./stuff.json"`              |
+|                                              | `import stuff from "data-env:./stuff.json"`     |
+|                                              |                                                 |
+| .{graphql,gql}                               | `import query from "~query.gql"`                |
+
 ## Paths
 
 Plasmo has built-in support for most common import paths such as relative import, `node_module` package import, and `ESM exports` import. It also provides project-relative paths via tilde and absolute imports. To customize your import path further, check out the [Alias Imports Section](/framework/customization/alias).
@@ -190,4 +210,14 @@ import data from "data-env:~/assets/data.json"
 
 // Data will be a JSON object, no need to JSON.parse!
 console.log(data) // { url: "https://itero.plasmo.com" }
+```
+
+### react:\*.svg
+
+The `react` scheme transforms any svg assets into a React component (via SVGR and SVGO):
+
+```ts
+import Logo from "react:~/assets/logo.svg"
+
+const Hello = () => <Logo />
 ```
