@@ -69,19 +69,3 @@ npm create plasmo -- --with-env
 ```
 
 The above will generate a project using the [with-env](https://github.com/PlasmoHQ/examples/tree/main/with-env) example.
-
-## Loading the extension
-
-We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
-
-Head over to `chrome://extensions` and enable Developer Mode.
-
-![Enable developer mode](@screenshots/developer_mode.png)
-
-Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
-
-To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
-
-**Pro tip:** Pin your extension to the Chrome toolbar for easy access by clicking the pin button.
-
-![Pinning popup](@screenshots/popup_example.png)

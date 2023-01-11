@@ -16,6 +16,22 @@ plasmo dev
 
 Plasmo will create a dev bundle for your extension and a live-reloading development server, automatically updating your extension bundle on file changes and reloading your browser on source code changes. It also prefixes the extension name with `DEV |` and makes the icon grayscale to distinguish between development and production extension bundles.
 
+## Loading the extension
+
+We plan to automate this in the future, but for the time being, these are the steps you need to take to load your extension in Chrome.
+
+Head over to `chrome://extensions` and enable Developer Mode.
+
+![Enable developer mode](@screenshots/developer_mode.png)
+
+Click on "Load Unpacked" and navigate to your extension's `build/chrome-mv3-dev` (or `build/chrome-mv3-prod`) directory.
+
+To see your popup, click on the puzzle piece icon on the Chrome toolbar, and click on your extension.
+
+**Pro tip:** Pin your extension to the Chrome toolbar for easy access by clicking the pin button.
+
+![Pinning popup](@screenshots/popup_example.png)
+
 ## With a specific target
 
 When you're building with Plasmo, you're building a Plasmo extension, rather than a Chrome or Firefox extension. This means that you can build a single extension that works across all supported browsers, with minor tweaks. You can direct Plasmo to build an extension for a specific browser and manifest version by using the `--target` flag:
