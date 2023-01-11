@@ -1,9 +1,11 @@
 # Styling Plasmo CSUI
 
-[Plasmo CSUI's built-in `Root Container`](./life-cycle/#root-container) allows extension developers to safely style their components. It ensures that:
+[Plasmo CSUI's built-in `Root Container`](./life-cycle/#root-container) allows extension developers to safely style their components. It ensures that for the most case:
 
 - The exported style does not leak to the web page
 - The web page's style does not influence the component's styling
+
+See [edge cases](#edge-cases) for when it does not work.
 
 ## Raw CSS Text
 
@@ -81,7 +83,7 @@ export default Overlay
 
 ## Custom Font
 
-To use a custom font in your CSUI, you must import the font inside a CSS file and declare it in the `css` property of the [config object](/framework/content-scripts#config). The browser does not recognize Font assets if declared inside a shadowDOM. You have to load them in the global scope.
+To use a custom font in your CSUI, you must import the font inside a CSS file and declare it in the `css` property of the [config object](/framework/content-scripts#config). The browser does not recognize Font assets if declared inside a ShadowDOM. You have to load them in the global scope.
 
 1. Add your font in the `assets` directory (e.g `/assets/Fascinate.woff2`)
 2. Create a `font.css` file next to your content script, importing the font inline using the [`data-base64`](/framework/import#data-base64) scheme:
@@ -137,3 +139,25 @@ Use the IDs `#plasmo-mount-container` and `#plasmo-shadow-container` to alter th
 ## Inherit the Web Page's Style
 
 To inherit the web page's style, override the built-in `Root Container` to mount your component directly into the web page's DOM. [Click here for more details](/framework/content-scripts-ui/life-cycle#custom-root-container).
+
+## Edge cases
+
+There are many situations that the framework's generic style encapsulation cannot handle (yet). Here are some common gotchas:
+
+### CSS Variables
+
+CSS Variables are shared across every frame within the same browser. This means that if the webpage declares some CSS variables at the `:root` context, it will be prioritized over yours.
+
+To mitigate CSS variable sharing between CSUI and the host page, declare a unique prefix namespace for your CSS variables, or hoist your CSS variable under a `:host` scope, or mount your component inside an iframe.
+
+### Root Container Style
+
+If the host webpage uses a global `*` specifier to style its page, it can potentially override the `Root Container` style. For example:
+
+```css
+* {
+  display: block;
+}
+```
+
+The above code will cause the root container to have block display. In cases like these, overriding the root container style with an inline style will help keep the container consistent.

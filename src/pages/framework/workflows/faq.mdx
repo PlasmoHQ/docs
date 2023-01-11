@@ -16,6 +16,20 @@ For other package managers, you will need to purge the lock file and rerun the i
 
 Alternatively, you can manually pin Plasmo's version by upgrading its version number in `package.json` and running the install command afterward.
 
+## How do I use the experimental version of Plasmo?
+
+Change the version of `plasmo` in `package.json` to `lab`:
+
+```json filename="package.json"
+{
+  "dependencies": {
+    "plasmo": "lab"
+  }
+}
+```
+
+Then do `pnpm i` to install the version.
+
 ## What should I do if an error occurs?
 
 Please run `plasmo` with the `--verbose` flag and paste the output in the log section of a [bug report](/bug). That will help us triage the issue 100x faster 🙏
