@@ -209,8 +209,8 @@ The function also allows developers to customize the id for each anchor found:
 ```ts
 import type { PlasmoGetShadowHostId } from "plasmo"
 
-export const getShadowHostId: PlasmoGetShadowHostId = ({ anchor }) =>
-  anchor.getAttribute("data-custom-id") + `-pollax-iv`
+export const getShadowHostId: PlasmoGetShadowHostId = ({ element }) =>
+  element.getAttribute("data-custom-id") + `-pollax-iv`
 ```
 
 ### Custom Renderer
