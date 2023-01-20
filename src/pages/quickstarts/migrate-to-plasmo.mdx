@@ -83,10 +83,8 @@ With the Plasmo framework, it's much simpler. Add a `popup.tsx` or `options.tsx`
 
 Plasmo will take care of the rest:
 
-```ts filename="popup.tsx"
+```tsx filename="popup.tsx"
 import Popup from "./core/popup"
-
-import "./popup.scss"
 
 export default Popup
 ```
@@ -95,7 +93,7 @@ Plasmo has built-in support for CSS, SCSS, LESS, CSS Modules, and PostCSS plugin
 
 If you'd like to, for example, use SCSS, you can simply import the SCSS file in your React component:
 
-```ts filename="popup.tsx"
+```tsx filename="popup.tsx"
 import Popup from "./core/popup"
 
 import "./popup.scss"
@@ -164,7 +162,7 @@ In non-Plasmo extension projects, you'd specify your content scripts in the `man
 console.log("Hello from content script!")
 ```
 
-With Plasmo, your can specify your content script and its respective config in a file called `content.ts` (or inside a directory called `contents`. More on that later!):
+With Plasmo, your can specify your content script and its respective config in a file called `content.ts`, or inside a directory called `contents` - More on that later!
 
 Here's what the `content.ts` file would look like:
 
