@@ -146,7 +146,7 @@ There are many situations that the framework's generic style encapsulation canno
 
 ### CSS Variables
 
-CSS Variables are shared across every frame within the same browser. This means that if the webpage declares some CSS variables at the `:root` context, it will be prioritized over yours.
+CSS Variables are shared across every frame within the same browser tab. This means that if the webpage declares some CSS variables at the `:root` context, it will be prioritized over yours.
 
 To mitigate CSS variable sharing between CSUI and the host page, declare a unique prefix namespace for your CSS variables, or hoist your CSS variable under a `:host` scope, or mount your component inside an iframe.
 

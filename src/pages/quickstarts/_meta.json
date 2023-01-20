@@ -1,4 +1,5 @@
 {
+  "migrate-to-plasmo": "Migrate to Plasmo",
   "with-nextjs": "Quickstart: Next.js",
   "with-stripe": "Quickstart: Stripe",
   "with-redux": "Quickstart: Redux",
