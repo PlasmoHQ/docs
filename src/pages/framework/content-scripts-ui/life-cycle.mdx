@@ -88,9 +88,14 @@ import type { PlasmoWatchOverlayAnchor } from "plasmo"
 export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (
   updatePosition
 ) => {
-  setInterval(() => {
+  const interval = setInterval(() => {
     updatePosition()
   }, 8472)
+  
+  // Clear the interval when unmounted
+  return () => {
+    clearInterval(interval)
+  }
 }
 ```
 
