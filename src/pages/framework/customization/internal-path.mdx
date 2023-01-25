@@ -28,16 +28,16 @@ This applies to the `dev`, `build` and `package` commands.
 
 The default source path is `./src`. To change this behavior, either:
 
-- Specify the `--source-path` flag:
+- Specify the `--src-path` flag:
 
 ```sh
 plasmo build --source-path=src/extension
 ```
 
-- Or use the `PLASMO_SOURCE_PATH` top-level environment variable:
+- Or use the `PLASMO_SRC_PATH` top-level environment variable:
 
 ```sh
-cross-env PLASMO_SOURCE_PATH=src/extension plasmo build
+cross-env PLASMO_SRC_PATH=src/extension plasmo build
 ```
 
 This applies to the `dev`, `build` and `package` commands.
