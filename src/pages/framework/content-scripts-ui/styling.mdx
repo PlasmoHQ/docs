@@ -124,14 +124,14 @@ See [with-content-scripts-ui/contents/plasmo-overlay.tsx](https://github.com/Pla
 
 ## Styling the Shadow DOM
 
-Use the IDs `#plasmo-mount-container` and `#plasmo-shadow-container` to alter the `Root Container` styles in your CSS:
+Use the IDs `#plasmo-shadow-container` and `plasmo-inline` to alter the `Root Container` styles in your CSS:
 
 ```css filename="style.css"
 #plasmo-shadow-container {
   z-index: 99999;
 }
 
-#plasmo-mount-container {
+#plasmo-inline {
   background: blue;
 }
 ```
