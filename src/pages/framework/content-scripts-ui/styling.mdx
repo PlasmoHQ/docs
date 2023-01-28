@@ -161,3 +161,11 @@ If the host webpage uses a global `*` specifier to style its page, it can potent
 ```
 
 The above code will cause the root container to have block display. In cases like these, overriding the root container style with an inline style will help keep the container consistent.
+
+There may exist some CSS styling declarations that cannot be overridden to alter the the `Root Container` styles. In those cases, the `!important` flag can be used as a workaround.
+
+```css filename="style.css"
+#plasmo-shadow-container {
+  z-index: 2147483646 !important;
+}
+```
