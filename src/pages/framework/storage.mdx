@@ -8,9 +8,9 @@ import { ShieldBanners } from "~components/shield-banners"
 
 <ShieldBanners packageName="@plasmohq/storage" />
 
-`@plasmohq/storage` is a utility library from [plasmo](https://www.plasmo.com/) that abstracts the persistent storage API available to browser extensions. It falls back to localstorage when the extension storage API is unavailable, allowing for state sync between popup - options - contents - background.
+`@plasmohq/storage` is a utility library from [plasmo](https://www.plasmo.com/) that abstracts the persistent storage API available to browser extensions. It falls back to localStorage when the extension storage API is unavailable, allowing for state sync between extension pages, content scripts, background service workers and web pages.
 
-> This library will enable the `storage` permission automatically if used with the [Plasmo framework](https://docs.plasmo.com)
+> This library will enable the `storage` permission automatically if used as a **dependencies** in a [Plasmo framework](https://docs.plasmo.com) project
 
 ## Installation
 
@@ -18,15 +18,25 @@ import { ShieldBanners } from "~components/shield-banners"
 pnpm install @plasmohq/storage
 ```
 
+The package exports the following modules, in both ESM and CJS format:
+
+| Modules                    | Description                                   |
+| :------------------------- | :-------------------------------------------- |
+| `@plasmohq/storage`        | The base [Storage API](#storage)              |
+| `@plasmohq/storage/secure` | The [SecureStorage API](#secure-storage)      |
+| `@plasmohq/storage/hook`   | The [React Hook Storage API](#react-hook-api) |
+
 ## Usage Examples
 
 - See [with-storage](https://github.com/PlasmoHQ/examples/tree/main/with-storage) for an example of how to use this library to sync state between options and popups.
 - See [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) for an example of how to use this library as your Redux persistent layer (crucial for MV3).
 - See [MICE](https://github.com/PlasmoHQ/mice) for an experimental use case of this library integrated with WebRTC to pipe messages between browsers via an extension.
 
-## Storage API (for Non-React Components)
+## Storage
 
-The base Storage API is designed to be easy to use. Get/set data without the need to JSON.stringify/parse. As long as the data you are storing is a plain object or a primitive type, it can be stored:
+The base Storage API is designed to be easy to use. It is usable in every extension runtime such as background service workers, content scripts and extension pages.
+
+Get/set data without the need to JSON.stringify/parse. As long as the data you are storing is serializable (plain object or of primitive type), it can be stored:
 
 ```ts
 import { Storage } from "@plasmohq/storage"
@@ -34,11 +44,9 @@ import { Storage } from "@plasmohq/storage"
 const storage = new Storage()
 
 await storage.set("key", "value")
-
 const data = await storage.get("key") // "value"
 
 await storage.set("capt", { color: "red" })
-
 const data2 = await storage.get("capt") // { color: "red" }
 ```
 
@@ -50,15 +58,15 @@ const storage = new Storage({
 })
 ```
 
-### Preventing data from being mirrored into localStorage
+### Automatically copy data to localStorage
 
 ```ts
 const storage = new Storage({
-  secretKeyList: ["shield-modulation"]
+  copiedKeyList: ["shield-modulation"]
 })
 ```
 
-The code above prevents data from being leaked into localStorage when used with content scripts. This setting is recommended if you are storing JWT access token to invoke your server-side API.
+The code above will copy the data to Web localStorage when used with content scripts or extension pages.
 
 ### Watch (for state sync)
 
@@ -87,7 +95,25 @@ await storage.set("make", "PlasmoHQ")
 
 This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
 
-## Hook API (for React components)
+## Secure Storage
+
+The SecureStorage API extends Storage with data encryption and decryption for at-rest cold storage of sensitive keys. It utilizes the [Web Crypto `SubtleCrypto` API](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto).
+
+```ts
+import { SecureStorage } from "@plasmohq/storage/secure"
+
+const storage = new SecureStorage()
+
+await storage.setPassword("roosevelt") // The only diff
+
+await storage.set("key", "value")
+const data = await storage.get("key") // "value"
+
+await storage.set("capt", { color: "red" })
+const data2 = await storage.get("capt") // { color: "red" }
+```
+
+## React Hook API
 
 The hook API is designed to streamline the state-syncing workflow between the different pieces of an extension. There are many ways it can be used, but first and foremost you will want to import the hook into your React component:
 
@@ -95,7 +121,7 @@ The hook API is designed to streamline the state-syncing workflow between the di
 import { useStorage } from "@plasmohq/storage/hook"
 ```
 
-### Watch and render a value in storage:
+### Watch and render a value
 
 ```tsx
 const [hailingFrequency] = useStorage("hailing")
@@ -103,28 +129,34 @@ const [hailingFrequency] = useStorage("hailing")
 {hailingFrequency}
 ```
 
-### Specifying the storage area:
+### With a custom storage instance
 
 ```tsx
 const [hailingFrequency] = useStorage({
   key: "hailing",
-  area: "local"
+  instance: new Storage({
+    area: "local"
+  })
 })
 ```
 
-### Specifying an initial value for rendering WITHOUT persisting
+### Rendering initial value WITHOUT persisting
 
-"Persisting" means writing into the internal memory. By not persisting the value, only this specific instance of the hook will render the given initial value when there is no value in storage. Other instances can either show `undefined` OR specify their own initial value. To elaborate on this:
+"Persisting" means writing into the internal memory.
+
+By not persisting the value, only this specific instance of the hook will render the given initial value when there is no value in storage. Other instances can either show `undefined` OR specify their own initial value. To elaborate on this:
 
 Given a `popup.tsx` that sets a static initial value:
 
 ```tsx filename="popup.tsx"
 const [hailingFrequency, setHailingFrequency] = useStorage("hailing", "42")
-
-return <input value={hailingFrequency} onChange={(e) => setHailingFrequency(e.target.value)}/> // "42"
+...
+<input value={hailingFrequency} onChange={(e) =>
+  setHailingFrequency(e.target.value)
+  }/> // "42"
 ```
 
-If we subscribe to this key in a `content.tsx` script, we will see it be `undefined` until `setHailingFrequency` is called with a defined value:
+If we subscribe to this key in `content.tsx`, we will see it be `undefined` until `setHailingFrequency` is called with a defined value:
 
 ```tsx filename="content.tsx"
 const [hailingFrequency] = useStorage("hailing")
@@ -132,7 +164,7 @@ const [hailingFrequency] = useStorage("hailing")
 return <p>{hailingFrequency}</p> // undefined
 ```
 
-If we subscribe to this key in an `options.tsx`, but with a different static initial value, we will see that value instead:
+If we subscribe to this key in `options.tsx`, but with a different static initial value, we will see that value instead:
 
 ```tsx filename="options.tsx"
 const [hailingFrequency] = useStorage("hailing", "147")
@@ -140,11 +172,11 @@ const [hailingFrequency] = useStorage("hailing", "147")
 return <p>{hailingFrequency}</p> // "147"
 ```
 
-With the above setup, suppose we call `setHailingFrequency("8472")` in any of the instances above, we will see that all instance will now show "8472" and will now track the value in storage instead of initial value.
+With the above setup, suppose we call `setHailingFrequency("8472")` in any of the instances above, we will see that all instances will now show "8472" and will now track the value in storage instead of the initial value.
 
-### Specifying an initial value AND persisting it:
+### Rendering AND persisting initial value
 
-By using a function instead of a static value, the initial value will be persisted into storage memory. The initialize function has one parameter which is the existing value in storage. If there is no value, it is `undefined`.
+By using a function instead of a static value, the initial value will be persisted in storage memory. The initialize function has one parameter which is the existing value in storage. If there is no value, it is `undefined`.
 
 Let's say we have a `popup.tsx` that initialize the state to "42" if there is nothing in storage:
 
@@ -154,7 +186,7 @@ const [hailingFrequency, setHailingFrequency] = useStorage("hailing", (v) => v =
 {hailingFrequency} // "42"
 ```
 
-Then, if we make a new hook instance in our `content.tsx` or `options.tsx`, we will see the initial value that was persisted, without calling `setHailingFrequency`:
+Then, if we make a new hook instance in our `content.tsx` or `options.tsx`, we will see the initial value that persisted, without calling `setHailingFrequency`:
 
 ```tsx filename="content.tsx"
 const [hailingFrequency] = useStorage("hailing")
@@ -162,7 +194,7 @@ const [hailingFrequency] = useStorage("hailing")
 return <p>{hailingFrequency}</p> // "42"
 ```
 
-## Advanced Hook API usage
+### Advanced sage
 
 When dealing with form input or real-time input, you might need the following:
 
