@@ -22,18 +22,13 @@ To use this library, you must use a directory for your background service worker
 
 ## TL;DR
 
-| Messaging API                 | From         | To      | One-time | Long-lived |
-| :---------------------------- | :----------- | :------ | :------- | :--------- |
-| [Message Flow](#message-flow) | Ext-Pages/CS | BGSW    | Yes      | No         |
-| [Relay Flow](#relay-flow)     | Website      | CS/BGSW | Yes      | No         |
-| [Ports](#ports)               | Ext-Pages/CS | BGSW    | No       | Yes        |
-
-There are a few paths we haven't implemented yet:
-| Messaging API | From | To | One-time | Long-lived |
-| :---------------------------- | :----------- | :------ | :------- | :--------- |
-| TBA | BGSW | Ext-Pages | ? | ? |
-| TBA | BGSW | CS | ? | ? |
-| TBA | BGSW | WebPage | ? | ? |
+| Messaging API                 | From         | To           | One-time | Long-lived |
+| :---------------------------- | :----------- | :----------- | :------- | :--------- |
+| [Message Flow](#message-flow) | Ext-Pages/CS | BGSW         | Yes      | No         |
+| [Relay Flow](#relay-flow)     | Website      | CS/BGSW      | Yes      | No         |
+| [Ports](#ports)               | Ext-Pages/CS | BGSW         | No       | Yes        |
+| Ports                         | BGSW         | Ext-Pages/CS | No       | Yes        |
+| Ports + Relay                 | BGSW         | WebPage      | Yes      | Yes        |
 
 ## Examples
 
