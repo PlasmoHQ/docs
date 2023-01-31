@@ -43,13 +43,15 @@ The background service worker is a message hub with REST-style API handlers. To 
 ```ts filename="background/messages/ping.ts"
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
-export const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const message = await querySomeApi(req.body.id)
 
   res.send({
     message
   })
 }
+
+export default handler
 ```
 
 Extension pages, content scripts, or tab pages can send messages to these handlers using the `@plasmohq/messaging` library. Since Plasmo Framework orchestrates your handlers behind the scenes, the message names are typed and will enable IntelliSense in your editor:
@@ -130,13 +132,15 @@ To create a BGSW port handler, create a ts module in the `background/ports` dire
 ```ts filename="background/ports/mail.ts"
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
-export const handler: PlasmoMessaging.PortHandler = async (req, res) => {
+const handler: PlasmoMessaging.PortHandler = async (req, res) => {
   console.log(req)
 
   res.send({
     message: "Hello from port handler"
   })
 }
+
+export default handler
 ```
 
 In your extension page, get the port using the `getPort` utility under the `@plasmohq/messaging/port`, OR use the `usePort` hook. The data will always reflect the latest response from the port handler:
@@ -180,7 +184,7 @@ export type ResponseBody = {
   message: string
 }
 
-export const handler: PlasmoMessaging.MessageHandler<
+const handler: PlasmoMessaging.MessageHandler<
   RequestBody,
   ResponseBody
 > = async (req, res) => {
@@ -190,6 +194,8 @@ export const handler: PlasmoMessaging.MessageHandler<
     message: "Hello from background"
   })
 }
+
+export default handler
 ```
 
 ```ts filename="popup.tsx"
