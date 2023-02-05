@@ -83,11 +83,11 @@ Use the Relay Flow to communicate between a target webpage and the background se
 Create a relay inside a content script. The `relay` function takes a message name and an optional handler function. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
 
 ```ts filename="contents/plasmo.ts"
-import type { PlasmoContentScript } from "plasmo"
+import type { PlasmoCSConfig } from "plasmo"
 
 import { relay } from "@plasmohq/messaging"
 
-export const config: PlasmoContentScript = {
+export const config: PlasmoCSConfig = {
   matches: ["http://www.plasmo.com/*"] // Only relay messages from this domain
 }
 

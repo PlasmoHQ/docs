@@ -72,7 +72,7 @@ To utilize CSS modules, import the stylesheet twice:
 
 ```tsx filename="content.tsx"
 import styleText from "data-text:./style.module.pcss"
-import type { PlasmoContentScript } from "plasmo"
+import type { PlasmoCSConfig } from "plasmo"
 
 import * as style from "./style.module.pcss"
 
@@ -110,7 +110,7 @@ To use a custom font in your CSUI, you must import the font inside a CSS file an
 3. Declare the file in the `css` property of the content script config:
 
 ```tsx filename="content.tsx"
-export const config: PlasmoContentScript = {
+export const config: PlasmoCSConfig = {
   matches: ["https://www.plasmo.com/*"],
   css: ["font.css"]
 }
