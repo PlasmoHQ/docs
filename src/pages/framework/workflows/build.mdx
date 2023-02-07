@@ -35,7 +35,7 @@ npm run build -- --zip
 The `build` command accepts a `--target` flag. Use it to specify a browser and manifest version combination to build for:
 
 ```sh
-plasmo build --target=firefox-mv2
+pnpm build --target=firefox-mv2
 ```
 
 The final bundle will be available in the `build/firefox-mv2-prod` directory.
@@ -47,7 +47,7 @@ For a list of officially supported targets, [visit this link](./faq#what-are-the
 Plasmo uses the `prod` tag for your production build. You can use the `--tag` flag to change this behavior:
 
 ```sh
-plasmo build --tag=staging
+pnpm build --tag=staging
 ```
 
 The command above will:
@@ -61,7 +61,7 @@ The command above will:
 By default, Plasmo does not generate source maps for your production bundle. However, you can use the `--source-maps` flag to change this behavior:
 
 ```sh
-plasmo build --source-maps
+pnpm build --source-maps
 ```
 
 ## Bundle Buddy
@@ -69,5 +69,5 @@ plasmo build --source-maps
 If you'd like to analyze your bundle, you can use the `--bundle-buddy` flag, combined with `--source-maps` to generate a [Bundle Buddy](https://bundle-buddy.com/) report:
 
 ```sh
-plasmo build --source-maps --bundle-buddy
+pnpm build --source-maps --bundle-buddy
 ```
