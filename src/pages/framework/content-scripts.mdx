@@ -50,15 +50,15 @@ See [with-many-content-scripts](https://github.com/PlasmoHQ/examples/tree/main/w
 Sometimes, you'll want to run a content script on certain pages. You can provide a custom content script configuration by exporting a config object from your content script:
 
 ```ts filename="content.ts"
-import type { PlasmoContentScript } from "plasmo"
+import type { PlasmoCSConfig } from "plasmo"
 
-export const config: PlasmoContentScript = {
+export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
   all_frames: true
 }
 ```
 
-Working with this configuration object is a breeze thanks to the exported `PlasmoContentScript` type 🥳.
+Working with this configuration object is a breeze thanks to the exported `PlasmoCSConfig` type 🥳.
 
 To learn more about the config and each property, [check out Chrome's official documentation](https://developer.chrome.com/docs/extensions/mv3/content_scripts/#static-declarative).
 
