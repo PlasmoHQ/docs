@@ -64,9 +64,11 @@ To learn more about the config and each property, [check out Chrome's official d
 
 ## Injecting into the main world
 
-You must inject code into the main world if you'd like to modify the `window` object from your content script. It's not currently possible to declaratively inject content scripts.
+Starting from Plasmo `v0.65.0`, Plasmo extension may specify a `world` within the config:
 
-Instead, Chrome offers a `chrome.scripting.executeScript` API that lets you inject content scripts into the main world. First, add the scripting permission in your [package.json's 'manifest.permissions' array](/framework/customization/manifest):
+You must inject code into the main world if you'd like to modify the `window` object from your content script.
+
+To manually inject a script, you can also use the `chrome.scripting.executeScript` API. First, add the scripting permission in your [package.json's 'manifest.permissions' array](/framework/customization/manifest):
 
 ```json filename="package.json"
 {
@@ -94,15 +96,15 @@ chrome.scripting.executeScript(
 )
 ```
 
-For the `func` key, you can pass in a TS function from your project. It will be transpiled into JS when your extension bundles.
+For the `func` key, you can pass in a TS function from your project. It will be transpiled into JS when your extension bundles. You may also use the `files` key to inject a file from the root of the built bundle.
 
 <Callout emoji="🚨">
 
-Any `import` inside the injected `func` will not be resolved and bundled at the moment. This is because the entire function must be self-contained and scoped entirely within the `executeScript` call, and we have yet to figure out a good bundling strategy to support this.
+The scope of the `func` is tightly encapsulated. You will not be able to use variables declared outside its scope or any imported variables directly within the function. You can, however, use variables passed down to the `args` property. Ensure only JSON-serializable values are used.
 
 </Callout>
 
-See [with-scripting](https://github.com/PlasmoHQ/examples/tree/main/with-scripting) for an example.
+See [with-main-world](https://github.com/PlasmoHQ/examples/tree/main/with-main-world) for an example.
 
 ## Fetching external API and CORS
 
