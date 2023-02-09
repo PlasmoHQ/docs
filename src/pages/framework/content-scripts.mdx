@@ -24,7 +24,7 @@ Content scripts run in the context of web pages in an _isolated world_. This all
   when creating your first content script!)
 </Callout>
 
-Create a `content.ts` file that exports an empty object and hack away!
+Create a `content.ts` file, export an empty object and hack away!
 
 ```ts filename="content.ts"
 export {}
@@ -64,11 +64,22 @@ To learn more about the config and each property, [check out Chrome's official d
 
 ## Injecting into the main world
 
-Starting from Plasmo `v0.65.0`, Plasmo extension may specify a `world` within the config:
+To modify the `window` object from your content script, you must inject code into the "main world."
 
-You must inject code into the main world if you'd like to modify the `window` object from your content script.
+Starting from Plasmo `v0.65.0`, Plasmo content script may specify a `world` property within the config:
 
-To manually inject a script, you can also use the `chrome.scripting.executeScript` API. First, add the scripting permission in your [package.json's 'manifest.permissions' array](/framework/customization/manifest):
+```ts filename="content.ts"
+import type { PlasmoCSConfig } from "plasmo"
+
+export const config: PlasmoCSConfig = {
+  matches: ["<all_urls>"],
+  world: "MAIN"
+}
+```
+
+The above script will be injected into the main world.
+
+To manually inject a main world script, use the `chrome.scripting.executeScript` API. First, manually add the scripting permission in your [package.json's 'manifest.permissions' array](/framework/customization/manifest):
 
 ```json filename="package.json"
 {
@@ -124,6 +135,10 @@ The `url:` scheme will automatically resolve the `something.js` asset and add it
 > console.log(myFile)
 
 chrome-extension://<your chrome ext id>/something.eb20bc99.js?1656000646313
+
+> console.log(myFile.split("/").pop().split("?")[0])
+
+something.eb20bc99.js
 ```
 
 Alternatively, you can use the [`data-base64`](/framework/import#data-base64) or the [`data-text`](/framework/import#data-text) scheme to import and embed the asset directly into your code. For small assets, these schemes should work well.
