@@ -80,18 +80,18 @@ console.log(resp)
 
 Use the Relay Flow to communicate between a target webpage and the background service worker. A relay is a lightweight message handler registered using a [content script](/framework/content-scripts). It listens for messages from the target webpage and pipes them down to the [Message Flow's handlers](#message-flow).
 
-Create a relay inside a content script. The `relay` function takes a message name and an optional handler function. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
+Create a relay inside a content script. The `relayMessage` function takes a message name and an optional handler function. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
 
 ```ts filename="contents/plasmo.ts"
 import type { PlasmoCSConfig } from "plasmo"
 
-import { relay } from "@plasmohq/messaging"
+import { relayMessage } from "@plasmohq/messaging"
 
 export const config: PlasmoCSConfig = {
   matches: ["http://www.plasmo.com/*"] // Only relay messages from this domain
 }
 
-relay(
+relayMessage(
   {
     name: "ping"
   },
@@ -113,6 +113,25 @@ const resp = await sendViaRelay({
 })
 
 console.log(resp)
+```
+
+To relay messages from contexts where `chrome.runtime` is unavailable, you can use the `relay` function:
+
+```tsx filename="sandbox.tsx"
+import { relay } from "@plasmohq/messaging/relay"
+
+relay(
+  {
+    name: "ping"
+  },
+  (req) => {
+    console.log("some message was relayed:", req)
+
+    return {
+      message: "Hello from sandbox"
+    }
+  }
+)
 ```
 
 ## Ports
