@@ -54,6 +54,55 @@ export const supabase = createClient(
 )
 ```
 
+## Adding Redirect URL
+
+When a user signs up, they'll need to confirm their email. To do this, we need to add a redirect URL to our Supabase project.
+
+First, we need to create a consistent ID for our extension for development. When you push to the different web stores, you'll get a different ID. To learn more about how all of this works, check out our blog post on [creating consistent extension IDs](https://www.plasmo.com/blog/posts/how-to-create-a-consistent-id-for-your-chrome-extension)
+
+Go to the [Itero KeyPair Tool](https://itero.plasmo.com/tools/generate-keypairs) to generate your consistent extension ID.
+
+Copy the public key and put it into your package.json under the manifest.key value:
+
+```json
+"manifest": {
+    "host_permissions": [
+      "https://*/*"
+    ],
+    // Enter the Public Key below that the Itero KeyPair tool gave you
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnf/qbAua8w6GLK6LRgoAYro1poG3MeppB6KlD735AeEuaFm58ITP31xGGW/2unltxMk93A84Bbrg4hZDUk60SkP2RnYCh9ZLDLrQFlv/eXl9Ieyd14/iUPO4VFvJiF9lPJ7CCOqN0/YbBUnekxh36kw+n+7sIvjtcLCifALYAzEQSru2Km2/mgVJhgdoN/f82d3jKiGC8bsy8usAg/efnUik/xXLyedcv2BidvHavrp6AKuv9eiubvhe3ImAnYjsWovyT6vbi6cAH64CSd+GUGIeDzEGQ709BMlmlzDcy5tU9uSkbNMcaY/RzlVZHbr0WoyCBCoUbN9UxfYFEXk7VQIDAQAB",
+```
+
+Now we need to make it so that the browser doesn't block access to our options page. To do this, we must add it to our web_accessible_resources in our manifest:
+
+```json
+"web_accessible_resources": [
+      {
+        "resources": [
+          "options.html"
+        ],
+        "matches": [
+          "<all_urls>"
+        ],
+        "extension_ids": [
+          "mklammglbigdnipnbhehfnlijjplogho" // Enter the extension ID that the Itero KeyPair tool gave you
+        ]
+      }
+    ]
+```
+
+Head over to the Supabase console and click on the "Authentication" tab, and click URL Configuration.
+
+![](@screenshots/supabase-redirect.png)
+
+Now add the following URL in your site URL as well as your redirect URL:
+
+```text
+chrome-extension://mklammglbigdnipnbhehfnlijjplogho/options.html
+```
+
+Replace `mklammglbigdnipnbhehfnlijjplogho` with your extension ID.
+
 ## Integrating with a React component
 
 Now we can write code in our React components utilizing Supabase!
@@ -78,27 +127,23 @@ function IndexOptions() {
     password: string
   ) => {
     try {
-      const { error, user: signedInUser } =
+      const {
+        error,
+        data: { user, session }
+      } =
         type === "LOGIN"
-          ? await supabase.auth.signIn(
-              { email: username, password },
-              {
-                redirectTo: window.location.href
-              }
-            )
-          : await supabase.auth.signUp(
-              { email: username, password },
-              {
-                redirectTo: window.location.href
-              }
-            )
+          ? await supabase.auth.signInWithPassword({
+              email: username,
+              password
+            })
+          : await supabase.auth.signUp({ email: username, password })
 
       if (error) {
         alert("Error with auth: " + error.message)
-      } else if (!signedInUser) {
+      } else if (!user) {
         alert("Signup successful, confirmation mail should be sent soon!")
       } else {
-        setUser(signedInUser)
+        setUser(user)
       }
     } catch (error) {
       console.log("error", error)
