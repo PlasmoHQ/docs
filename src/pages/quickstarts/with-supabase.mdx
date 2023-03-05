@@ -23,27 +23,16 @@ You can find these by finding them in your Supabase project dashboard:
 
 ![](@screenshots/supabase-config.png)
 
-We need to declare a ProcessEnv namespace for our environment variables so that IntelliSense will work.
+Let's add them in an .env file:
 
-`index.d.ts`
-
-```ts filename="index.d.ts"
-declare namespace NodeJS {
-  interface ProcessEnv {
-    PLASMO_PUBLIC_SUPABASE_URL?: string
-    PLASMO_PUBLIC_SUPABASE_KEY?: string
-  }
-}
-```
-
-```ini filename=".env.development"
+```ini filename=".env"
 PLASMO_PUBLIC_SUPABASE_URL="CHANGE ME"
 PLASMO_PUBLIC_SUPABASE_KEY="CHANGE ME"
 ```
 
 ## Supabase Store
 
-We need to initialize Supabase, so let's add a file called store.
+We need to initialize Supabase, so let's add a file called `store.ts`:
 
 ```ts filename="core/store.ts"
 import { createClient } from "@supabase/supabase-js"
@@ -62,15 +51,21 @@ First, we need to create a consistent ID for our extension for development. When
 
 Go to the [Itero KeyPair Tool](https://itero.plasmo.com/tools/generate-keypairs) to generate your consistent extension ID.
 
-Copy the public key and put it into your package.json under the manifest.key value:
+We can store the ID and public key in our `.env` file:
+
+```ini filename=".env"
+CRX_ID="Replace with the value of CRX ID from Itero KeyPair tool"
+CRX_KEY="Replace with the value of Public Key from Itero KeyPair tool"
+```
+
+Then, references the public key in your package.json under the manifest.key value:
 
 ```json
 "manifest": {
     "host_permissions": [
       "https://*/*"
     ],
-    // Enter the Public Key below that the Itero KeyPair tool gave you
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnf/qbAua8w6GLK6LRgoAYro1poG3MeppB6KlD735AeEuaFm58ITP31xGGW/2unltxMk93A84Bbrg4hZDUk60SkP2RnYCh9ZLDLrQFlv/eXl9Ieyd14/iUPO4VFvJiF9lPJ7CCOqN0/YbBUnekxh36kw+n+7sIvjtcLCifALYAzEQSru2Km2/mgVJhgdoN/f82d3jKiGC8bsy8usAg/efnUik/xXLyedcv2BidvHavrp6AKuv9eiubvhe3ImAnYjsWovyT6vbi6cAH64CSd+GUGIeDzEGQ709BMlmlzDcy5tU9uSkbNMcaY/RzlVZHbr0WoyCBCoUbN9UxfYFEXk7VQIDAQAB",
+    "key": "$CRX_KEY",
 ```
 
 Now we need to make it so that the browser doesn't block access to our options page. To do this, we must add it to our web_accessible_resources in our manifest:
@@ -85,7 +80,7 @@ Now we need to make it so that the browser doesn't block access to our options p
           "<all_urls>"
         ],
         "extension_ids": [
-          "mklammglbigdnipnbhehfnlijjplogho" // Enter the extension ID that the Itero KeyPair tool gave you
+          "$CRX_ID"
         ]
       }
     ]
@@ -98,10 +93,10 @@ Head over to the Supabase console and click on the "Authentication" tab, and cli
 Now add the following URL in your site URL as well as your redirect URL:
 
 ```text
-chrome-extension://mklammglbigdnipnbhehfnlijjplogho/options.html
+chrome-extension://<CRX_ID>/options.html
 ```
 
-Replace `mklammglbigdnipnbhehfnlijjplogho` with your extension ID.
+Replace `CRX_ID` with the generated extension ID given to you by Itero KeyPairs tool, or the actual ID given to you by the production web store.
 
 ## Integrating with a React component
 
