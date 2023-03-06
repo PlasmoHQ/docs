@@ -1,6 +1,9 @@
 {
   "index": "Getting Started",
+  "test-bed": "TestBed",
   "testers": "Being a Beta Tester",
-  "testbed": "TestBed",
+  "team": "Team",
+  "builder": "Builder",
+  "publisher": "Publisher",
   "mv2-to-mv3": "MV2 to MV3"
 }

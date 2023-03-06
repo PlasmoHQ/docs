@@ -1,56 +1,44 @@
 ---
-description: Itero is the staging environment for browser extension development. Iterate faster without a review process, and test new changes with each and every push.
+description: Itero is the production platform for browser extension development. Iterate faster without a review process, and test new changes with each and every push.
 ---
 
 # Getting Started with Itero
 
-Itero is the staging environment for browser extension development. Iterate faster without a review process, and test new changes with each and every push.
+Welcome to Itero - the production platform for browser extension development.
+
+## TL;DR
+
+### Itero users
+
+- For team-related features, visit: [Itero Team](/itero/team)
+- For TestBed setup, visit: [Itero TestBed](/itero/test-bed)
+- For GitHub integration, visit: [Itero GitHub Integration](/itero/github)
+- For Builder feature, visit: [Itero Builder](/itero/builder)
+- For Publisher feature, visit: [Itero Publisher](/itero/publisher)
+- Not sure if Itero is a good fit or would like a hands-on demo/onboarding? [Schedule a Demo](https://cal.com/plasmo/itero-demo)
+
+### Itero beta testers
+
+- Visit [/itero/testers](/itero/testers) for details on how to install an extension hosted on Itero.
 
 ## TestBed
 
+TestBed is the staging environment for browser extension development. Iterate faster without a review process, and test new changes with each and every push.
+
 Testing browser extensions is hard. You either have to wait for draconian review times, or you have to ask your testers to manually install the extension every time you make a change. With Itero TestBed, you can instantly push your browser extension to your beta testers without having to wait for a review or manually install the extension.
 
-For a more in-depth view of Itero, check out the [Testbed page](./itero/testbed)
+For a more in-depth view of TestBed, check out the [Testbed page](./itero/test-bed)
 
-## Prerequisites
+## Builder
 
-You must have an account on [Itero](https://itero.plasmo.com). If you don't have an account, you can sign up [here](https://itero.plasmo.com).
+Build your extension and automatically push it to TestBed with every push. The Itero Builder pipeline integrates your GitHub workflow with Itero TestBed, thus each push to your repository will automatically be deployed to your beta testers.
 
-## Steps
+To setup Builder:
 
-### 1. Prepare your extension's zip bundle
+## Publisher
 
-> Note: You can skip this step if you already have a zip file of your extension.
+Itero Publisher enables you to publish your browser extension to the Chrome Web Store and Firefox Add-ons Store. You can also use Itero Publisher to publish your extension to the Microsoft Edge Add-ons Store, but you'll need to have a Microsoft Partner Center account.
 
-If you're using the Plasmo Framework:
+## MV2 to MV3 Toolkits
 
-```bash
-pnpm build
-pnpm package
-```
-
-For more detail, check out the [documentation](/framework/workflows/build#generating-a-zip-bundle) on the build pipeline.
-
-If you're manually zipping, make sure your `manifest.json` file is at the root of the zip file:
-
-#### macOS & Linux
-
-```bash
-cd /path/to/extension
-zip -r ../extension.zip *
-```
-
-#### Windows
-
-```powershell
-cd /path/to/extension
-Compress-Archive -Path * -DestinationPath ../extension.zip
-```
-
-### 2. Upload your browser extension's zip file on Itero
-
-Take the zip file that you created in the previous step and upload it to Itero. You can do this by going to the [TestBed](https://itero.plasmo.com) page and clicking the "Upload new Extension" button.
-
-### 3. Share your extension's link with your beta testers
-
-Your beta testers will have to install Plasmo's software, and then install your extension with a single click. Updates will automatically be pushed to them as you make changes.
+You can use Itero with both MV2 and MV3 extensions. If you're looking to convert your extension from MV2 to MV3, check out the [MV2 to MV3 Converter](./itero/mv2-to-mv3).
