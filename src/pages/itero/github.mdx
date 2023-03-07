@@ -4,13 +4,41 @@ description: Streamline your extension development experience with Itero's GitHu
 
 # Itero GitHub Integration
 
-The GitHub integration enables:
+Itero integrates with GitHub to watch for changes in your extension repository and automatically builds and pushes your extension to Itero TestBed.
 
-- Builder to automatically build and push your extension to Itero TestBed
--
+## Prerequisites
 
-Please note that GitHub integration binding is 1-to-1 between a GitHub "entity" and an Itero "entity". An entity can be a user or an organization. Thus, if you were on a Starter Tier and bound your personal Itero account with your GitHub organization, you will need to remove the integration and re-integrate the Itero Team with your GitHub organization entity.
+- You have uploaded an extension to Itero manually with a zip file
+- You must have an Itero account
+- You must have a GitHub account
 
-## Link GitHub App
+## Install the GitHub App
+
+1. Visit the settings page of an extension in your Itero dashboard and click "Manage GitHub App."
+2. Press "Install GitHub App"
+3. Select the GitHub account that you want to use for the integration (ensure this account has access to the underlying extension repository)
+4. Press "Install"
 
 ## Link GitHub Repository
+
+1. Visit the settings page of an extension in your Itero dashboard
+2. Enter the repository name in the form `<owner/repo>`
+3. Press "Link"
+
+If the linked GitHub account has access to the repository, the repository will be linked. If the linked GitHub account does not have access to the repository, the process will error.
+
+Once your repository is linked, an input field will appear that allows you to specify a custom branch to track. Specify the branch name and press "Track branch" if you would like to track a branch other than `main`.
+
+## Transitioning from Personal to Team
+
+The Itero GitHub integration is a 1-to-1 binding between an Itero "entity" and a GitHub "entity."
+
+An entity can be a user or an organization.
+
+If you are switching from the starter tier to a team tier, and you would like to integrate with the new Itero team, you must remove the current GitHub integration from your personal Itero account. To do so:
+
+1. Open the settings page of an extension in your personal Itero dashboard
+2. Click "Manage GitHub App"
+3. Press "Uninstall Plasmo Itero"
+
+Then, open the settings page of an extension in your team Itero dashboard and follow the steps outlined in [the Install the GitHub App section](#install-the-github-app).
