@@ -113,7 +113,7 @@ const theme: DocsThemeConfig = {
           name: "theme-color",
           content: "#ffffff"
         },
-        { content: "en", httpEquiv: "Content-Language" },
+        { content: "en", name: "language" },
         { content: "Plasmo Docs", name: "apple-mobile-web-app-title" }
         // { content: '/ms-icon-144x144.png', name: 'msapplication-TileImage' }
       ],
