@@ -5,21 +5,88 @@ description: Scale your extension production with your team and Itero.
 import { Callout } from "nextra-theme-docs"
 
 <Callout>
-  Caution: Itero Publisher is currently in beta-review. If you have feedback,
-  please don't hesitate to let us know!
+  Itero Publisher is currently in beta review. If you have feedback, please
+  don't hesitate to let us know!
 </Callout>
 
 # Publisher
 
-Itero Team features are available only to Professional and Enterprise users. The user who created the team and pay the bill is the team owner. The team owner can add and remove team members, and can also change the team's subscription plan.
+When you're ready to publish your extension to the Chrome Web Store, Firefox Add-ons Store, or Edge Add-ons Store, you can use Itero Publisher to automate the process.
 
-## User Journey
+## Getting Started
 
-1. Owner or Admin setup the store credentials
-2. Owner or Admin verifies build and trigger a publish to the store via the Publisher dashboard
+Click on the "Publish" button on your extension's dashboard to get started.
+
+![](@screenshots/publish-button.png)
 
 ## Chrome Web Store
 
+![](@screenshots/google-chrome-publish.png)
+
+Add your `clientId`, `clientSecret`, and `refreshToken`, and `extensionId` to the form. You can get these from Google Cloud Platform.
+
+Visit [the Google Console](https://console.developers.google.com/apis/credentials) and create a new project:
+
+![](@screenshots/apis-and-services-credentials.png)
+
+Enter `chrome-webstore-upload` and click **Create Project**
+
+Visit the [Google Cloud Consent Portal](https://console.cloud.google.com/apis/credentials/consent), select **External** and **Create**
+
+![](@screenshots/oauth-consent-screen.png)
+
+Only enter the application name (e.g. `chrome-webstore-upload`) and required email fields, and click **Save**
+
+![](@screenshots/oauth-consent-screen-2.png)
+
+Add your email address to the Test users
+
+![](@screenshots/edit-app-registration.png)
+
+Visit the [Chrome Web Store API page](https://console.developers.google.com/apis/library/chromewebstore.googleapis.com) and click **Enable**
+
+![](@screenshots/chrome-webstore-api.png)
+
+Visit [the Google API Credentials page](https://console.developers.google.com/apis/credentials) and click **Create credentials** > **OAuth Client ID**
+
+![](@screenshots/creds-oauth-client-id.png)
+
+Select **Desktop app**, enter `Chrome Webstore Upload`, and click **Create**
+
+![](@screenshots/create-oauth-client-id.png)
+
+Download the OAuth client JSON key, save it into a `key.json` file:
+
+![](@screenshots/oauth-client-created.png)
+
+Go back to the [Google Cloud Consent page](https://console.cloud.google.com/apis/credentials/consent) page, and click **PUBLISH APP** to confirm
+
+![](@screenshots/publish-gcp-app.png)
+
+Open a console/terminal where you stored your `key.json` file. Run the following, replacing `pnpm dlx` with `npx` or `yarn dlx` as needed:
+
+```bash
+pnpm dlx gcp-refresh-token
+```
+
+The command will open an OAuth consent screen on the web. Follow its steps and warnings (this is your personal app). Make sure the local `port` is correct.
+
+Now you should have ✅ `clientId`, ✅ `clientSecret` and ✅ `refreshToken` in `key.json`.
+
+Enter these values into the form on Itero Publisher, along with the extension ID that you can find on the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
+
 ## Edge Add-ons Store
 
+![](@screenshots/microsoft-edge-publish.png)
+
+Create an Edge add-on and go to the dashboard. You should see your product ID in the URL. It will look something like this: `https://partner.microsoft.com/en-us/dashboard/microsoftedge/{product-id}/package/dashboard`
+
+You can get the `clientId`, `clientSecret`, and `accessTokenUrl` from the [Microsoft Edge Publish API page](https://partner.microsoft.com/en-us/dashboard/microsoftedge/publishapi).
+
 ## Firefox Add-ons Store
+
+![](@screenshots/mozilla-firefox-publish.png)
+
+You can get your Extension UUID from the Firefox Add-ons hub: (Make sure to change the URL to match your extension's name): `https://addons.mozilla.org/en-US/developers/addon/%7B{ext-name}%7D/edit`
+
+For the API Key and API Secret, you can get those from the [Firefox Add-ons Developer Hub's API page](https://addons.mozilla.org/en-US/developers/addon/api/key/)

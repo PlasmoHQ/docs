@@ -2,10 +2,56 @@
 description: Scale your extension production with your team and Itero.
 ---
 
-# Builder
+# GitHub Extension Builder
 
-Itero Team features are available only to Professional and Enterprise users. The user who created the team and pay the bill is the team owner. The team owner can add and remove team members, and can also change the team's subscription plan.
+Build your extension on every push to GitHub, and automatically deploy it to all your beta testers.
 
-## How to invite a new team member
+## Getting Started
 
-## How to join a team
+### Upload a new extension on your [Itero](https://itero.plasmo.com) account
+
+If you already have an extension on Itero, you can skip this step. For more information on how to upload an extension, check out the [TestBed page](./itero/test-bed).
+
+### Link your GitHub organization to Itero
+
+Once you have your extension on Itero, you need to link your GitHub organization to Itero. This is done by installing the GitHub App on your organization, selecting the repositories that you'd like Builder to have access to, and then linking your organization and repository name on your extension's settings page.
+
+#### Install the GitHub App
+
+To install the GitHub App on your organization, go to your team settings page and click "Install GitHub App". Then, follow the instructions to install the app on your organization, and select the repositories that you'd like Builder to have access to.
+
+![](@screenshots/settings-and-install-github-app.png)
+
+#### Giving Access to the Organization
+
+Select the organization that you'd like Builder to have access to. This will either be your personal GitHub account, or the organization that you're a part of.
+
+![](@screenshots/gh-perm-1.png)
+
+#### Giving Access to the Repositories
+
+Select the repositories that you'd like Builder to have access to. You can select all repositories, or select specific repositories. Remember, this doesn't link your extension to the repository, it just gives Builder access. You'll still need to link your extension to the repository on your extension's settings page.
+
+![](@screenshots/gh-perm-2.png)
+
+#### Linking your Extension to GitHub
+
+After you've installed the GitHub App and given it access to your repositories, you need to link your organization and repository name on your extension's settings page. This is done by adding your organization and repository name to the settings page and clicking "Link".
+
+![](@screenshots/extension-settings-gh.png)
+
+## Build History and Logs
+
+Once you've linked your extension to GitHub, you can view the build history and logs for your extension.
+
+#### Click the Builds tab on your extension's dashboard page
+
+![](@screenshots/extension-dashboard-builds.png)
+
+#### From here, you can view the build history and logs for your extension
+
+![](@screenshots/build-history.png)
+
+#### You can also view the status of each commit's build on GitHub
+
+![](@screenshots/github-commits.png)
