@@ -2,7 +2,13 @@
   "index": "Getting Started",
   "test-bed": "TestBed",
   "team": "Team",
+<<<<<<< HEAD
   "builder": "GitHub Extension Builder",
+=======
+  "builder": "Builder",
+  "github": "GitHub App",
+>>>>>>> 1274dfba8d55c17ae7a8b21181d37dbf030c8a6f
   "publisher": "Publisher",
+  "testers": "Being a Beta Tester",
   "mv2-to-mv3": "MV2 to MV3"
 }
