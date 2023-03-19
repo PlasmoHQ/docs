@@ -3,7 +3,7 @@
   "test-bed": "TestBed",
   "team": "Team",
   "builder": "GitHub Extension Builder",
-  "github": "GitHub Integration",
   "publisher": "Publisher",
-  "mv2-to-mv3": "MV2 to MV3"
+  "mv2-to-mv3": "MV2 to MV3",
+  "github": "GitHub Integration"
 }
