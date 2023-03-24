@@ -91,11 +91,9 @@ export const config: PlasmoCSConfig = {
   matches: ["http://www.plasmo.com/*"] // Only relay messages from this domain
 }
 
-relayMessage(
-  {
-    name: "ping"
-  }
-)
+relayMessage({
+  name: "ping"
+})
 ```
 
 - On the `plasmo.com` web page, you can send messages via the relay:
@@ -159,7 +157,42 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
 export default handler
 ```
 
-In your extension page, get the port using the `getPort` utility under the `@plasmohq/messaging/port`, OR use the `usePort` hook. The data will always reflect the latest response from the port handler:
+In your extension page, get the port using the `getPort` utility under the `@plasmohq/messaging/port`, **OR** use the `usePort` hook, keep in mind that `usePort` currently relies on React hooks so you will need to use it within a React component. This example shows the usage of `getPort` within a Svelte component:
+
+```svelte filename="popup.svelte"
+<script lang="ts">
+  import { getPort } from "@plasmohq/messaging/port"
+  import { onMount, onDestroy } from "svelte"
+
+  let output = ""
+
+  const mailPort = getPort("mail")
+
+  onMount(() => {
+    mailPort.onMessage.addListener((msg) => {
+      output = msg
+    })
+  })
+
+  onDestroy(() => {
+    mailPort.onMessage.removeListener((msg) => {
+      output = msg
+    })
+  })
+
+  function handleSubmit() {
+    mailPort.postMessage({
+      body: {
+        hello: "world"
+      }
+    })
+  }
+</script>
+
+<div>{output}</div>
+```
+
+Here's an example of `usePort` in React, the data will always reflect the latest response from the port handler:
 
 ```tsx filename="tabs/delta.tsx"
 import { usePort } from "@plasmohq/messaging/hook"
