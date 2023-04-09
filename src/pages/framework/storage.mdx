@@ -99,7 +99,7 @@ This can be used as a layer to communicate messages across your extension. We de
 
 ## Secure Storage
 
-The SecureStorage API extends Storage with data encryption and decryption for at-rest cold storage of sensitive keys. It utilizes the [Web Crypto `SubtleCrypto` API](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto).
+The SecureStorage API extends Storage with data encryption and decryption for at-rest cold storage of sensitive keys. It utilizes the [Web Crypto `SubtleCrypto` API](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) which only works in secure contexts (HTTPS).
 
 ```ts
 import { SecureStorage } from "@plasmohq/storage/secure"
