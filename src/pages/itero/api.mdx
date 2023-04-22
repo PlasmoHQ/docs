@@ -1,0 +1,60 @@
+---
+description: Manually upload your extension to Itero via the API.
+---
+
+# Manual Upload API
+
+## Download the API Key
+
+Go to the settings page of your extension and download the API key. The key is a JSON file with the following shape:
+
+```json
+{
+  "itero": {}
+}
+```
+
+## Submission via GitHub Action
+
+You may use the key with the [BPP](/framework/workflows/submit) GitHub Action to automatically upload your extension to Itero. Simply add the `itero` key to your existing BPP's secret or as a separate secret workflow.
+
+Make sure your BPP version is [v3.3.0](https://github.com/PlasmoHQ/bpp/releases/tag/v3.3.0) or above.
+
+## Submission via API Calls
+
+First, create a zip file of your extension. Then, follow the flows below:
+
+### 1. POST `https://itero.plasmo.com/api/submit/upload`
+
+This endpoint issues a signed URL for you to upload your extension to.
+
+The request body must contain the `keys.itero` object, e.g:
+
+```ts
+const keys = JSON.parse(await readFile("./keys.json", "utf8")) // with keys.json being the file you downloaded from the settings page
+
+...
+
+await fetch("https://itero.plasmo.com/api/submit/upload", {
+  method: "POST",
+  body: JSON.stringify(keys.itero)
+})
+```
+
+The response is a JSON containing the upload url:
+
+```json
+{
+  "url": "signed-upload-url"
+}
+```
+
+### 2. PUT signed-upload-url
+
+Take the response url from step 1 and issue a PUT request to it with the zip blob. Ensure that the `Content-Type` header is `application/zip`
+
+### 3. POST `https://itero.plasmo.com/api/submit/sign`
+
+After uploading is done, you will need to call the sign endpoint to finalize the process and update the extension bundle that will be served to the beta testers.
+
+The request body must contain the `keys.itero` object like step 1.

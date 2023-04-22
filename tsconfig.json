@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": true,
     "module": "esnext",
@@ -26,7 +26,7 @@
     "jsx": "preserve",
     "paths": {
       "~*": ["./src/*"],
-      "@*": ["./public/*"],
+      "@*": ["./public/*"]
     },
     "baseUrl": "."
   },

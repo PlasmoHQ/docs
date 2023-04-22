@@ -5,5 +5,6 @@
   "builder": "GitHub Extension Builder",
   "publisher": "Publisher",
   "mv2-to-mv3": "MV2 to MV3",
-  "github": "GitHub Integration"
+  "github": "GitHub Integration",
+  "api": "Manual API"
 }
