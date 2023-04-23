@@ -19,9 +19,8 @@
     "skipLibCheck": true,
     "strict": false,
     "allowJs": true,
-    "importsNotUsedAsValues": "error",
     "incremental": true,
-
+    "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
     "paths": {

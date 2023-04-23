@@ -1,4 +1,4 @@
-import { NextSeo, NextSeoProps } from "next-seo"
+import { NextSeo, type NextSeoProps } from "next-seo"
 import { useConfig } from "nextra-theme-docs"
 
 export const Head = () => {

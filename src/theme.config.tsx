@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { DocsThemeConfig, useConfig } from "nextra-theme-docs"
+import { type DocsThemeConfig, useConfig } from "nextra-theme-docs"
 
 import { Head } from "~components/head"
 import { Logo } from "~components/logo"
