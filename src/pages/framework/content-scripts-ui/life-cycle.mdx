@@ -91,7 +91,7 @@ export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (
   const interval = setInterval(() => {
     updatePosition()
   }, 8472)
-  
+
   // Clear the interval when unmounted
   return () => {
     clearInterval(interval)
@@ -229,18 +229,16 @@ Developers may export a `render` function to override the default renderer. You 
 For example, to use a custom container:
 
 ```tsx
-import { CustomContainer } from "~components/custom-container"
-
 import type { PlasmoRender } from "plasmo"
 
-const EngageOverlay = () =>  (<span>ENGAGE</span>)
+import { CustomContainer } from "~components/custom-container"
 
-export const render: PlasmoRender = (
-  {
-    anchor, // the observed anchor, OR document.body.
-    createRootContainer // This creates the default root container
-  },
-) => {
+const EngageOverlay = () => <span>ENGAGE</span>
+
+export const render: PlasmoRender = async ({
+  anchor, // the observed anchor, OR document.body.
+  createRootContainer // This creates the default root container
+}) => {
   const rootContainer = await createRootContainer()
 
   const root = createRoot(rootContainer) // Any root
@@ -257,14 +255,14 @@ To utilize the built-in `Inline Container` or `Overlay Container`:
 ```tsx
 import type { PlasmoRender } from "plasmo"
 
-const AnchorOverlay = ({ anchor }) =>  (<span>{anchor.innerText}</span>)
+const AnchorOverlay = ({ anchor }) => <span>{anchor.innerText}</span>
 
-export const render: PlasmoRender = (
+export const render: PlasmoRender = async (
   {
     anchor, // the observed anchor, OR document.body.
     createRootContainer // This creates the default root container
   },
-  InlineCSUIContainer,
+  _,
   OverlayCSUIContainer
 ) => {
   const rootContainer = await createRootContainer()
@@ -272,7 +270,7 @@ export const render: PlasmoRender = (
   const root = createRoot(rootContainer) // Any root
   root.render(
     <OverlayCSUIContainer>
-      <AnchorOverlay anchor={anchor}/>
+      <AnchorOverlay anchor={anchor} />
     </OverlayCSUIContainer>
   )
 }
