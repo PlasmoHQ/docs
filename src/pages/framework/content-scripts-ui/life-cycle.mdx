@@ -47,6 +47,18 @@ By default, the CSUI lifecycle creates an overlay anchor using the `document.bod
 
 If any anchor-getter function is defined and exported, the CSUI lifecycle will use the returned element and the relevant anchor type instead. Since the anchor-getter functions can be async, you also have the power to control _when_ Plasmo mounts your component. For example, you can wait for a specific element to appear on the page before mounting your component.
 
+The anchor is passed down to the CSUI via the anchor props. You can access it as follow:
+
+```tsx
+import type { PlasmoCSUIProps } from "plasmo"
+
+const AnchorTypePrinter: FC<PlasmoCSUIProps> = ({ anchor }) => {
+  return <span>{anchor.type}</span>
+}
+
+export default AnchorTypePrinter
+```
+
 ### Overlay
 
 Overlay anchors spawn `CSUI Overlay Containers` which are batch-mounted onto a single `Root Container` element per CSUI. The `Overlay Containers` are absolutely positioned relative to each anchor's element with maxed out z-index. Then, your exported `CSUI Component` is mounted onto each `Overlay Container`:
@@ -269,7 +281,8 @@ export const render: PlasmoRender = async (
 
   const root = createRoot(rootContainer) // Any root
   root.render(
-    <OverlayCSUIContainer>
+    // You must pass down an anchor to mount the default container. Here we pass the default one
+    <OverlayCSUIContainer anchor={anchor}>
       <AnchorOverlay anchor={anchor} />
     </OverlayCSUIContainer>
   )
