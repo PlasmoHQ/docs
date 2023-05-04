@@ -2,6 +2,8 @@
 description: How to build a production version of your browser extension.
 ---
 
+import { Callout } from "nextra-theme-docs"
+
 # Create a Production Build
 
 To create a production bundle for distribution, run:
@@ -71,3 +73,24 @@ If you'd like to analyze your bundle, you can use the `--bundle-buddy` flag, com
 ```sh
 plasmo build --source-maps --bundle-buddy
 ```
+
+## Optimization
+
+<Callout emoji="⚠️">
+  These flags may cause your extension to not be accepted by the browser
+  vendor's web stores such as Chrome and Edge.
+</Callout>
+
+To create an import-optimized build where the bundle deduplicate and hoist your dependency to the top of the bundle:
+
+```
+plasmo build --hoist
+```
+
+To create a bundle with obscured, minified, and potentially optimized code:
+
+```
+plasmo build --minify
+```
+
+You may combine these flags as needed.
