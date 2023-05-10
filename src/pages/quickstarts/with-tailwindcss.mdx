@@ -16,52 +16,10 @@ You can use any PostCSS plugins as well such as Autoprefixer, PurgeCSS, and more
 
 - To see a complete example of this quickstart, go to the [with-tailwindcss example](https://github.com/PlasmoHQ/examples/tree/main/with-tailwindcss).
 
-## Installation
-
-### Add Dependencies
+## Create You Plasmo with TailwindCSS Project
 
 ```bash
-pnpm i -D tailwindcss postcss autoprefixer
-```
-
-### Defining Your PostCSS Config
-
-```js filename="postcss.config.js"
-/**
- * @type {import('postcss').ProcessOptions}
- */
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {}
-  }
-}
-```
-
-<Callout emoji="⚠️">
-
-Ensure your file name extension is not `.cjs` but rather .js - the config may otherwise be erroneously parsed as JSON and fail.
-
-</Callout>
-
-### Setting up Tailwind config
-
-```js filename="tailwind.config.js"
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  mode: "jit",
-  darkMode: "class",
-  content: ["./**/*.tsx"],
-  plugins: []
-}
-```
-
-### Adding Root Styles
-
-```css filename="style.css"
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+pnpm create plasmo --with-tailwindcss
 ```
 
 ## Usage
