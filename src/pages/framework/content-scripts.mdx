@@ -8,6 +8,8 @@ import { Callout } from "nextra-theme-docs"
 
 Content scripts run in the context of web pages in an _isolated world_. This allows multiple content scripts from various extensions to coexist without conflicting with each other's execution and to stay isolated from the page's JavaScript.
 
+A script that ends with `.ts` will not have front-end runtime (react/vue/svelte) bundled with it and won't be treated as a ui script, while a script that ends in `.tsx`, `.vue` or `.svelte`, will be.
+
 ### Use cases:
 
 - Scraping data from the current web page
