@@ -34,15 +34,33 @@ npm run build -- --zip
 
 ## With a specific target
 
-The `build` command accepts a `--target` flag. Use it to specify a browser and manifest version combination to build for:
+The `build` command accepts a `--target` flag in the form of `<browser-name>-<manifest-version>`. Use it to specify a browser and manifest version combination to build for:
 
 ```sh
 plasmo build --target=firefox-mv2
 ```
 
-The final bundle will be available in the `build/firefox-mv2-prod` directory.
+The final bundle will be available in the `build/firefox-mv2-prod` directory. You may use any pairs of target browser and manifest version.
 
-For a list of officially supported targets, [visit this link](./faq#what-are-the-officially-supported-browser-targets).
+For a list of officially supported targets, [visit this link](./faq#what-are-the-officially-supported-browser-targets). These targets are recognized by the bundler, which will automatically handle some vendor-specific behavior for you.
+
+The `--target` flag also enables you to:
+
+- Use a target-specific environment file: `.env.<browser-name>`
+- Use a target-specific entry files: e.g `popup.<browser-name>.tsx`
+- Set the process.env.PLASMO_BROWSER to `<browser-name>`
+
+The third feature works with deadcode elimination. Thus the following code:
+
+```ts
+if (process.env.PLASMO_BROWSER === "safari") {
+  console.log("A")
+} else {
+  console.log("B")
+}
+```
+
+Will be trimmed down to `console.log("A")` if the target is `safari-mv3`.
 
 ## With a custom tag
 
