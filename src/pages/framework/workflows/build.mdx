@@ -77,9 +77,16 @@ plasmo build --source-maps --bundle-buddy
 ## Optimization
 
 <Callout emoji="⚠️">
-  These flags may cause your extension to not be accepted by the browser
+  These flags may cause your extension to not function OR not be accepted by the browser
   vendor's web stores such as Chrome and Edge.
 </Callout>
+
+
+To create a bundle with minified, optimized and potentially obfuscated code:
+
+```
+plasmo build --minify
+```
 
 To create an import-optimized build where the bundle deduplicate and hoist your dependency to the top of the bundle:
 
@@ -87,10 +94,6 @@ To create an import-optimized build where the bundle deduplicate and hoist your 
 plasmo build --hoist
 ```
 
-To create a bundle with obscured, minified, and potentially optimized code:
-
-```
-plasmo build --minify
-```
+Note that hoisting can potentially break your dependency, especially those that import dynamic dependency via a plugin system. However, hoisting can improve your bundling speed.
 
 You may combine these flags as needed.
