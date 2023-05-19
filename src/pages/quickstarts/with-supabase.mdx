@@ -15,6 +15,12 @@ This quickstart is a simple example showcasing how to use Supabase with Plasmo.
 - [Supabase](https://supabase.com) Account
 - Supabase project
 
+## Initialize a Plasmo project with Supabase
+
+```
+pnpm create plasmo --with-supabase
+```
+
 ## Set up Environment Variables
 
 For Supabase to work, we'll need to define a URL and a KEY.
@@ -32,9 +38,9 @@ PLASMO_PUBLIC_SUPABASE_KEY="CHANGE ME"
 
 ## Supabase Store
 
-We need to initialize Supabase, so let's add a file called `store.ts`:
+We need to initialize Supabase, so let's add a file called `core/supabase.ts`:
 
-```ts filename="core/store.ts"
+```ts filename="core/supabase.ts"
 import { createClient } from "@supabase/supabase-js"
 
 export const supabase = createClient(
