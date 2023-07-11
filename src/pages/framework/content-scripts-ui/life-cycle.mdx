@@ -155,10 +155,10 @@ import type { PlasmoMountShadowHost } from "plasmo"
 export const mountShadowHost: PlasmoMountShadowHost = ({
   shadowHost,
   anchor,
-  observer
+  mountState
 }) => {
   anchor.element.appendChild(shadowHost)
-  observer.disconnect() // OPTIONAL DEMO: stop the observer as needed
+  mountState.observer.disconnect() // OPTIONAL DEMO: stop the observer as needed
 }
 ```
 
