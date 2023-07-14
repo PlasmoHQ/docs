@@ -113,9 +113,9 @@ console.log(resp)
 To relay messages from contexts where `chrome.runtime` is unavailable, you can use the `relay` function:
 
 ```tsx filename="sandbox.tsx"
-import { relay } from "@plasmohq/messaging/relay"
+import { relayMessage } from "@plasmohq/messaging/relay"
 
-relay(
+relayMessage(
   {
     name: "ping"
   },
