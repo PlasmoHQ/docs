@@ -100,10 +100,10 @@ relayMessage({
 
 ```tsx filename="pages/index.tsx"
 
-import { sendViaRelay } from "@plasmohq/messaging"
+import { sendToBackgroundViaRelay } from "@plasmohq/messaging"
 ...
 
-const resp = await sendViaRelay({
+const resp = await sendToBackgroundViaRelay({
   name: "ping"
 })
 
