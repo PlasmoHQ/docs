@@ -47,6 +47,9 @@ const keys = JSON.parse(await readFile("./keys.json", "utf8")) // with keys.json
 
 await fetch("https://itero.plasmo.com/api/submit/upload", {
   method: "POST",
+  headers: {
+      "Content-Type": "application/json"
+    },
   body: JSON.stringify(keys.itero)
 })
 ```
