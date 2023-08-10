@@ -45,13 +45,17 @@ const keys = JSON.parse(await readFile("./keys.json", "utf8")) // with keys.json
 
 ...
 
-await fetch("https://itero.plasmo.com/api/submit/upload", {
+const resp = await fetch("https://itero.plasmo.com/api/submit/upload", {
   method: "POST",
   headers: {
       "Content-Type": "application/json"
     },
   body: JSON.stringify(keys.itero)
 })
+
+const data = await resp.json()
+
+console.log(data)
 ```
 
 The response is a JSON containing the upload url:
