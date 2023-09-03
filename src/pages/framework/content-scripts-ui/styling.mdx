@@ -71,10 +71,10 @@ export const getStyle: PlasmoGetStyle = () => styleElement
 To utilize CSS modules, import the stylesheet twice:
 
 ```tsx filename="content.tsx"
-import styleText from "data-text:./style.module.pcss"
+import styleText from "data-text:./style.module.css"
 import type { PlasmoCSConfig } from "plasmo"
 
-import * as style from "./style.module.pcss"
+import * as style from "./style.module.css"
 
 export const getStyle = () => {
   const style = document.createElement("style")
