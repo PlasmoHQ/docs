@@ -53,3 +53,17 @@ plasmo dev --no-source-maps
 ```
 
 This is useful when you have dependencies that don't play well with source maps.
+
+## With a specific hostname and port
+
+The development server will, by default, bind to `localhost` and port `1012`. You can change these with `--serve-host` and `--serve-port`:
+
+```sh
+plasmo dev --serve-host=localhost --serve-port-1012
+```
+
+Similarly, the hot module reload websocket will, by default, bind to `localhost` and port `1815`, with the build reporter binding to the HMR socket + 1 (1816 by default). You can change these with `--hmr-host` and `--hmr-port`:
+
+```sh
+plasmo dev --hmr-host=localhost --hmr-port=1815
+```
