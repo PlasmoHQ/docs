@@ -218,6 +218,13 @@ function DeltaTab() {
 export default DeltaTab
 ```
 
+## Initial Type Error
+
+If you're receiving a type error such as `"name" is never`, this is because Plasmo needs to compile your handler types. To resolve:
+
+1. Run the dev server
+2. Restart the TypeScript server in your editor
+
 ## E2E Type Safety (WIP)
 
 End-to-end request/response body type-safety is in progress at [#334](https://github.com/PlasmoHQ/plasmo/issues/334). In the meantime, you can use the provided generic types:
