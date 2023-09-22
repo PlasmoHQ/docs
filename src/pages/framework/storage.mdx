@@ -134,6 +134,8 @@ const [hailingFrequency] = useStorage("hailing")
 ### With a custom storage instance
 
 ```tsx
+import { Storage } from "@plasmohq/storage"
+...
 const [hailingFrequency] = useStorage({
   key: "hailing",
   instance: new Storage({
