@@ -37,6 +37,10 @@ See [with-background](https://github.com/PlasmoHQ/examples/tree/main/with-backgr
 
 ## Persisting state
 
+<Callout emoji="⚠️">
+  Service workers in Plasmo `dev` mode will always remain `active`.
+</Callout>
+
 The worker becomes idle after a few seconds of inactivity, and the browser will kill its process entirely after 5 minutes. This means all state (variables, etc.) is lost unless you use a storage engine.
 
 The simplest way to persist your background service worker's state is to use the [storage API](/framework/storage).
