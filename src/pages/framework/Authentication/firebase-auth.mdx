@@ -1,0 +1,632 @@
+---
+description: Plasmo is easy to use with Firebase Authentication
+---
+
+import { Callout } from "nextra-theme-docs"
+
+# Authentication with Firebase
+
+Auth in browser extensions can be a little bit of an adjustment for a web developer to think about but it's not much more difficult than using Firebase in React or Next.js directly.
+
+We basically want to store our Tokens in Cookies so they can be used by Background Service Workers.
+
+## Setup
+
+First, let's install some dependencies. Using Firebase and manipulating cookies in plasmo requires three packages.
+- firebase (our clientside firebase SDK)
+- @plasmohq/messaging [See Messaging](https://docs.plasmo.com/framework/messaging)
+- @plasmohq/storage [See Storage](https://docs.plasmo.com/framework/storage)
+
+```sh
+npm install firebase @plasmohq/messaging @plasmohq/storage
+```
+or 
+```sh
+yarn add firebase @plasmohq/messaging @plasmohq/storage
+```
+or
+```sh
+pnpm install firebase @plasmohq/messaging @plasmohq/storage
+```
+
+## Initialize Firebase
+
+First we can create a singleton instance of our firebase clientside app.
+
+```ts
+// src/firebase/firebaseClient.ts
+
+import { getApps, initializeApp } from "firebase/app"
+import { getAuth, GoogleAuthProvider } from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
+import { getStorage } from "firebase/storage"
+
+const clientCredentials = {
+  apiKey: process.env.PLASMO_PUBLIC_FIREBASE_PUBLIC_API_KEY,
+  authDomain: process.env.PLASMO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.PLASMO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.PLASMO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.PLASMO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.PLASMO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.PLASMO_PUBLIC_FIREBASE_MEASUREMENT_ID
+}
+
+let firebase_app
+
+// Check if firebase app is already initialized to avoid creating new app on hot-reloads
+if (!getApps().length) {
+  firebase_app = initializeApp(clientCredentials)
+} else {
+  firebase_app = getApps()[0]
+}
+
+export const storage = getStorage(firebase_app)
+export const auth = getAuth(firebase_app)
+export const db = getFirestore(firebase_app)
+export const googleAuth = new GoogleAuthProvider()
+
+export default firebase_app
+```
+<Callout emoji="👀" title="Note">
+**NOTE**: You'll want to populate a .env with your firebase config, this can be found in your [Firebase Console](https://console.firebase.google.com/)
+
+```sh
+PLASMO_PUBLIC_FIREBASE_CLIENT_ID=""
+PLASMO_PUBLIC_FIREBASE_PUBLIC_API_KEY=""
+PLASMO_PUBLIC_FIREBASE_AUTH_DOMAIN=""
+PLASMO_PUBLIC_FIREBASE_PROJECT_ID=""
+PLASMO_PUBLIC_FIREBASE_STORAGE_BUCKET=""
+PLASMO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=""
+PLASMO_PUBLIC_FIREBASE_APP_ID=""
+PLASMO_PUBLIC_FIREBASE_MEASUREMENT_ID=""
+```
+</Callout>
+
+## Handling Tokens
+
+Now that that's handled, we can create a re-usable hook to provide login and logout methods as well as an easy way to access user info on tabs / popup / options pages
+
+```tsx
+// src/firebase/useFirebaseUser.tsx
+
+import {
+  browserLocalPersistence,
+  onAuthStateChanged,
+  setPersistence,
+  type User
+} from "firebase/auth"
+import { useEffect, useState } from "react"
+
+import { sendToBackground } from "@plasmohq/messaging"
+
+import { auth } from "./firebaseClient"
+
+setPersistence(auth, browserLocalPersistence)
+
+export default function useFirebaseUser() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [user, setUser] = useState<User>(null)
+
+  const onLogout = async () => {
+    setIsLoading(true)
+    if (user) {
+      await auth.signOut()
+
+      await sendToBackground({
+        name: "removeAuth",
+        body: {}
+      })
+    }
+  }
+
+  const onLogin = () => {
+    if (!user) return
+
+    const uid = user.uid
+
+    // Get current user auth token
+    user.getIdToken(true).then(async (token) => {
+      // Send token to background to save
+      await sendToBackground({
+        name: "saveAuth",
+        body: {
+          token,
+          uid,
+          refreshToken: user.refreshToken
+        }
+      })
+    })
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setIsLoading(false)
+      setUser(user)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      onLogin()
+    }
+  }, [user])
+
+  return {
+    isLoading,
+    user,
+    onLogin,
+    onLogout
+  }
+}
+```
+
+You'll notice in the above snippet we're calling two background processes, removeAuth and saveAuth. Let's create those now
+
+```ts
+// background/messages/saveAuth.ts
+import type { PlasmoMessaging } from "@plasmohq/messaging"
+import { Storage } from "@plasmohq/storage"
+
+const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+  try {
+    const { token, uid, refreshToken } = req.body
+    const storage = new Storage()
+
+    await storage.set("firebaseToken", token)
+    await storage.set("firebaseUid", uid)
+    await storage.set("firebaseRefreshToken", refreshToken)
+
+    res.send({
+      status: "success"
+    })
+  } catch (err) {
+    console.log("There was an error")
+    console.error(err)
+    res.send({ err })
+  }
+}
+
+export default handler
+```
+
+```ts
+// background/messages/removeAuth.ts
+import type { PlasmoMessaging } from "@plasmohq/messaging"
+import { Storage } from "@plasmohq/storage"
+
+const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+  try {
+    const storage = new Storage()
+
+    await storage.set("firebaseToken", null)
+    await storage.set("firebaseUid", null)
+
+    res.send({
+      status: "success"
+    })
+  } catch (err) {
+    console.log("There was an error")
+    console.error(err)
+    res.send({ err })
+  }
+}
+
+export default handler
+```
+
+## Example Usage Background SW
+
+Great, now you're saving your Refresh Token, ID Token and UID in cookies. You can use them in other background workers like this
+
+```ts
+// Example Background SW to get user data from the current signed in user from the collection /users/{uid}
+
+import type { PlasmoMessaging } from "@plasmohq/messaging"
+import { Storage } from "@plasmohq/storage"
+
+import refreshFirebaseToken from "~util/refreshFirebaseToken"
+
+const fetchUserData = async (
+  token,
+  uid,
+  refreshToken,
+  storage,
+  retry = true
+) => {
+  const response = await fetch(
+    "https://firestore.googleapis.com/v1/projects/<firebase_project_id>/databases/(default)/documents/users/" +
+      uid,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    }
+  )
+
+  const responseData = await response.json()
+
+  if (responseData?.error?.code === 401 && retry) {
+
+    const refreshData = await refreshFirebaseToken(refreshToken)
+    await storage.set("firebaseToken", refreshData.id_token)
+    await storage.set("firebaseRefreshToken", refreshData.refresh_token)
+    await storage.set("firebaseUid", refreshData.user_id)
+
+    // Retry request after refreshing token
+    return fetchUserData(
+      refreshData.id_token,
+      uid,
+      refreshData.refresh_token,
+      storage,
+      false
+    )
+  }
+
+  return responseData
+}
+
+const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+  try {
+    const storage = new Storage()
+
+    const token = await storage.get("firebaseToken")
+    const uid = await storage.get("firebaseUid")
+    const refreshToken = await storage.get("firebaseRefreshToken")
+
+    const userData = await fetchUserData(token, uid, refreshToken, storage)
+
+    res.send({
+      status: "success",
+      data: userData
+    })
+  } catch (err) {
+    console.log("There was an error")
+    console.error(err)
+    res.send({ err })
+  }
+}
+
+export default handler
+```
+
+In the above example we're refreshing our token if the response fails and retrying. Here's the utility method for refreshing the firebase token.
+
+```ts
+type RefreshTokenResponse = {
+  expires_in: string
+  token_type: string
+  refresh_token: string
+  id_token: string
+  user_id: string
+  project_id: string
+}
+
+export default async function refreshFirebaseToken(
+  refreshToken: string
+): Promise<RefreshTokenResponse> {
+  const response = await fetch(
+    "https://securetoken.googleapis.com/v1/token?key=<firebase_api_key>",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        grant_type: "refresh_token",
+        refresh_token: refreshToken
+      })
+    }
+  )
+
+  const {
+    expires_in,
+    token_type,
+    refresh_token,
+    id_token,
+    user_id,
+    project_id
+  } = await response.json()
+
+  return {
+    expires_in,
+    token_type,
+    refresh_token,
+    id_token,
+    user_id,
+    project_id
+  }
+}
+```
+
+## Example Usage React hook
+
+You can also use this in a react component (either CSUI or tabs/extension pages)
+
+Here's an example login page setup for options.tsx using TailwindCSS.
+
+```tsx
+// src/options.tsx
+import AuthForm from "~components/AuthForm"
+
+import "./style.css"
+
+import useFirebaseUser from "~firebase/useFirebaseUser"
+
+export default function Options() {
+  const { user, isLoading, onLogin } = useFirebaseUser()
+
+  return (
+    <div className="min-h-screen bg-black p-4 md:p-10">
+      <div className="text-white flex flex-col space-y-10 items-center justify-center">
+        {!user && <AuthForm />}
+        {user && <div>You're signed in! Woo</div>}
+      </div>
+    </div>
+  )
+}
+```
+
+```tsx
+// src/components/AuthForm.tsx
+"use client"
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "firebase/auth"
+import React, { useState } from "react"
+
+import { auth } from "~firebase/firebaseClient"
+import useFirebaseUser from "~firebase/useFirebaseUser"
+
+export default function AuthForm() {
+  const [showLogin, setShowLogin] = useState(true)
+  const [email, setEmail] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [password, setPassword] = useState("")
+  const { isLoading, onLogin } = useFirebaseUser()
+
+  const signIn = async (e: any) => {
+    if (!email || !password)
+      return console.log("Please enter email and password")
+
+    e.preventDefault()
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+    } catch (error: any) {
+      console.log(error.message)
+    } finally {
+      setEmail("")
+      setPassword("")
+      setConfirmPassword("")
+      onLogin()
+    }
+  }
+
+  const signUp = async (e: any) => {
+    try {
+      if (!email || !password || !confirmPassword)
+        return console.log("Please enter email and password")
+
+      if (password !== confirmPassword)
+        return console.log("Passwords do not match")
+
+      e.preventDefault()
+
+      const user = await createUserWithEmailAndPassword(auth, email, password)
+      onLogin()
+    } catch (error: any) {
+      console.log(error.message)
+    } finally {
+      setEmail("")
+      setPassword("")
+      setConfirmPassword("")
+    }
+  }
+
+  return (
+    <div className="flex items-center justify-center w-full p-4 overflow-x-hidden rounded-xl overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div className="w-full max-w-2xl max-h-full">
+        <div className="p-10 bg-white rounded-lg shadow">
+          <div className="flex flex-row items-center justify-center">
+            {!isLoading && (
+              <span className="text-black font-bold text-3xl text-center">
+                {showLogin ? "Login" : "Sign Up"}
+              </span>
+            )}
+            {isLoading && (
+              <span className="text-black font-bold text-3xl text-center">
+                Loading...
+              </span>
+            )}
+          </div>
+
+          <div className="p-4 rounded-xl bg-white text-black">
+            {!showLogin && !isLoading && (
+              <form className="space-y-4 md:space-y-6" onSubmit={signUp}>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900">
+                    Your email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="name@company.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="confirm-password"
+                    className="block mb-2 text-sm font-medium text-gray-900">
+                    Confirm password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirm-password"
+                    id="confirm-password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    required
+                  />
+                </div>
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="terms"
+                      aria-describedby="terms"
+                      type="checkbox"
+                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
+                      required
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label htmlFor="terms" className="font-light text-gray-500">
+                      I accept the{" "}
+                      <a
+                        className="font-medium text-primary-600 hover:underline"
+                        href="#">
+                        Terms and Conditions
+                      </a>
+                    </label>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full text-black bg-gray-300 hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                  Create an account
+                </button>
+                <p className="text-sm font-light text-gray-500">
+                  Already have an account?{" "}
+                  <button
+                    onClick={() => setShowLogin(true)}
+                    className="bg-transparent font-medium text-primary-600 hover:underline">
+                    Login here
+                  </button>
+                </p>
+              </form>
+            )}
+            {showLogin && !isLoading && (
+              <form className="space-y-4 md:space-y-6" onSubmit={signIn}>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900">
+                    Your email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="name@company.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    required
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        id="remember"
+                        aria-describedby="remember"
+                        type="checkbox"
+                        className="w-4 h-4 border border-gray-300 rounded accent-primary bg-gray-50 focus:ring-3 focus:ring-primary"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="remember" className="text-gray-500 ">
+                        Remember me
+                      </label>
+                    </div>
+                  </div>
+                  <a
+                    href="#"
+                    className="text-sm font-medium text-primary-600 hover:underline">
+                    Forgot password?
+                  </a>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full text-black bg-gray-300 hover:bg-primary-dark focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                  Sign in
+                </button>
+                <p className="text-sm font-light text-gray-500">
+                  Don’t have an account yet?{" "}
+                  <button
+                    onClick={() => setShowLogin(false)}
+                    className="bg-transparent font-medium text-primary-600 hover:underline">
+                    Sign up
+                  </button>
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+```
+
+And a logout method might look like this
+
+```tsx
+const logout = async (e: any) => {
+    e.preventDefault()
+    try {
+      await onLogout()
+    } catch (error: any) {
+      console.log(error.message)
+    }
+  }const logout = async (e: any) => {
+    e.preventDefault()
+    try {
+      await onLogout()
+    } catch (error: any) {
+      console.log(error.message)
+    }
+  }
+```
