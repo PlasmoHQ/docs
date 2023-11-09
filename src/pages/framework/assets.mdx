@@ -56,6 +56,22 @@ The files below will be copied into the extension bundle and be available to [`c
 
 See [with-web-accessible-resources](https://github.com/PlasmoHQ/examples/tree/main/with-web-accessible-resources)
 
+### Loading Asset during runtime
+If you use a package that dynamically loads an asset (e.g. wasm) during runtime and needs a path to the local asset library, note that you need to make your asset folder available using ~assets, e.g.:
+```json
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "~assets/wasm/*/**",
+        ],
+      }
+    ],
+```
+While in your js/ts code you need to refer the folder using the absolute path `/`
+```js
+wasmPackage.localWASMPath("/assets/wasm/")
+```
+
 ## Assets from `node_modules`
 
 Sometimes, a node package exposes static assets files you must include in your bundle as web-accessible resources. To do so, specify those assets in the `web_accessible_resources` field of the manifest override in `package.json`:
