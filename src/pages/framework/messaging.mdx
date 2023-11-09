@@ -70,6 +70,29 @@ const resp = await sendToBackground({
 console.log(resp)
 ```
 
+To send a message from a content script thats in the main world you'll have to include your extension's id in the request. Your extension's id can be found in chrome's extension manager window once you've built and added it to your browser.
+
+```tsx filename="contents/componentInTheMainWorld.tsx"
+import { sendToBackground } from "@plasmohq/messaging"
+import type { PlasmoCSConfig } from "plasmo"
+
+export const config: PlasmoCSConfig = {
+  matches: ["<all_urls>"],
+  world: "MAIN"
+}
+...
+const resp = await sendToBackground({
+  name: "ping",
+  body: {
+    id: 123
+  },
+  extensionId: 'llljfehhnoeipgngggpomjapaakbkyyy' // find this in chrome's extension manager
+})
+
+console.log(resp)
+```
+
+
 ## Relay Flow
 
 <Callout emoji="⚠️">
