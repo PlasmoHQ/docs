@@ -6,7 +6,7 @@ import { Callout } from "nextra-theme-docs"
 
 # Browser Extension Pages
 
-Extension pages are built-in pages recognized by the browser. They include the extension's popup, options, and newtab pages.
+Extension pages are built-in pages recognized by the browser. They include the extension's popup, options, sidepanel and newtab pages.
 
 <Callout emoji="👀">
   Heads up! Make sure to refresh your extension manually when creating a new
@@ -37,6 +37,14 @@ The New Tab page overrides the default tab and is generally how the browser gree
 Create a `newtab.tsx` file or a `newtab/index.tsx` file, and Plasmo will take care of the rest to render your new tab page 🤘!
 
 See [with-newtab](https://github.com/PlasmoHQ/examples/tree/main/with-newtab)
+
+## Adding a Side Panel
+
+The Side Panel allows extensions to display their own UI in the side panel, enabling persistent experiences that complement the user's browsing journey.
+
+Create a `sidepanel.tsx` file or a `sidepanel/index.tsx` file, and Plasmo will take care of the rest to render the UI in the Side Panel. 
+
+See [with-sidepanel](https://github.com/PlasmoHQ/examples/tree/main/with-sidepanel)
 
 ## Adding a Dev Tools Page
 
