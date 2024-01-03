@@ -14,11 +14,53 @@ Plasmo's Messaging API makes communication between different parts of your exten
 
 ## Installation
 
+### 1. Install dependency
+
+The `@plasmohq/messaging` library is kept in a separate repository. You will first have to install it with your package manager.
+
 ```
 pnpm install @plasmohq/messaging
 ```
 
-To use this library, you must use a directory for your background service worker. So if you've been adding it to your root, replace `background.ts` with `background/index.ts`
+### 2. Create background folder & file
+
+The `@plasmohq/messaging` library requires the background service worker to live inside a `background/index.ts` folder, and all message handlers to live inside `background/*` folders.
+
+If you already have a `background.ts` or `background.js` file, you will have to create a `background` folder and move your script to `background/index.ts` or `background/index.js`.
+
+If you don't already have a `background` folder, create a `background` folder and create a new, empty `background/index.ts` or `background/index.js` file.
+
+You will now be able to create new handlers inside the `background/` subfolder. For example, to create a `messages` handler with the name `ping`, you would create a `background/messages/ping.ts`. See the rest of the documentation to learn about the different types of handlers available to you, and how to configure them. 
+
+At this point, your folder structure might look like this.
+
+```bash filename="New Folder Structure"
+.
+├── background
+│   ├── index.ts
+│   └── messages
+│       └── ping.ts
+```
+
+### 3. Generate static types
+
+On compilation, Plasmo will generate static types for all of your message handlers. This will happen automatically if you have the dev server running; it will also happen automatically each time you build. The `sendToBackground` and `relayMessage` functions both take a `name` field as part of their params object; this `name` field will be statically typed with the names of all of your message handlers.
+
+<Callout emoji="⚠️">
+
+**NOTE: Initial Type Error** 
+
+If you're receiving a type error such as `"name" is never`, this is because Plasmo needs to compile your handler types. To resolve:
+
+1. Run the dev server
+2. Restart the TypeScript server in your editor
+
+</Callout>
+
+### 4. That's all
+
+You have now successfully installed Plasmo's messaging library.
+
 
 ## TL;DR
 
@@ -240,13 +282,6 @@ function DeltaTab() {
 
 export default DeltaTab
 ```
-
-## Initial Type Error
-
-If you're receiving a type error such as `"name" is never`, this is because Plasmo needs to compile your handler types. To resolve:
-
-1. Run the dev server
-2. Restart the TypeScript server in your editor
 
 ## E2E Type Safety (WIP)
 
