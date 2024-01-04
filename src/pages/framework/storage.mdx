@@ -97,6 +97,12 @@ await storage.set("make", "PlasmoHQ")
 
 This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
 
+<Callout emoji="📢">
+
+**NOTE:** The Storage API is not available in a Content Script when it is executed in the 'MAIN' world, as it loses its access to the Chrome Extensions APIs.
+
+</Callout>
+
 ## Secure Storage
 
 The SecureStorage API extends Storage with data encryption and decryption for at-rest cold storage of sensitive keys. It utilizes the [Web Crypto `SubtleCrypto` API](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) which only works in secure contexts (HTTPS).
