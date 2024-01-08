@@ -3,6 +3,7 @@ description: A library that makes it easy to store data in your browser extensio
 ---
 
 import { ShieldBanners } from "~components/shield-banners"
+import { Callout } from "nextra-theme-docs"
 
 # Storage API
 
@@ -96,6 +97,12 @@ await storage.set("make", "PlasmoHQ")
 ```
 
 This can be used as a layer to communicate messages across your extension. We demonstrate this in the [with-redux](https://github.com/PlasmoHQ/examples/tree/main/with-redux) example.
+
+<Callout emoji="📢">
+
+**NOTE:** The Storage API is not available in a Content Script when it is executed in the 'MAIN' world, as it loses its access to the Chrome Extensions APIs.
+
+</Callout>
 
 ## Secure Storage
 
