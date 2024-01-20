@@ -140,3 +140,19 @@ const PlasmoOverlay = () => {
 
 export default PlasmoOverlay
 ```
+
+<Callout emoji="ℹ️">
+  Since Tailwind and its' plugins often rely on `:root` to declare CSS variables, be mindful of [Content Scripts UI Styling CSS variables caveat](/framework/content-scripts-ui/styling#css-variables) if using built-in `Root Container`.
+
+  For example, if you plan on using [DaisyUI](https://daisyui.com/), you will need to replace `:root` scope with `:host` before attaching the style to the shadowDOM.
+
+  ```tsx filename="content.tsx"
+  import cssText from "data-text:~style.css"
+
+  export const getStyle = () => {
+    const style = document.createElement("style")
+    style.textContent = cssText.replaceAll(':root', ':host(plasmo-csui)');
+    return style
+  }
+  ```
+</Callout>
