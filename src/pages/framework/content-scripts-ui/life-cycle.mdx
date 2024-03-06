@@ -128,6 +128,17 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = async () =>
   document.querySelector("#pricing")
 ```
 
+To specify single inline anchor with insert position:
+
+```ts
+import type { PlasmoGetInlineAnchor } from "plasmo"
+
+export const getInlineAnchor: PlasmoGetInlineAnchor = async () => ({
+      element: document.querySelector("#pricing"),
+      insertPosition: "afterend"
+})
+```
+
 To specify a list of inline anchors, export a `getInlineAnchorList` function:
 
 ```ts
@@ -135,6 +146,20 @@ import type { PlasmoGetInlineAnchorList } from "plasmo"
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () =>
   document.querySelectorAll("a")
+```
+
+To specify a list of inline anchors with insert position:
+
+```ts
+import type { PlasmoGetInlineAnchorList } from "plasmo"
+
+export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
+  const anchors = document.querySelectorAll("a")
+  return Array.from(anchors).map((element) => ({
+    element,
+    insertPosition: "afterend"
+  }))
+}
 ```
 
 Check [with-content-scripts-ui/contents/plasmo-inline.tsx](https://github.com/PlasmoHQ/examples/blob/main/with-content-scripts-ui/contents/plasmo-inline.tsx) for an example.
