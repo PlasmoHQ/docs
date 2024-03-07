@@ -225,6 +225,17 @@ By returning an Element, Plasmo will mount the component adjacent to that elemen
 
 This feature is called [Content Scripts UI](/framework/content-scripts-ui). To learn more about its API and how it works, check out the technical documentation on [its lifecycle](/framework/content-scripts-ui/life-cycle).
 
+You can also specify the component's insert position relative to the element you're mounting it to:
+
+```tsx filename="contents/press-me.tsx"
+import type { PlasmoGetInlineAnchor } from "plasmo"
+
+export const getInlineAnchor: PlasmoGetInlineAnchor = async () => ({
+      element: document.querySelector("#pricing"),
+      insertPosition: "afterend"
+})
+```
+
 ## Background Service Worker
 
 In non-Plasmo projects, creating a background service worker requires specifying the `background` property in the `manifest.json` file and writing the service worker code in JavaScript:
