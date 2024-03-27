@@ -6,13 +6,13 @@ import { Callout } from "nextra-theme-docs"
 
 # Submit Your Extension
 
-The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](http://bpp.browser.market/) or BPP. This action will automatically publish your extension to all supported browser extension stores. It runs on a manual trigger by default, but changing its config can make it run on every push.
+The Plasmo Framework ships with a convenient GitHub action called [Browser Platform Publish](https://github.com/marketplace/actions/browser-platform-publisher/) or BPP. This action will automatically publish your extension to all supported browser extension stores. It runs on a manual trigger by default, but changing its config can make it run on every push.
 
 To start publishing your Plasmo extension, set up a `keys.json` file with the following schema:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/PlasmoHQ/bpp/v2/keys.schema.json"
+  "$schema": "https://raw.githubusercontent.com/PlasmoHQ/bpp/v3/keys.schema.json"
 }
 ```
 
@@ -29,7 +29,7 @@ The final key might look like this:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/plasmo-corp/bpp/v2/keys.schema.json",
+  "$schema": "https://raw.githubusercontent.com/plasmo-corp/bpp/v3/keys.schema.json",
   "chrome": {
     "clientId": "123",
     "refreshToken": "789",
