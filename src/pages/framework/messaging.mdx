@@ -175,12 +175,12 @@ const resp = await sendToBackgroundViaRelay({
 console.log(resp)
 ```
 
-To relay messages from contexts where `chrome.runtime` is unavailable, you can use the `relayMessage` function:
+To relay messages from contexts where `chrome.runtime` is unavailable, you can use the `sendViaRelay` function:
 
 ```tsx filename="sandbox.tsx"
-import { relayMessage } from "@plasmohq/messaging"
+import { sendViaRelay } from "@plasmohq/messaging/relay"
 
-relayMessage({
+sendViaRelay({
     name: "ping"
 })
 ```
