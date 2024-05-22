@@ -178,7 +178,7 @@ console.log(resp)
 To relay messages from contexts where `chrome.runtime` is unavailable, you can use the `relay` function:
 
 ```tsx filename="sandbox.tsx"
-import { relayMessage } from "@plasmohq/messaging/relay"
+import { relayMessage } from "@plasmohq/messaging"
 
 relayMessage(
   {
@@ -186,7 +186,6 @@ relayMessage(
   },
   async (req) => {
     console.log("some message was relayed:", req)
-
     return {
       message: "Hello from sandbox"
     }
