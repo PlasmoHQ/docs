@@ -53,7 +53,9 @@ const data2 = await storage.get("capt") // { color: "red" }
 
 ### Customizing the storage area
 
-It defaults to "sync".
+The storage area defaults to "sync", which means the data is synced across all instances of Chrome where the user is logged in.
+
+You can see all of the other possible scopes Plasmo supports in the [Chrome Storage API documentation](https://developer.chrome.com/docs/extensions/reference/api/storage#storage_areas).
 
 ```ts
 const storage = new Storage({
