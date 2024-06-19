@@ -143,9 +143,19 @@ console.log(resp)
 
 </Callout>
 
-Use the Relay Flow to communicate between a target webpage and the background service worker. A relay is a lightweight message handler registered using a [content script](/framework/content-scripts). It listens for messages from the target webpage and pipes them down to the [Message Flow's handlers](#message-flow).
+The Relay Flow enables communication between a target webpage and a background service worker using a lightweight message handler called a relay. This relay is registered with the `relayMessage` function in a [content script](/framework/content-scripts).
 
-Create a relay inside a content script. The `relayMessage` function takes a message name. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
+The `relayMessage` function abstracts the `window.postMessage` mechanism, registering a listener that checks for messages matching the same origin and forwards them to the background service worker. These messages are then processed by the appropriate [message flow handlers](#message-flow) registered under `background/messages`.
+
+The `sendToBackgroundViaRelay` function sends messages through the relay and waits for a response. It generates a unique instance ID for each message to ensure proper handling and response tracking.
+
+You may view the implementation of these functions in the [GitHub repository](https://github.com/PlasmoHQ/plasmo/blob/main/api/messaging/src/relay.ts).
+
+This method provides an alternative to the ["externally_connectable"](https://developer.chrome.com/docs/extensions/develop/concepts/messaging#external-webpage) method described in the Chrome extension documentation.
+
+### Setting Up a Relay
+
+To set up a relay, use the `relayMessage` function in a content script. A content script can have multiple relays. Given the `ping` message handler from the previous example, and the website `www.plasmo.com`:
 
 ```ts filename="contents/plasmo.ts"
 import type { PlasmoCSConfig } from "plasmo"
@@ -161,7 +171,7 @@ relayMessage({
 })
 ```
 
-- On the `plasmo.com` web page, you can send messages via the relay:
+In the code of the target webpage (e.g., `plasmo.com`), you can send messages using the registered relay using `sendToBackgroundViaRelay` as follows:
 
 ```tsx filename="pages/index.tsx"
 
