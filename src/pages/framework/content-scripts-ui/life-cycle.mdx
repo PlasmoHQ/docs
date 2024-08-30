@@ -263,7 +263,7 @@ Developers may export a `render` function to override the default renderer. You 
 - Customize the mounting logic
 - Provide a custom `MutationObserver`
 
-For example, to use a custom container:
+For example, to use an existing element as a custom container:
 
 ```tsx
 import type { PlasmoRender } from "plasmo"
@@ -298,6 +298,46 @@ export const render: PlasmoRender = async ({
   )
 }
 ```
+
+How to dynamically create a custom container:
+```tsx
+import type { PlasmoRender } from "plasmo"
+
+import { CustomContainer } from "~components/custom-container"
+
+const EngageOverlay = () => <span>ENGAGE</span>
+
+// This function overrides the default `createRootContainer`
+export const getRootContainer = ({ anchor, mountState }) =>
+  new Promise((resolve) => {
+    const checkInterval = setInterval(() => {
+      let { element, insertPosition } = anchor
+      if (element) {
+        const rootContainer = document.createElement("div")
+        mountState.hostSet.add(rootContainer)
+        mountState.hostMap.set(rootContainer, anchor)
+        element.insertAdjacentElement(insertPosition, rootContainer)
+        clearInterval(checkInterval)
+        resolve(rootContainer)
+      }
+    }, 137)
+  })
+
+export const render: PlasmoRender = async ({
+  anchor, // the observed anchor, OR document.body.
+  createRootContainer // This creates the default root container
+}) => {
+  const rootContainer = await createRootContainer(anchor)
+
+  const root = createRoot(rootContainer) // Any root
+  root.render(
+    <CustomContainer>
+      <EngageOverlay />
+    </CustomContainer>
+  )
+}
+```
+
 
 To utilize the built-in `Inline Container` or `Overlay Container`:
 
