@@ -1,0 +1,148 @@
+---
+description: A quick guide on how to integrate Mellowtel for monetization in your Plasmo browser extension.
+---
+
+import { Callout } from "nextra-theme-docs"
+
+# Quickstart with Monetization
+
+Integrating [Mellowtel](https://mellowtel.it) with Plasmo allows you to monetize your browser extension by sharing users' unused internet bandwidth. This guide provides two paths: starting a new project with Mellowtel or adding Mellowtel to an existing project.
+
+<Callout emoji="💰">Easy monetization for your Plasmo Extension!</Callout>
+
+## Starting a New Project with Mellowtel
+
+To create a new Plasmo project with Mellowtel integration, use the following command:
+
+```bash
+pnpm create plasmo --with-mellowtel
+```
+
+This command sets up a new project with all necessary configurations and dependencies for Mellowtel integration.
+
+## Manual Installation for Existing Projects
+
+If you have an existing Plasmo project and want to add Mellowtel, follow these steps:
+
+### Step 1: Add Dependencies
+
+Add Mellowtel to your project:
+
+```bash
+pnpm add mellowtel
+```
+
+### Step 2: Update package.json
+
+Ensure your `package.json` includes the necessary permissions and host permissions:
+
+```json filename="package.json"
+{
+  "manifest": {
+    "permissions": [
+      "activeTab",
+      "identity",
+      "storage",
+      "tabs",
+      "declarativeNetRequest"
+    ],
+    "host_permissions": ["<all_urls>"]
+  }
+}
+```
+
+### Step 3: Configure Environment Variables
+
+Create or update your `.env` file with the Mellowtel API key:
+
+```plaintext filename=".env"
+PLASMO_PUBLIC_MELLOWTEL=your_mellowtel_api_key_here
+```
+
+<Callout emoji="⚠️">
+  Replace `your_mellowtel_api_key_here` with your actual Mellowtel API key.
+</Callout>
+
+### Step 4: Implement Mellowtel in Your Extension
+
+#### In Background Script
+
+```tsx filename="background.ts"
+import Mellowtel from "mellowtel"
+
+let mellowtel
+;(async () => {
+  mellowtel = new Mellowtel(process.env.PLASMO_PUBLIC_MELLOWTEL)
+  await mellowtel.initBackground()
+})()
+
+chrome.runtime.onInstalled.addListener(async function (details) {
+  console.log("Extension Installed or Updated", details)
+  await mellowtel.generateAndOpenOptInLink()
+})
+```
+
+#### In Content Script
+
+```tsx filename="content.ts"
+import Mellowtel from "mellowtel"
+import type { PlasmoCSConfig } from "plasmo"
+
+let mellowtel
+
+export const config: PlasmoCSConfig = {
+  matches: ["<all_urls>"],
+  all_frames: true,
+  run_at: "document_start"
+}
+
+const start = async () => {
+  mellowtel = new Mellowtel(process.env.PLASMO_PUBLIC_MELLOWTEL)
+  const resp = await mellowtel.initContentScript()
+}
+
+start()
+```
+
+#### In Popup
+
+```tsx filename="popup.tsx"
+import Mellowtel from "mellowtel"
+
+const Popup: React.FC = () => {
+  const handleMellowtelSettings = async () => {
+    const mellowtel = new Mellowtel(process.env.PLASMO_PUBLIC_MELLOWTEL)
+    const link = await mellowtel.generateSettingsLink()
+    chrome.tabs.create({ url: link })
+  }
+
+  return (
+    <div>
+      <button onClick={handleMellowtelSettings}>
+        Change Mellowtel Settings
+      </button>
+    </div>
+  )
+}
+
+export default Popup
+```
+
+## Development and Building
+
+Use these scripts for development and building:
+
+- `pnpm dev`: Start the development server
+- `pnpm build`: Build the extension for production
+- `pnpm package`: Package the built extension
+
+<Callout emoji="🚀">
+  Always test your extension thoroughly in both development and production
+  builds to ensure Mellowtel is functioning correctly.
+</Callout>
+
+<Callout emoji="📚">
+  For more in-depth information on Mellowtel's functionality, API, and best
+  practices, visit the [Mellowtel
+  documentation](https://docs.mellowtel.it/get-started/welcome).
+</Callout>
