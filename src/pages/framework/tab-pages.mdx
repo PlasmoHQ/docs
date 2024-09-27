@@ -44,6 +44,26 @@ function DeltaFlyerPage() {
 export default DeltaFlyerPage
 ```
 
+4. Add delta-flyer.html to web_accessible_resources in manifest
+
+```json filename="package.json"
+  "manifest": {
+    "host_permissions": [
+      "https://*/*"
+    ],
+    "web_accessible_resources": [
+      {
+        "matches": [
+          "<all_urls>"
+        ],
+        "resources": [
+          "tabs/setup.html"
+        ]
+      }
+    ]
+  }
+```
+
 Your tab page will be available under the `/tabs` path in the extension bundle. It will be accessible from the browser under the URL:
 
 ```
