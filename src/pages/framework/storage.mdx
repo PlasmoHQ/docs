@@ -2,8 +2,9 @@
 description: A library that makes it easy to store data in your browser extension's storage.
 ---
 
-import { ShieldBanners } from "~components/shield-banners"
 import { Callout } from "nextra-theme-docs"
+
+import { ShieldBanners } from "~components/shield-banners"
 
 # Storage API
 
@@ -232,11 +233,11 @@ return <>
 
 ### Usage with Firefox
 
-To use the storage API on Firefox during development you need to add an addon ID to your manifest, otherwise, you will get this error:
+To use the storage API on Firefox during development you need to add an Add-on ID to your manifest, otherwise, you will get this error:
 
 > Error: The storage API will not work with a temporary addon ID. Please add an explicit addon ID to your manifest. For more information see https://mzl.la/3lPk1aE.
 
-To add an addon ID to your manifest, add this to your package.json:
+To add an Add-on ID to your manifest, add this to your `package.json`:
 
 ```JSON
 "manifest": {
@@ -248,4 +249,14 @@ To add an addon ID to your manifest, add this to your package.json:
 }
 ```
 
-During development, you may use any ID. If you have published your extension, you can use the ID assigned by Mozilla Addons.
+The format of Add-on IDs differ between manifest versions.
+
+- Manifest V2: `your-id@example.com`
+- Manifest V3: `{ed7ba470-8e54-465e-825c-99712043e01c}` (any UUID)
+
+Once your extension is published, the Add-on ID defined in the `package.json` file _should_ be displayed in your extension's Developer Page under _"Technical Details > UUID"_.
+
+**Note:** The Add-on ID used during development (i.e. the one defined in the manifest) will likely be the one Mozilla assigns to your when publishing. If it's not and one is
+generated for you, you will have to update the `package.json` file with the new ID.
+
+Add-on IDs are unique and the same one cannot be used for multiple extensions (both manifest versions).
