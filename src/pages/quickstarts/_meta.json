@@ -7,5 +7,6 @@
   "with-supabase": "Quickstart: Supabase",
   "with-firebase-authentication": "Quickstart: Firebase Auth",
   "with-google-analytics": "Quickstart: Google Analytics",
-  "with-chrome-storage": "Quickstart: Chrome Storage"
+  "with-chrome-storage": "Quickstart: Chrome Storage",
+  "with-mellowtel": "Quickstart: Monetization"
 }
