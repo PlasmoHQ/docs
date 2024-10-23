@@ -240,18 +240,18 @@ In your extension page, get the port using the `getPort` utility under the `@pla
 
   let output = ""
 
+  const messageListener = (msg) => {
+    output = msg
+  }
+
   const mailPort = getPort("mail")
 
   onMount(() => {
-    mailPort.onMessage.addListener((msg) => {
-      output = msg
-    })
+    mailPort.onMessage.addListener(messageListener)
   })
 
   onDestroy(() => {
-    mailPort.onMessage.removeListener((msg) => {
-      output = msg
-    })
+    mailPort.onMessage.removeListener(messageListener)
   })
 
   function handleSubmit() {
